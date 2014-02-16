@@ -1,0 +1,31 @@
+{
+	"main": "الصفحة الرئيسية",
+	"candidates": "المرشحون",
+	"centers": "المراكز",
+	"disabledar": " disabled=disabled",
+	"disableden": "disableden",
+	"navbar": "navbar-left",
+	"logo": "navbar-right",
+	"textalign": "right",
+	"textpos": "text-right",
+	"dir" : "rtl",
+	"css" : "./css/bootstrap.rtl.css",
+	"overview": "نظرة عامة",
+	"totalv": "عدد الناخبين",
+	"validv": "الأصوات الصالحة",
+	"invaildb": "الإقتراعات الغير صالحة",
+	"blankb": "الإقتراعات الفارغة",
+	"totalr": "عدد المسجلين",
+	"tornout": "نسبة الحضور",
+	"exprectedfp": "نسبة الإستمارات المعالجة المقدرة",
+	"totalmvtmr": "عدد المصوتين الذكور / عدد الناخبين المسجلين الذكور",
+	"totalfvtfr": "عدد المصوتين الإناث / عدد الناخبين المسجلين الإناث",
+	"%d cat": {
+		"one": "%d قطة",
+		"other": "%d قطط"
+	},
+	"text to test": "text to test",
+	"office": "مدن",
+	"progress": "حالة التقدم",
+	"textaling": "textaling"
+}

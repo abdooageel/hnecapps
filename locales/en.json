@@ -1,0 +1,31 @@
+{
+	"main": "Main Page",
+	"candidates": "Candidates",
+	"centers": "Centers",
+	"disabledar": "disabledar",
+	"disableden": " disabled=disabled",
+	"navbar": "navbar-right",
+	"logo": "navbar-left",
+	"textalign": "left",
+	"textpos": "text-left",
+	"dir" : "ltr",
+	"css" : "./css/bootstrap.ltr.css",
+	"overview": "Overview",
+	"totalv": "Total Voters",
+	"validv": "Valid Votes",
+	"invaildb": "Invalid Ballots",
+	"blankb": "Blank Ballots",
+	"totalr": "Total Registrants",
+	"tornout": "Turnout",
+	"exprectedfp": "of Expected Forms Processed",
+	"totalmvtmr": "Total Male Voters/ Total Male Registrants",
+	"totalfvtfr": "Total Female Voters / Total Female Registrants",
+	"%d cat": {
+		"one": "%d cat",
+		"other": "%d cats"
+	},
+	"text to test": "text to test",
+	"office": "By Office",
+	"progress": "Forms Processed",
+	"textaling": "textaling"
+}
