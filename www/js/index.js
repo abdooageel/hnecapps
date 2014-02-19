@@ -1,9 +1,9 @@
 $(document).ready(function(){
-	var dataSource = [
+	/*var dataSource = [
 		{region: "Male", val: 4119626293},
 		{region: "Female", val: 1012956064},
 		
-	];
+	];*/
 /*
 {region: "الجبل 1", val: 344124520},
 		{region: "الجبل2", val: 590946440},
@@ -19,7 +19,7 @@ $(document).ready(function(){
 		{region: "طرابلس", val: 1012956064},
 		{region: "غدامس", val: 344124520},
 		{region: "مصراته", val: 590946440}*/
-	$("#chartContainer").dxPieChart({
+	$/*("#chartContainer").dxPieChart({
 		dataSource: dataSource,
 		title: "Total Voters",
 		tooltip: {
@@ -46,7 +46,7 @@ $(document).ready(function(){
 				}
 			}
 		}]
-	});
+	});*/
 	var dataSource = [
 	{state: "اجدابيا", male: 7.956, female: 91.827},
     {state: "البيضاء", male: 50.956, female: 30.827},

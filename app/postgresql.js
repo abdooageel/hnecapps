@@ -2,7 +2,7 @@ var pg = require('pg');
 //or native libpq bindings
 //var pg = require('pg').native
 
-var conString = "postgres://postgres:dunstuff@localhost/postgres";
+var conString = "postgres://postgres:dunstuff@localhost/tally";
 
 exports.postgMgr = {
   connect : function(callback){

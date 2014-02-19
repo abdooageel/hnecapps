@@ -6,6 +6,7 @@ var express = require('express'),
     url = require('url'),
     hbs = require('hbs'),
     candidatesMgr=require('./app/candidates').candidatesMgr,
+    getMgr = require('./app/get').getMgr,
     app = module.exports = express();
 
 // minimal config
@@ -41,12 +42,14 @@ hbs.registerHelper('__n', function () {
 // delay a response to simulate a long running process,
 // while another request comes in with altered language settings
 app.get('/', function (req, res) {
-  console.log(i18n.getLocale()+"index");
-  res.locals={
+  getMgr.get(req,res,function(results){
+     
+  });
+  /*res.locals={
     arUrl : "/ar",
     enUrl : "/en"
   }
-  res.render('index');
+  res.render('index');*/
 });
 
 app.get('/candidates', function(req, res){
@@ -62,7 +65,6 @@ app.get('/candidates', function(req, res){
 });
 app.get('/candidates/:locale', function (req, res) {
   i18n.setLocale(req.params.locale);
-  console.log(i18n.getLocale()+"clocale");
   res.cookie('locale', req.params.locale);
   res.redirect("/candidates");
 });
@@ -70,7 +72,6 @@ app.get('/candidates/:locale', function (req, res) {
 // set a cookie to requested locale
 app.get('/:locale', function (req, res) {
   i18n.setLocale(req.params.locale);
-  console.log(i18n.getLocale()+"locale");
   res.cookie('locale', req.params.locale);
   res.redirect("/");
 });

@@ -43,14 +43,14 @@
 										<tr>
 											<td>
 												<div class="progress progress-striped">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-												    <span class="sr-only">60% Complete</span>
+												  <div class="progress-bar" role="progressbar" aria-valuenow="{{processed}}" aria-valuemin="0" aria-valuemax="100" style="width: {{processed}}%;">
+												    {{processed}}%
 												  </div>
 												</div>
 											</td>
-											<td>124</td>
-											<td>548</td>
-											<td>5,487</td>
+											<td>{{all}}</td>
+											<td>{{valid_votes}}</td>
+											<td>765</td>
 											<td>14</td>
 											
 										</tr>
@@ -350,12 +350,50 @@
 		</div>
 	</div>
 </div> <!-- /container -->
+
 <script src="./js/jquery-1.10.2.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/knockout-3.0.0.js"></script>
 <script src="./js/globalize.min.js"></script>
 <script src="./js/dx.chartjs.js"></script>
 <script src="./js/index.js"></script>
+<script type"text/javascript">
+$(document).ready(function(){
+	console.log("{{males}}");
+	var males =parseInt("{{males}}"),
+			females =parseInt("{{females}}");
+	var dataSource = [
+			{region: "{{{__ "male"}}}", val: males},
+		{region: "{{{__ "female"}}}", val: females},
+	];
+	$("#chartContainer").dxPieChart({
+		dataSource: dataSource,
+		title: "{{{__ "totalv"}}}",
+		tooltip: {
+			enabled: true,
+			percentPrecision: 2,
+			customizeText: function() { 
+				return this.valueText + " - " + this.percentText;
+			}
+		},
+		legend: {
+			horizontalAlignment: "right",
+			verticalAlignment: "top",
+			margin: 0
+		},
+		series: [{
+			type: "doughnut",
+			argumentField: "region",
+			label: {
+				visible: true,
+				connector: {
+					visible: true
+				}
+			}
+		}]
+	});
+});
+</script>
 
 
 
