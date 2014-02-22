@@ -44,5 +44,5 @@
 	"constit": "constit",
 	"ballot": "Ballot",
 	"racetype": "racetype",
-	"General":,"عام"
+	"{{race_type}}": "{{race_type}}"
 }

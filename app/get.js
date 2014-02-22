@@ -27,11 +27,13 @@ exports.getMgr = {
 	handleGetConstit : function(req,res,cb){
 		var ballots = {};
 		Step(
+
 			function getBallotsids(){
+				ballots = {};
 		  	helperMgr.getBallotsids(req.params.id,present,this);
 		  },
 		  function getBallotsInfo(err,result){
-		  	ballots = result;
+		  	ballots.constit = result.constit;
 		  	ballotsMgr.getConstBallots(result.li,this);
 		  },
 		  
