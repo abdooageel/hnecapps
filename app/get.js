@@ -59,6 +59,7 @@ exports.getMgr = {
 					});
 		  	}
 		  	for (key in ballots.result){
+		  		if(ballots.subs[key]!=undefined){
 			  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
 			  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
 			  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
@@ -66,6 +67,7 @@ exports.getMgr = {
 			  		ballots.result[key].race_type=ballots.subs[key].race_type;
 			  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
 			  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
+			  	}
 			  }
 		  	res.locals={
 		  		name : ballots.name,

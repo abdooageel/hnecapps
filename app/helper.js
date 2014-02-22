@@ -30,12 +30,7 @@ exports.helperMgr = {
 		}
 		cb(null,obj);
 	}
-	/*getBallotsInfo : function(constId,ballots,cb){
-		for (key in ballots.li){
 
-		}
-		cb(null,li);
-	}*/
 }
 
 function getConstObj(present){
