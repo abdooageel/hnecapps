@@ -13,6 +13,6 @@ to run the application from the command line :
 
 node server.js
 
-the server will start on localhost:3000
+the server will start on localhost:3002
 
 
