@@ -8,7 +8,7 @@ var express = require('express'),
     mathjs = require('mathjs'),
     candidatesMgr=require('./app/candidates').candidatesMgr,
     getMgr = require('./app/get').getMgr,
-    app = module.exports = express();
+    app  = express();
     math = mathjs();
 
 // minimal config
@@ -22,7 +22,7 @@ app.configure(function () {
   // setup hbs
   app.set('views', "" + __dirname + "/views");
   app.set('view engine', 'hbs');
-  app.use(express.static(__dirname + '/www'));
+  app.use(express.static(__dirname + "/www"));
   app.engine('hbs', hbs.__express);
   
 

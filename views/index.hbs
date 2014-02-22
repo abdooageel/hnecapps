@@ -35,7 +35,6 @@
 											<th>{{{__ "progress"}}} %</th>
 											<th>{{{__ "totalv"}}}</th>
 											<th>{{{__ "validv"}}}</th>
-											<th>{{{__ "totalr"}}}</th>
 											<th>{{{__ "tornout"}}}</th>
 										</tr>
 									</thead>
@@ -50,8 +49,7 @@
 											</td>
 											<td>{{numeral all}}</td>
 											<td>{{numeral valid_votes}}</td>
-											<td>{{numeral regs}}</td>
-											<td>{{turnout}} %</td>
+											<td>{{turnout valid_votes regs}} %</td>
 											
 										</tr>
 									</tbody>

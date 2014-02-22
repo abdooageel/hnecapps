@@ -26,16 +26,29 @@ exports.getMgr = {
     }
 	},
 	handleGetConstit : function(req,res,cb){
+		var id = req.params.id,
+				bid = req.params.bid;
+		if(!id){
+			id = req.params.cid;
+		}
 		Step(
 
 			function getBallotsids(){
-		  	helperMgr.getBallotsids(req.params.id,present,this);
+				var obj = {
+					cid : id,
+					bid: bid
+				}
+		  	helperMgr.getBallotsids(obj,present,this);
 		  },
 		  function getBallotsInfo(err,result){
 		  	ballots = result.constit;
 		  	ballots.subs.sort(function(a, b) { 
 				  return a.race_number - b.race_number;
 				});
+				if(bid){
+					result.li = [];
+					result.li.push(bid);
+				}
 		  	ballotsMgr.getConstBallots(result.li,this);
 		  },
 		  function returnBallots(err,result){
@@ -45,36 +58,35 @@ exports.getMgr = {
 				  	return a.ballot_id - b.ballot_id;
 					});
 		  	}
-		  	for (key in result){
-		  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
-		  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
-		  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
-		  		ballots.result[key].seats=ballots.subs[key].seats;
-		  		ballots.result[key].race_type=ballots.subs[key].race_type;
-		  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
-		  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
-		  	}
+		  	for (key in ballots.result){
+			  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
+			  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
+			  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
+			  		ballots.result[key].seats=ballots.subs[key].seats;
+			  		ballots.result[key].race_type=ballots.subs[key].race_type;
+			  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
+			  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
+			  }
 		  	res.locals={
 		  		name : ballots.name,
-		  		id : req.params.id,
 		  		ballots : ballots.result,
-		  		arUrl : "/constituancy/"+req.params.id+"/ar",
-			    enUrl : "/constituancy/"+req.params.id+"/en"
+		  		arUrl : "/constituancy/"+id+"/ar",
+			    enUrl : "/constituancy/"+id+"/en"
 		  	},
 		  	cb(res); 
 		  }
 		);
 	},
 	handleGetBallot : function(req,res,cb){
-		this.handleGetConstit(req,res,function(){
-
+		this.handleGetConstit(req,res,function(res){
+			candidatesMgr.getBCandidates(req.params.bid,function(result){
+				res.locals.constit_id=req.params.cid;
+				res.locals.candidates=result;
+				res.render('ballot');
+			});
 		});
 	},
 
-	/*function getInfo(err,result){
-				all.constits = result;
-				ballotsMgr.getBallotsInfo(this)
-			},*/
 	handleGetIndex : function (req,res){
 		var all = {};
 		Step(

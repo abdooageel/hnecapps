@@ -10,12 +10,23 @@ exports.helperMgr = {
 		var li = [],
 				obj={},
 				constits = getConstObj(present);
-		for (key in constits[constId].subs){
-			li.push(constits[constId].subs[key].race_number);
+		for (key in constits[constId.cid].subs){
+			li.push(constits[constId.cid].subs[key].race_number);
 		}
+		if(constId.bid){
+			var newObj = {};
+			for(var key = 0 ;key < constits[constId.cid].subs.length;key++){
+				if(constits[constId.cid].subs[key].race_number == parseInt(constId.bid) ){
+					newObj = constits[constId.cid].subs[key];
+				}
+			}
+			constits[constId.cid].subs =[];
+			constits[constId.cid].subs.push(newObj);
+
+	}
 		obj = {
 			li : li,
-			constit : constits[constId]
+			constit : constits[constId.cid]
 		}
 		cb(null,obj);
 	}
