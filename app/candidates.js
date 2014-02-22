@@ -1,23 +1,20 @@
 var postgMgr = require('./postgresql').postgMgr;
 
-var query = 'SELECT '+
-              'DISTINCT ON (tally_candidate.candidate_id) tally_candidate.candidate_id,'+ 
-              'tally_candidate.full_name, '+
-              'tally_ballot."number", '+
-              'tally_subconstituency.code, '+
-              'tally_center.name, '+
-              'tally_center.office, '+
-              'tally_center.region '+
-
-            'FROM ' +
-              'public.tally_candidate, '+ 
-              'public.tally_ballot, ' +
-              'public.tally_subconstituency, ' +
-              'public.tally_center '+
-            'WHERE ' +
-              'tally_candidate.ballot_id = tally_ballot.id AND '+
-              '(tally_ballot.id = tally_subconstituency.ballot_general_id OR  tally_ballot.id = tally_subconstituency.ballot_women_id)AND '+
-              'tally_center.sub_constituency_id = tally_subconstituency.id LIMIT '+10+' OFFSET '+0;
+var query = 'select  '+
+'trf.ballot_id, '+
+'tc.full_name as candidate_name, '+
+'tc.id as candidate_id, '+
+'tally_center.sub_constituency_id, '+
+'sum(case when tr.entry_version=2  '+
+'                and tr.active= true  '+
+'                and trf.form_state= 0 '+
+'                then tr.votes else 0 end) as candidate_valid_votes '+
+'from tally_resultform trf '+
+'join tally_result tr on tr.result_form_id = trf.id '+
+'join tally_candidate tc on tc.ballot_id = trf.ballot_id and tc.id = tr.candidate_id '+
+'join tally_center on (tally_center.id = trf.center_id) '+
+'group by 1,2,3,4 '+
+'ORDER BY candidate_valid_votes DESC;';
 
 
 
