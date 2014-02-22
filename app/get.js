@@ -9,6 +9,7 @@ var url=require('url'),
 		indexMgr = require('./index').indexMgr;
 		math = mathjs();
 var present = require('./tally_present');
+		var ballots = {};
 
 
 exports.getMgr = {
@@ -25,43 +26,51 @@ exports.getMgr = {
     }
 	},
 	handleGetConstit : function(req,res,cb){
-		var ballots = {};
 		Step(
 
 			function getBallotsids(){
-				ballots = {};
 		  	helperMgr.getBallotsids(req.params.id,present,this);
 		  },
 		  function getBallotsInfo(err,result){
-		  	ballots.constit = result.constit;
-		  	ballotsMgr.getConstBallots(result.li,this);
-		  },
-		  
-		  function returnBallots(err,result){
-		  	ballots.constit.subs.sort(function(a, b) { 
+		  	ballots = result.constit;
+		  	ballots.subs.sort(function(a, b) { 
 				  return a.race_number - b.race_number;
 				});
-		  	result.sort(function(a, b) { 
-				  return a.ballot_id - b.ballot_id;
-				});
-
+		  	ballotsMgr.getConstBallots(result.li,this);
+		  },
+		  function returnBallots(err,result){
+		  	ballots.result = result;
+		  	if(result != undefined){
+		  		ballots.result.sort(function(a, b) { 
+				  	return a.ballot_id - b.ballot_id;
+					});
+		  	}
 		  	for (key in result){
-		  		result[key].subconst_name=ballots.constit.subs[key].subconst_name;
-		  		result[key].subsubconst_name=ballots.constit.subs[key].subsubconst_name;
-		  		result[key].seats=ballots.constit.subs[key].seats;
-		  		result[key].race_type=ballots.constit.subs[key].race_type;
-		  		result[key].candidate_count=ballots.constit.subs[key].candidate_count;
-		  		result[key].vote_area=ballots.constit.subs[key].vote_area;
+		  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
+		  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
+		  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
+		  		ballots.result[key].seats=ballots.subs[key].seats;
+		  		ballots.result[key].race_type=ballots.subs[key].race_type;
+		  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
+		  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
 		  	}
 		  	res.locals={
-		  		ballots : result,
+		  		name : ballots.name,
+		  		id : req.params.id,
+		  		ballots : ballots.result,
 		  		arUrl : "/constituancy/"+req.params.id+"/ar",
 			    enUrl : "/constituancy/"+req.params.id+"/en"
-		  	}, 
-		  	cb(res);
+		  	},
+		  	cb(res); 
 		  }
 		);
 	},
+	handleGetBallot : function(req,res,cb){
+		this.handleGetConstit(req,res,function(){
+
+		});
+	},
+
 	/*function getInfo(err,result){
 				all.constits = result;
 				ballotsMgr.getBallotsInfo(this)

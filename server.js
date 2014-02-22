@@ -1,5 +1,4 @@
 
-
 // require modules
 var express = require('express'),
     i18n = require('i18n'),
@@ -72,6 +71,14 @@ app.get('/constituancy/:id/:locale', function (req, res) {
   res.cookie('locale', req.params.locale);
   res.redirect("/constituancy/"+req.params.id);
 });
+
+app.get('/ballot/:cid/:bid', function (req, res) {
+  getMgr.handleGetBallot(req,res,function(res){
+    
+  });
+});
+
+
 app.get('/candidates', function(req, res){
   candidatesMgr.getCandidates(300,function(result){
     res.locals= {

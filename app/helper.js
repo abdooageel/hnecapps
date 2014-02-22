@@ -48,6 +48,8 @@ function getConstObj(present){
 }
 function makeObj(present,key){
 	var obj = {
+		constit_id : present[key].constituancy_id,
+		constit_name : present[key].constityancy_name,
 		office_id:present[key].office_id,
 		office_name:present[key].office,
 		race_number:present[key].race_number,
