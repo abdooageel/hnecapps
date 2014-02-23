@@ -6,25 +6,16 @@ var url=require('url'),
 		officesMgr = require('./offices').officesMgr,
 		ballotsMgr = require('./ballots').ballotsMgr,
 		stationsMgr = require('./stations').stationsMgr,
+		csv = require("csv"),
 		indexMgr = require('./index').indexMgr;
 		math = mathjs();
-var present = require('./tally_present');
-		var ballots = {};
+var present = require('./tally_present'),
+		fs = require('fs');
+		var ballots = {},
+				percentage = {};
 
 
-exports.getMgr = {
-  get : function(req,res,cb){
-  	var base = req.url;
-	  switch(base){
-      case "/" :
-        this.handleGetIndex(req.params,res,cb);
-        break;
-/*      case "/constituancy/:id" :
-        this.handleGetConstit(req.params,res,cb);
-        break;*/
-      default:
-    }
-	},
+ exports.getMgr = {
 	handleGetConstit : function(req,res,cb){
 		var id = req.params.id,
 				bid = req.params.bid;
@@ -32,7 +23,6 @@ exports.getMgr = {
 			id = req.params.cid;
 		}
 		Step(
-
 			function getBallotsids(){
 				var obj = {
 					cid : id,
@@ -60,6 +50,7 @@ exports.getMgr = {
 		  	}
 		  	for (key in ballots.result){
 		  		if(ballots.subs[key]!=undefined){
+		  			ballots.result[key].percentage = percentage[ballots.result[key].ballot_id];
 			  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
 			  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
 			  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
@@ -130,38 +121,53 @@ exports.getMgr = {
 }
 function calculate(result){
 	for (key in result.constits){
-		for (subkey in result.ballots){
-			for (subsubkey in result.constits[key].subs){
-				if(result.ballots[subkey].ballot_id == result.constits[key].subs[subsubkey].race_number){
-					if(result.constits[key].valid_votes!=undefined){
-						if(result.ballots[subkey].valid_votes!=null)
-						result.constits[key].valid_votes+=parseInt(result.ballots[subkey].valid_votes);
-					} else {
-						if(result.ballots[subkey].valid_votes!=null)
-						result.constits[key].valid_votes=parseInt(result.ballots[subkey].valid_votes);
-					}
-					if(result.constits[key].registrants!=undefined){
-						if(result.ballots[subkey].registrants!=null)
-						result.constits[key].registrants+=parseInt(result.ballots[subkey].registrants);
-					} else {
-						if(result.ballots[subkey].registrants!=null)
-						result.constits[key].registrants=parseInt(result.ballots[subkey].registrants);
-					}
-					if(result.constits[key].percentage!=undefined){
-						if(result.ballots[subkey].percentage!=null){
-							result.constits[key].pn_forms+=1;
-							result.constits[key].percentage=(result.constits[key].percentage+=parseInt(result.ballots[subkey].percentage))/result.constits[key].pn_forms;
-						}
-					} else {
-						if(result.ballots[subkey].percentage!=null){
-							result.constits[key].percentage=parseInt(result.ballots[subkey].percentage);
-							result.constits[key].pn_forms=1;
-						}
-					}
-				}
+		result.constits[key].valid_votes=0;
+		for (subkey in result.constits[key].subs){
+				var val =result.ballots.filter(function(ballot){return ballot.ballot_id==result.constits[key].subs[subkey].race_number});
+				result.constits[key].valid_votes+=parseInt(val[0].valid_votes);
 			}
-		}
 	}
 	return result.constits;
 
-}
+}					
+
+csv()
+.from.path(__dirname+'/candidate_votes.csv', { delimiter: ',', escape: '"' })
+.to.stream(fs.createWriteStream(__dirname+'/sample.out'))
+.transform( function(row){
+  row.unshift(row.pop());
+  return row;
+})
+.on('record', function(row,index){
+	percentage[row[1]]=row[4];
+
+  //console.log('#'+index+' '+JSON.stringify(row[0])+' '+JSON.stringify(row[1])+' '+JSON.stringify(row[4]));
+})
+.on('close', function(count){
+  // when writing to a file, use the 'close' event
+  // the 'end' event may fire before the file has been written
+  //console.log(percentage);
+  //console.log('Number of lines: '+count);
+})
+.on('error', function(error){
+  console.log(error.message);
+});
+
+/*if(result.constits[key].registrants!=undefined){
+		if(result.ballots[subkey].registrants!=null)
+		result.constits[key].registrants+=parseInt(result.ballots[subkey].registrants);
+	} else {
+		if(result.ballots[subkey].registrants!=null)
+		result.constits[key].registrants=parseInt(result.ballots[subkey].registrants);
+	}
+	if(result.constits[key].percentage!=undefined){
+		if(result.ballots[subkey].percentage!=null){
+			result.constits[key].pn_forms+=1;
+			result.constits[key].percentage=(result.constits[key].percentage+=parseInt(result.ballots[subkey].percentage))/result.constits[key].pn_forms;
+		}
+	} else {
+		if(result.ballots[subkey].percentage!=null){
+			result.constits[key].percentage=parseInt(result.ballots[subkey].percentage);
+			result.constits[key].pn_forms=1;
+		}
+	}*/

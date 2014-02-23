@@ -103,7 +103,7 @@ app.get('/:locale', function (req, res) {
   res.redirect("/");
 });
 app.get('/', function (req, res) {
-  getMgr.get(req,res,function(results){
+  getMgr.handleGetIndex(req.params,res,function(results){
      
   });
 });

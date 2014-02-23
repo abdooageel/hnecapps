@@ -1,6 +1,3 @@
-var Step = require('step');
-
-
 exports.helperMgr = {
 	getConstits : function(present,cb){
 		var constits = getConstObj(present);

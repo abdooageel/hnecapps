@@ -34,6 +34,7 @@
 						<thead>
 							<tr>
 								<th>{{{__ "ballot"}}}</th>
+								<th>{{{__ "progress"}}}</th>
 								<th>{{{__ "validv"}}}</th>
 								<th>{{{__ "subconstit"}}}</th>
 								<th>{{{__ "seconsubconstit"}}}</th>
@@ -47,13 +48,13 @@
 							{{#each ballots}}
 							<tr>
 								<td>{{ballot_id}}</td>
-								<!-- <td>
-									<div class="progress progress-striped">
-									  <div class="progress-bar" role="progressbar" aria-valuenow="{{round percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round percentage}}%;">
-									   {{round percentage}}%
+								<td>
+								<div class="progress progress-striped">
+									  <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
+									   {{percentage}}%
 									  </div>
 									</div>
-								</td> -->
+								</td>
 								<td>{{valid_votes}}</td>
 								<td><a href="/ballot/{{constit_id}}/{{ballot_id}}">{{subconst_name}}</a></td>
 								<td>{{subsubconst_name}}</td>
