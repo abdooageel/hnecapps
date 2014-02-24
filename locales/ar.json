@@ -42,5 +42,7 @@
 	"candidatecount": "عدد المرشحين",
 	"votingarea": "المنطقة الإنتخابية",
 	"ballot": "ballot",
-	"racetype": "Race Type"
+	"racetype": "Race Type",
+	"station": "المحطات",
+	"completed": "المحطات المكتملة"
 }

@@ -44,5 +44,7 @@
 	"constit": "constit",
 	"ballot": "Ballot",
 	"racetype": "racetype",
-	"{{race_type}}": "{{race_type}}"
+	"race_type": "{{race_type}}",
+	"station": "station",
+	"completed": "completed"
 }
