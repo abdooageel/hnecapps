@@ -70,7 +70,6 @@
 			<table  class="table table-striped table-condensed table-bordered " dir="{{{__ "dir"}}}" >
 		    <thead>
 		      <tr>
-		        <th>id</th>
 		        <th>full name</th>
 		        <th>Valid votes</th>
 		        <th>Ballot</th>
@@ -79,10 +78,8 @@
 		    <tbody>
 		    {{#each candidates}}
 		      <tr id="{{candidate_id}}" >
-		        <td>{{candidate_id}}</td>
-		        <td>{{candidate_name}}</td>
-		        <td>{{candidate_valid_votes}}</td>
-		        <td>{{ballot_id}}</td>
+		        <td>{{name}}</td>
+		        <td>{{votes}}</td>
 		      </tr>
 		    {{/each}}
 		    </tbody>

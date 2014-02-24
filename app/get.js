@@ -12,6 +12,7 @@ var url=require('url'),
 var present = require('./tally_present'),
 		fs = require('fs');
 		var ballots = {},
+				ballots2 = {},
 				percentage = {};
 
 
@@ -31,6 +32,7 @@ var present = require('./tally_present'),
 		  	helperMgr.getBallotsids(obj,present,this);
 		  },
 		  function getBallotsInfo(err,result){
+		  	candidates= null;
 		  	ballots = result.constit;
 		  	ballots.subs.sort(function(a, b) { 
 				  return a.race_number - b.race_number;
@@ -38,45 +40,38 @@ var present = require('./tally_present'),
 				if(bid){
 					result.li = [];
 					result.li.push(bid);
+					candidates = ballots2[bid].candidates;
 				}
-		  	ballotsMgr.getConstBallots(result.li,this);
-		  },
-		  function returnBallots(err,result){
-		  	ballots.result = result;
-		  	if(result != undefined){
-		  		ballots.result.sort(function(a, b) { 
-				  	return a.ballot_id - b.ballot_id;
-					});
-		  	}
-		  	for (key in ballots.result){
-		  		if(ballots.subs[key]!=undefined){
-		  			ballots.result[key].percentage = percentage[ballots.result[key].ballot_id];
-			  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
-			  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
-			  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
-			  		ballots.result[key].seats=ballots.subs[key].seats;
-			  		ballots.result[key].race_type=ballots.subs[key].race_type;
-			  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
-			  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
-			  	}
-			  }
-		  	res.locals={
+				ballots.result=[];
+				for (key in result.li){
+					ballots.result[key]={};
+					ballots.result[key].constit_id = ballots.subs[key].constit_id; 
+					ballots.result[key].ballot_id = result.li[key];
+					ballots.result[key].percentage = ballots2[result.li[key]].percentage;
+					ballots.result[key].valid_votes=ballots2[result.li[key]].votes;
+			  	ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
+			  	ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
+			  	ballots.result[key].seats=ballots.subs[key].seats;
+			  	ballots.result[key].race_type=ballots.subs[key].race_type;
+			  	ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
+			  	ballots.result[key].vote_area=ballots.subs[key].vote_area;
+				}
+				res.locals={
 		  		name : ballots.name,
 		  		ballots : ballots.result,
 		  		arUrl : "/constituancy/"+id+"/ar",
 			    enUrl : "/constituancy/"+id+"/en"
 		  	},
-		  	cb(res); 
+		  	cb(res,candidates);
 		  }
+
 		);
 	},
 	handleGetBallot : function(req,res,cb){
-		this.handleGetConstit(req,res,function(res){
-			candidatesMgr.getBCandidates(req.params.bid,function(result){
-				res.locals.constit_id=req.params.cid;
-				res.locals.candidates=result;
-				res.render('ballot');
-			});
+		this.handleGetConstit(req,res,function(res,candidates){
+			res.locals.constit_id=req.params.cid;
+			res.locals.candidates=candidates;
+			res.render('ballot');
 		});
 	},
 
@@ -123,8 +118,7 @@ function calculate(result){
 	for (key in result.constits){
 		result.constits[key].valid_votes=0;
 		for (subkey in result.constits[key].subs){
-				var val =result.ballots.filter(function(ballot){return ballot.ballot_id==result.constits[key].subs[subkey].race_number});
-				result.constits[key].valid_votes+=parseInt(val[0].valid_votes);
+				result.constits[key].valid_votes+=ballots2[result.constits[key].subs[subkey].race_number].votes;
 			}
 	}
 	return result.constits;
@@ -139,7 +133,28 @@ csv()
   return row;
 })
 .on('record', function(row,index){
+	var li = [],
+			total_votes=0;
+	for (var i = 5 ; i < row.length;i+=2){
+		if(!row[i+1])
+			break;
+		var obj = {
+			name : row[i],
+			votes : row[i+1]
+		}
+		total_votes+=parseInt(row[i+1]);
+		li.push(obj);
+	}
 	percentage[row[1]]=row[4];
+	ballots2[row[1]]= {
+		percentage : row[4],
+		stations : row[2],
+		completed : row[3],
+		votes : total_votes,
+		candidates : li
+	}
+	
+
 
   //console.log('#'+index+' '+JSON.stringify(row[0])+' '+JSON.stringify(row[1])+' '+JSON.stringify(row[4]));
 })
@@ -171,3 +186,34 @@ csv()
 			result.constits[key].pn_forms=1;
 		}
 	}*/
+
+
+		  	//ballotsMgr.getConstBallots(result.li,this);
+		  /*},
+*/		 /* function returnBallots(err,result){
+		  	ballots.result = result;
+		  	if(result != undefined){
+		  		ballots.result.sort(function(a, b) { 
+				  	return a.ballot_id - b.ballot_id;
+					});
+		  	}
+		  	for (key in ballots.result){
+		  		if(ballots.subs[key]!=undefined){
+		  			ballots.result[key].percentage = percentage[ballots.result[key].ballot_id];
+			  		ballots.result[key].constit_id=ballots.subs[key].constit_id;
+			  		ballots.result[key].subconst_name=ballots.subs[key].subconst_name;
+			  		ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
+			  		ballots.result[key].seats=ballots.subs[key].seats;
+			  		ballots.result[key].race_type=ballots.subs[key].race_type;
+			  		ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
+			  		ballots.result[key].vote_area=ballots.subs[key].vote_area;
+			  	}
+			  }
+		  	res.locals={
+		  		name : ballots.name,
+		  		ballots : ballots.result,
+		  		arUrl : "/constituancy/"+id+"/ar",
+			    enUrl : "/constituancy/"+id+"/en"
+		  	},
+		  	cb(res); 
+		  }*/
