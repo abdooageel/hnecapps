@@ -71,6 +71,8 @@ var present = require('./tally_present'),
 		this.handleGetConstit(req,res,function(res,candidates){
 			res.locals.constit_id=req.params.cid;
 			res.locals.candidates=candidates;
+			res.locals.arUrl = "/ballot/"+req.params.cid+"/"+req.params.bid+"/ar",
+			res.locals.enUrl = "/ballot/"+req.params.cid+"/"+req.params.bid+"/en"
 			res.render('ballot');
 		});
 	},

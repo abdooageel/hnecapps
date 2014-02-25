@@ -78,6 +78,12 @@ app.get('/ballot/:cid/:bid', function (req, res) {
   });
 });
 
+app.get('/ballot/:cid/:bid/:locale', function (req, res) {
+ i18n.setLocale(req.params.locale);
+  res.cookie('locale', req.params.locale);
+  res.redirect("/ballot/"+req.params.cid+"/"+req.params.bid);
+});
+
 
 app.get('/candidates', function(req, res){
   candidatesMgr.getCandidates(300,function(result){

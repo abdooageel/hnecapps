@@ -36,15 +36,14 @@
 	"textaling": "textaling",
 	"male": "Male",
 	"female": "Female",
-	"subconstit": "Sub-Constituancy",
-	"seconsubconstit": "Secondary Sub-Constituancy",
+	"subconstit": "Sub-Constituency",
+	"seconsubconstit": "Secondary Constituency",
 	"seats": "Seats",
 	"candidatecount": "Candidate Count",
 	"votingarea": "Voting Area",
 	"constit": "constit",
 	"ballot": "Ballot",
-	"racetype": "racetype",
-	"race_type": "{{race_type}}",
+	"racetype": "Race Type",
 	"station": "station",
 	"completed": "completed"
 }
