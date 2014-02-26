@@ -120,7 +120,7 @@ app.get('/constituency/:id', function (req, res) {
 app.get('/constituency/:id/:locale', function (req, res) {
   i18n.setLocale(req.params.locale);
   res.cookie('locale', req.params.locale);
-  res.redirect("/constituancy/"+req.params.id);
+  res.redirect("/constituency/"+req.params.id);
 });
 
 app.get('/ballot/:cid/:bid', function (req, res) {

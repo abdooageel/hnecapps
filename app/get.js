@@ -66,8 +66,8 @@ var present = require('./tally_present'),
 		  		name_en : ballots.name_en,
 		  		vote_area: ballots.vote_area,
 		  		ballots : ballots.result,
-		  		arUrl : "/constituancy/"+id+"/ar",
-			    enUrl : "/constituancy/"+id+"/en"
+		  		arUrl : "/constituency/"+id+"/ar",
+			    enUrl : "/constituency/"+id+"/en"
 		  	},
 		  	cb(res,candidates);
 		  }
