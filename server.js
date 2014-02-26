@@ -163,6 +163,11 @@ app.get('/', function (req, res) {
      
   });
 });
+/*
+app.get('*', function (req, res) {
+  
+});*/
+
 
 // simple param parsing
 app.getDelay = function (req, res) {
