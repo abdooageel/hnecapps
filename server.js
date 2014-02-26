@@ -112,12 +112,12 @@ hbs.registerHelper('plusone', function(value) {
 // delay a response to simulate a long running process,
 // while another request comes in with altered language settings
 
-app.get('/constituancy/:id', function (req, res) {
+app.get('/constituency/:id', function (req, res) {
   getMgr.handleGetConstit(req,res,function(res){
-    res.render('constituancy');
+    res.render('constituency');
   });
 });
-app.get('/constituancy/:id/:locale', function (req, res) {
+app.get('/constituency/:id/:locale', function (req, res) {
   i18n.setLocale(req.params.locale);
   res.cookie('locale', req.params.locale);
   res.redirect("/constituancy/"+req.params.id);
@@ -135,7 +135,7 @@ app.get('/ballot/:cid/:bid/:locale', function (req, res) {
   res.redirect("/ballot/"+req.params.cid+"/"+req.params.bid);
 });
 
-app.get('/candidates', function(req, res){
+/*app.get('/candidates', function(req, res){
   candidatesMgr.getCandidates(300,function(result){
     res.locals= {
       candidates : result,
@@ -150,7 +150,7 @@ app.get('/candidates/:locale', function (req, res) {
   i18n.setLocale(req.params.locale);
   res.cookie('locale', req.params.locale);
   res.redirect("/candidates");
-});
+});*/
 
 // set a cookie to requested locale
 app.get('/:locale', function (req, res) {
