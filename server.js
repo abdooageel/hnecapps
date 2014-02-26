@@ -58,6 +58,57 @@ hbs.registerHelper('numeral', function(value) {
     return numeral(value).format('0,0');;
 });
 
+hbs.registerHelper('translate', function(en , ar) {
+  if (i18n.getLocale()=="en")
+    return en;
+  else 
+    return ar;
+});
+hbs.registerHelper('transr', function(region) {
+  if (i18n.getLocale()=="en")
+    switch(region){
+    case "الشرقية":
+      return "Eastern"
+      break;
+    case "الغربية":
+      return "Western"
+      break;
+    case "الجنوبية":
+      return "Southern"
+      break;
+    }
+  else 
+    return region;
+});
+hbs.registerHelper('transs', function(sub) {
+  if (i18n.getLocale()=="en")
+    switch(sub){
+    case "الأولي":
+      return "First"
+      break;
+    case "الثانية":
+      return "Second"
+      break;
+    case "الثالثة":
+      return "Third"
+      break;
+    case "الرابعة":
+      return "Forth"
+      break;
+    case "الخامسة":
+      return "Fifth"
+      break;
+    default :
+      return "-"
+      break;
+    }
+  else 
+    return sub;
+});
+hbs.registerHelper('plusone', function(value) {
+    return value+1;
+});
+
 // delay a response to simulate a long running process,
 // while another request comes in with altered language settings
 
@@ -83,7 +134,6 @@ app.get('/ballot/:cid/:bid/:locale', function (req, res) {
   res.cookie('locale', req.params.locale);
   res.redirect("/ballot/"+req.params.cid+"/"+req.params.bid);
 });
-
 
 app.get('/candidates', function(req, res){
   candidatesMgr.getCandidates(300,function(result){

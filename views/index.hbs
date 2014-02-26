@@ -3,68 +3,18 @@
 	<div class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header {{{__ "logo"}}}">
-				<a class="navbar-brand" href="#"><img alt="إحصائيات التسجيل" src="./img/hnec_logo.png"></a>
+				<a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="./img/hnec_logo.png"></a>
 			</div>
 			<div class="navbar-collapse" dir="rtl" >
 				<ul class="nav navbar-nav {{{__ "navbar"}}}">
-					<li class="active"><a href="./">{{{__ "main"}}}</a></li>
+					<li class="active"><a href="../../">{{{__ "main"}}}</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
 	</div>
-
-	<!-- Main component for a primary marketing message or call to action -->
-		
-	<!-- <div class="container-fluid">
-		<div class="jumbotron">
-  		<div class="row-fluid">
-  			<div class="span7" dir = "{{{__ "dir"}}}">
-  				<h1> {{{__ "overview"}}}</h1>
-  				<br>
-  				<div class="panel panel-default">
-						<div class="panel-heading">
-				    	<h3 class="panel-title">{{{__ "overview"}}}</h3>
-				  	</div>
-				  	<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>{{{__ "progress"}}} %</th>
-											<th>{{{__ "totalv"}}}</th>
-											<th>{{{__ "validv"}}}</th>
-											<th>{{{__ "tornout"}}}</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<div class="progress progress-striped">
-												  <div class="progress-bar" role="progressbar" aria-valuenow="{{processed}}" aria-valuemin="0" aria-valuemax="100" style="width: {{processed}}%;">
-												    {{processed}}%
-												  </div>
-												</div>
-											</td>
-											<td>{{numeral all}}</td>
-											<td>{{numeral valid_votes}}</td>
-											<td>{{turnout valid_votes regs}} %</td>
-											
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="span5">
-					<div class="pane pull-right">
-	        	<div class="long-title"><h3></h3></div>
-	        	<div id="chartContainer" style="width: 50%; height: 300px;"></div>
-	      	</div>
-	    	</div>
-			</div>
-		</div>
-	</div> -->
+	<div class="page-header">
+  	<h1>{{{__ "pageheader1"}}}<br> <small>{{{__ "pageheader2"}}}</small></h1>
+	</div>
 	<div class="panel panel-default">
 		<div class="panel-heading">
     	<h3 class="panel-title {{{__ "textpos"}}}">{{{__ "office"}}}</h3>
@@ -86,7 +36,7 @@
 						<tbody>
 							{{#each constits}}
 							<tr>
-								<td><a href="/constituancy/{{id}}">{{name}}</a></td>
+								<td><a href="/constituancy/{{id}}">{{translate name_en name}}</a></td>
 							<!-- 	<td>
 									<div class="progress progress-striped">
 									  <div class="progress-bar" role="progressbar" aria-valuenow="{{round percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round percentage}}%;">

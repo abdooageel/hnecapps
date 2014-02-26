@@ -1,5 +1,5 @@
 {
-	"main": "الصفحة الرئيسية",
+	"main": "الدوائر الرئيسية",
 	"candidates": "المرشحون",
 	"centers": "المراكز",
 	"disabledar": " disabled=disabled",
@@ -8,6 +8,8 @@
 	"logo": "navbar-right",
 	"textalign": "right",
 	"textpos": "text-right",
+	"pullright": "pull-right",
+	"pullleft": "pull-left",
 	"dir": "rtl",
 	"css": "../../css/bootstrap.rtl.css",
 	"css1": "../../css/bootstrap.min.css",
@@ -18,7 +20,7 @@
 	"js3": "../../js/jquery-1.10.2.min.js",
 	"overview": "نظرة عامة",
 	"totalv": "عدد الناخبين",
-	"validv": "الأصوات الصالحة",
+	"validv": "عدد الأصوات",
 	"invaildb": "الإقتراعات الغير صالحة",
 	"blankb": "الإقتراعات الفارغة",
 	"totalr": "عدد المسجلين",
@@ -32,7 +34,7 @@
 	},
 	"text to test": "text to test",
 	"office": "الدوائر المركزية",
-	"progress": "حالة التقدم",
+	"progress": "النسبة",
 	"textaling": "textaling",
 	"male": "ذكر",
 	"female": "أنثى",
@@ -44,5 +46,10 @@
 	"ballot": "دائرة الإقتراع",
 	"racetype": "التنافس",
 	"station": "المحطات",
-	"completed": "المحطات المكتملة"
+	"completed": "المحطات المكتملة",
+	"mainconstit": "الدائرة الرئيسية",
+	"fullname" : "اسم المرشح",
+	"number" : "ر.م",
+	"pageheader1" : "انتخابات الهيئة التأسيسية لصياغة مشروع الدستور",
+	"pageheader2" : "نتائج الاقتراع المرحلية"
 }

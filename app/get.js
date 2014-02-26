@@ -53,11 +53,18 @@ var present = require('./tally_present'),
 			  	ballots.result[key].subsubconst_name=ballots.subs[key].subsubconst_name;
 			  	ballots.result[key].seats=ballots.subs[key].seats;
 			  	ballots.result[key].race_type=ballots.subs[key].race_type;
+			  	ballots.result[key].race_type_ar=ballots.subs[key].race_type_ar;
 			  	ballots.result[key].candidate_count=ballots.subs[key].candidate_count;
 			  	ballots.result[key].vote_area=ballots.subs[key].vote_area;
+			  	ballots.result[key].constit_name=ballots.subs[key].constit_name;
+			  	ballots.result[key].constit_name_en=ballots.subs[key].constit_name_en;
+
+
 				}
 				res.locals={
 		  		name : ballots.name,
+		  		name_en : ballots.name_en,
+		  		vote_area: ballots.vote_area,
 		  		ballots : ballots.result,
 		  		arUrl : "/constituancy/"+id+"/ar",
 			    enUrl : "/constituancy/"+id+"/en"
@@ -69,6 +76,7 @@ var present = require('./tally_present'),
 	},
 	handleGetBallot : function(req,res,cb){
 		this.handleGetConstit(req,res,function(res,candidates){
+			res.locals.ballot = res.locals.ballots[0]
 			res.locals.constit_id=req.params.cid;
 			res.locals.candidates=candidates;
 			res.locals.arUrl = "/ballot/"+req.params.cid+"/"+req.params.bid+"/ar",

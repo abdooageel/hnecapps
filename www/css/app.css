@@ -43,4 +43,10 @@ padding : 0px;
 .progress {
 background-color: #EB9675;
 }
-
+.heads {
+color: #EFF7FC;
+background-color: #2D80AA;
+}
+.page-header {
+   text-align: center;
+}

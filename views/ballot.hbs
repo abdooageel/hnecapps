@@ -3,88 +3,74 @@
 	<div class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header {{{__ "logo"}}}">
-				<a class="navbar-brand" href="#"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
+				<a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
 			</div>
 			<div class="navbar-collapse" dir="rtl" >
 				<ul class="nav navbar-nav {{{__ "navbar"}}}">
-					<li class="active"><a href="./">{{{__ "main"}}}</a></li>
+					<li class="active"><a href="../../">{{{__ "main"}}}</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div><!--/.container-fluid -->
+	</div>
+	<div class="page-header">
+  	<h1>{{{__ "pageheader1"}}}<br> <small>{{{__ "pageheader2"}}}</small></h1>
 	</div>
 
 	<!-- Main component for a primary marketing message or call to action -->
 		
 	<div class="panel panel-default">
 		<div class="panel-heading">
-<!--     	<h3 class="panel-title {{{__ "textpos"}}}">{{name}}</h3>
- -->    	<ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
+	   	<ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
 			  <li><a href="/">{{{__ "main"}}}</a></li>
-			  <li><a href="/constituancy/{{constit_id}}">{{name}}</a></li>
+			  <li><a href="/constituancy/{{constit_id}}">{{translate name_en name}}</a></li>
 			</ol>
+
   	</div>
   	<div class="panel-body">
-  		<!-- <div class="pane">
-	        	<div class="long-title"><h3></h3></div>
-	        	<div id="officeContainer" style="width: 100%; height: 440px;"></div>
-	      	</div>
-	      	<hr class="border-line"> -->
-			<div class="table-responsive" dir="{{{__ "dir"}}}">
-					<table class="table table-striped table-bordered table-condensed">
-						<thead>
-							<tr>
-								<th>{{{__ "ballot"}}}</th>
-								<th>{{{__ "progress"}}}</th>
-								<th>{{{__ "station"}}}</th>
-								<th>{{{__ "completed"}}}</th>
-								<th>{{{__ "validv"}}}</th>
-								<th>{{{__ "subconstit"}}}</th>
-								<th>{{{__ "seconsubconstit"}}}</th>
-								<th>{{{__ "racetype"}}}</th>
-								<th>{{{__ "seats"}}}</th>
-								<th>{{{__ "candidatecount"}}}</th>
-								<th>{{{__ "votingarea"}}}</th>
-							</tr>
-						</thead>
-						<tbody>
-							{{#each ballots}}
-							<tr>
-								<td>{{ballot_id}}</td>
-								<td>
-									<div class="progress progress-striped">
-									  <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
-									   {{percentage}}%
-									  </div>
-									</div>
-								</td>
-								<td>{{stations}}</td>
-								<td>{{completed}}</td>
-								<td>{{valid_votes}}</td>
-								<td><a href="/ballot/{{constit_id}}/{{ballot_id}}">{{subconst_name}}</a></td>
-								<td>{{subsubconst_name}}</td>
-								<td>{{{race_type}}}</td>
-								<td>{{seats}}</td>
-								<td>{{candidate_count}}</td>
-								<td>{{vote_area}}</td>
-							</tr>
-							{{/each}}
-						</tbody>
-					</table>
+  		<div class="row-fluid">
+  			<div dir = "{{{__ "dir"}}}">
+		  		
+		  		<table class="table table-bordered">
+		  			<tbody>
+		  				<tr>
+		  					<td class="heads"> <b>{{{__ "ballot"}}}</b> : {{ballot.ballot_id}}-{{translate ballot.race_type ballot.race_type_ar}}</td>
+		  					<td class="heads"><b>{{{__ "validv"}}}</b> : {{ballot.valid_votes}}</td>
+		  					<td class="heads"><b>{{{__ "station"}}} : </b>{{ballot.stations}}</td>
+						  	
+						  	
+		  				</tr>
+		  				<tr>
+		  					<td class="heads"><b>{{{__ "subconstit"}}} : </b>{{transs ballot.subconst_name}}</td>
+						  	<td class="info"><b>{{{__ "seats"}}}</b> : {{ballot.seats}}</td>
+						  	<td class="info"><b>{{{__ "completed"}}} : </b>{{ballot.completed}}</td>
+		  				</tr>
+		  				<tr>
+		  					<td class="heads"><b>{{{__ "seconsubconstit"}}} : </b>{{transs ballot.subsubconst_name}}</td>
+		  					<td class="info"><b>{{{__ "candidatecount"}}}</b> : {{ballot.candidate_count}}</td>
+						  	<td class="info"><b>{{{__ "progress"}}} : </b> {{ballot.percentage}}%</td>
+
+		  				</tr>
+		  			</tbody>
+		  		</table>
+
+				</div>
 			</div>
 			<table  class="table table-striped table-condensed table-bordered " dir="{{{__ "dir"}}}" >
 		    <thead>
 		      <tr>
-		        <th>full name</th>
-		        <th>Valid votes</th>
-		        <th>Ballot</th>
+		      	<th>{{__ "number"}}</th>
+		        <th>{{{__ "fullname"}}}</th>
+		        <th>{{{__ "validv"}}}</th>
+		        
 		      </tr>
 		    </thead>
 		    <tbody>
 		    {{#each candidates}}
 		      <tr id="{{candidate_id}}" >
+		      	<td>{{plusone @index}}</td>
 		        <td>{{name}}</td>
 		        <td>{{votes}}</td>
-		        <td>{{ballot}}</td>
+		        
 		      </tr>
 		    {{/each}}
 		    </tbody>
