@@ -33,7 +33,7 @@
 		"other": "%d قطط"
 	},
 	"text to test": "text to test",
-	"office": "الدوائر المركزية",
+	"office": "الدوائر الرئيسية",
 	"progress": "النسبة",
 	"textaling": "textaling",
 	"male": "ذكر",
@@ -51,5 +51,9 @@
 	"fullname" : "اسم المرشح",
 	"number" : "ر.م",
 	"pageheader1" : "انتخابات الهيئة التأسيسية لصياغة مشروع الدستور",
-	"pageheader2" : "نتائج الاقتراع المرحلية"
+	"pageheader2" : "نتائج الاقتراع المرحلية",
+	"centername" : "اسم المركز",
+	"centernumber" : "رقم المركز",
+	"center" : "مركز",
+	"onestation" : "المحطة"
 }

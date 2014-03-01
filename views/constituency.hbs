@@ -20,8 +20,7 @@
 		
 	<div class="panel panel-default">
 		<div class="panel-heading">
-<!--     	<h3 class="panel-title {{{__ "textpos"}}}">{{name}}</h3>
- -->    	<ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
+   			<ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
 			  <li><a href="/">{{{__ "main"}}}</a></li>
 			  <li class="active">{{translate name_en name}}</li>
 			</ol>
@@ -39,7 +38,6 @@
 							<tr>
 								<th>{{{__ "ballot"}}}</th>
 								<th>{{{__ "station"}}}</th>
-								<th>{{{__ "completed"}}}</th>
 								<th>{{{__ "progress"}}}</th>
 								<th>{{{__ "validv"}}}</th>
 								<th>{{{__ "seats"}}}</th>
@@ -56,8 +54,7 @@
 										{{ballot_id}}-{{translate race_type race_type_ar}}
 									</a>
 								</td>
-								<td>{{stations}}</td>
-								<td>{{completed}}</td>
+								<td><a href="/centers/{{constit_id}}/{{ballot_id}}">{{stations}}</a></td>
 								<td>
 									<div class="progress progress-striped">
 									  <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">

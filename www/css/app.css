@@ -50,3 +50,7 @@ background-color: #2D80AA;
 .page-header {
    text-align: center;
 }
+
+.pagination-centered {
+  text-align: center;
+}
