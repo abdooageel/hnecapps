@@ -20,31 +20,17 @@
     	<h3 class="panel-title {{{__ "textpos"}}}">{{{__ "office"}}}</h3>
   	</div>
   	<div class="panel-body">
-  		<!-- <div class="pane">
-	        	<div class="long-title"><h3></h3></div>
-	        	<div id="officeContainer" style="width: 100%; height: 440px;"></div>
-	      	</div>
-	      	<hr class="border-line"> -->
 			<div class="table-responsive" dir="{{{__ "dir"}}}">
 					<table class="table table-striped table-bordered table-condensed">
 						<thead>
 							<tr>
 								<th>{{{__ "office"}}}</th>
-								<th>{{{__ "validv"}}}</th>
 							</tr>
 						</thead>
 						<tbody>
 							{{#each constits}}
 							<tr>
 								<td><a href="/constituency/{{id}}">{{translate name_en name}}</a></td>
-							<!-- 	<td>
-									<div class="progress progress-striped">
-									  <div class="progress-bar" role="progressbar" aria-valuenow="{{round percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{round percentage}}%;">
-									   {{round percentage}}%
-									  </div>
-									</div>
-								</td> -->
-								<td>{{numeral valid_votes}}</td>
 							</tr>
 							{{/each}}
 						</tbody>
@@ -59,40 +45,3 @@
 <script src="./js/knockout-3.0.0.js"></script>
 <script src="./js/globalize.min.js"></script>
 <script src="./js/dx.chartjs.js"></script>
-<script type"text/javascript">
-$(document).ready(function(){
-	var males =parseInt("{{males}}"),
-			females =parseInt("{{females}}");
-	var dataSource = [
-			{region: "{{{__ "male"}}}", val: males},
-		{region: "{{{__ "female"}}}", val: females},
-	];
-	$("#chartContainer").dxPieChart({
-		dataSource: dataSource,
-		title: "{{{__ "totalv"}}}",
-		tooltip: {
-			enabled: true,
-			percentPrecision: 2,
-			customizeText: function() { 
-				return this.valueText + " - " + this.percentText;
-			}
-		},
-		legend: {
-			horizontalAlignment: "right",
-			verticalAlignment: "top",
-			margin: 0
-		},
-		series: [{
-			type: "doughnut",
-			argumentField: "region",
-			label: {
-				visible: true,
-				connector: {
-					visible: true
-				}
-			}
-		}]
-	});
-	
-});
-</script>
