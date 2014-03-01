@@ -48,12 +48,14 @@
 	"station": "المحطات",
 	"completed": "المحطات المكتملة",
 	"mainconstit": "الدائرة الرئيسية",
-	"fullname" : "اسم المرشح",
-	"number" : "ر.م",
-	"pageheader1" : "انتخابات الهيئة التأسيسية لصياغة مشروع الدستور",
-	"pageheader2" : "نتائج الاقتراع المرحلية",
-	"centername" : "اسم المركز",
-	"centernumber" : "رقم المركز",
-	"center" : "مركز",
-	"onestation" : "المحطة"
+	"fullname": "اسم المرشح",
+	"number": "ر.م",
+	"pageheader1": "انتخابات الهيئة التأسيسية لصياغة مشروع الدستور",
+	"pageheader2": "نتائج الاقتراع الاولية",
+	"centername": "اسم المركز",
+	"centernumber": "رقم المركز",
+	"center": "مركز",
+	"onestation": "المحطة",
+	"stationsresults": "نتائج المحطة",
+	"stations": "stations"
 }

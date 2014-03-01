@@ -38,7 +38,6 @@
 							<tr>
 								<th>{{{__ "ballot"}}}</th>
 								<th>{{{__ "station"}}}</th>
-								<th>{{{__ "progress"}}}</th>
 								<th>{{{__ "validv"}}}</th>
 								<th>{{{__ "seats"}}}</th>
 								<th>{{{__ "candidatecount"}}}</th>
@@ -54,14 +53,7 @@
 										{{ballot_id}}-{{translate race_type race_type_ar}}
 									</a>
 								</td>
-								<td><a href="/centers/{{constit_id}}/{{ballot_id}}">{{stations}}</a></td>
-								<td>
-									<div class="progress progress-striped">
-									  <div class="progress-bar" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
-									   {{percentage}}%
-									  </div>
-									</div>
-								</td>
+								<td><a href="/centers/{{constit_id}}/{{ballot_id}}">{{{__ "stationsresults"}}}</a></td>
 								<td>{{valid_votes}}</td>
 								<td>{{seats}}</td>
 								<td>{{candidate_count}}</td>

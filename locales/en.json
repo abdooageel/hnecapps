@@ -51,9 +51,10 @@
 	"fullname" : "Full Name",
 	"number" : "S.N",
 	"pageheader1" : "Constitution Drafting Assembly Elections",
-	"pageheader2" : "Polling Progressive Results",
+	"pageheader2" : "Polling Primarily Results",
 	"centername" : "Center Name",
 	"centernumber" : "Center Number",
 	"center" : "Center",
-	"onestation" : "Station"
+	"onestation" : "Station",
+	"stationsresults" : "Station Results"
 }

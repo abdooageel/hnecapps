@@ -1,3 +1,5 @@
+var blocked = [26,29,30,31,37,43,47,52,55,56,58];
+
 exports.helperMgr = {
 	getConstits : function(present,cb){
 		var constits = getConstObj(present);
@@ -19,7 +21,6 @@ exports.helperMgr = {
 			}
 			constits[constId.cid].subs =[];
 			constits[constId.cid].subs.push(newObj);
-
 	}
 		obj = {
 			li : li,
@@ -33,19 +34,21 @@ exports.helperMgr = {
 function getConstObj(present){
 	constituancy = {};
 	for (key in present){
-		var obj = {};
-		if (constituancy[present[key].constituancy_id] == undefined){
-			constituancy[present[key].constituancy_id]={};
-			constituancy[present[key].constituancy_id].id=present[key].constituancy_id;
-			constituancy[present[key].constituancy_id].name= present[key].constityancy_name;
-			constituancy[present[key].constituancy_id].name_en= present[key].constituency_name_en;
-			constituancy[present[key].constituancy_id].vote_area=present[key].vote_area;
-			constituancy[present[key].constituancy_id].subs = [];
-			obj = makeObj(present,key);
-			constituancy[present[key].constituancy_id].subs.push(obj);
-		} else {
-			obj = makeObj(present,key);
-			constituancy[present[key].constituancy_id].subs.push(obj);
+		if(!(include(blocked,present[key].race_number))){
+			var obj = {};
+			if (constituancy[present[key].constituancy_id] == undefined){
+				constituancy[present[key].constituancy_id]={};
+				constituancy[present[key].constituancy_id].id=present[key].constituancy_id;
+				constituancy[present[key].constituancy_id].name= present[key].constityancy_name;
+				constituancy[present[key].constituancy_id].name_en= present[key].constituency_name_en;
+				constituancy[present[key].constituancy_id].vote_area=present[key].vote_area;
+				constituancy[present[key].constituancy_id].subs = [];
+				obj = makeObj(present,key);
+				constituancy[present[key].constituancy_id].subs.push(obj);
+			} else {
+				obj = makeObj(present,key);
+				constituancy[present[key].constituancy_id].subs.push(obj);
+			}
 		}
 	}
 	return constituancy;
@@ -72,4 +75,8 @@ function makeObj(present,key){
 		vote_area:present[key].vote_area
 	}
 	return obj;
+}
+
+function include(arr,obj) {
+  return (arr.indexOf(obj) != -1);
 }
