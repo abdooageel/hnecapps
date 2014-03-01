@@ -57,5 +57,7 @@
 	"center": "مركز",
 	"onestation": "المحطة",
 	"stationsresults": "نتائج المحطة",
-	"stations": "stations"
+	"stations": "stations",
+	"winners": "اسماء الفائزين",
+	"clickhere" : "انقر هنا لعرض اسماء الفائزين"
 }

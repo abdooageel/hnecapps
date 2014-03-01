@@ -56,5 +56,7 @@
 	"centernumber" : "Center Number",
 	"center" : "Center",
 	"onestation" : "Station",
-	"stationsresults" : "Station Results"
+	"stationsresults" : "Station Results",
+	"winners" : "Names of Winners",
+	"clickhere" : "Click here to view winners"
 }
