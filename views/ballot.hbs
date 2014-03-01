@@ -17,7 +17,7 @@
 	</div>
 
 	<!-- Main component for a primary marketing message or call to action -->
-		
+	<legend class="{{{__ "textpos"}}}" dir="{{{__ "dir"}}}" >{{{__ "votingarea"}}}: {{transr vote_area}}</legend>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 	   	<ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
@@ -29,22 +29,21 @@
   	<div class="panel-body">
   		<div class="row-fluid">
   			<div dir = "{{{__ "dir"}}}">
-		  		<legend class="{{{__ "textpos"}}}" dir="{{{__ "dir"}}}" >{{{__ "votingarea"}}} : {{transr vote_area}}</legend>
 		  		<table class="table table-bordered">
 		  			<tbody>
 		  				<tr>
-		  					<td class="heads"> <b>{{{__ "ballot"}}}</b> : {{ballot.ballot_id}}-{{translate ballot.race_type ballot.race_type_ar}}</td>
-		  					<td class="heads"><b>{{{__ "validv"}}}</b> : {{ballot.valid_votes}}</td>
+		  					<td class="heads"> <b>{{{__ "ballot"}}}</b>: {{ballot.ballot_id}}-{{translate ballot.race_type ballot.race_type_ar}}</td>
+		  					<td class="heads"><b>{{{__ "validv"}}}</b>: {{ballot.valid_votes}}</td>
 						  	
 						  	
 		  				</tr>
 		  				<tr>
-		  					<td class="heads"><b>{{{__ "subconstit"}}} : </b>{{transs ballot.subconst_name}}</td>
-						  	<td class="info"><b>{{{__ "seats"}}}</b> : {{ballot.seats}}</td>
+		  					<td class="heads"><b>{{{__ "subconstit"}}}: </b>{{transs ballot.subconst_name}}</td>
+						  	<td class="info"><b>{{{__ "seats"}}}</b>: {{ballot.seats}}</td>
 		  				</tr>
 		  				<tr>
-		  					<td class="heads"><b>{{{__ "seconsubconstit"}}} : </b>{{transs ballot.subsubconst_name}}</td>
-		  					<td class="info"><b>{{{__ "candidatecount"}}}</b> : {{ballot.candidate_count}}</td>
+		  					<td class="heads"><b>{{{__ "seconsubconstit"}}}: </b>{{transs ballot.subsubconst_name}}</td>
+		  					<td class="info"><b>{{{__ "candidatecount"}}}</b>: {{ballot.candidate_count}}</td>
 
 		  				</tr>
 		  			</tbody>

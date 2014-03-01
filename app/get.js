@@ -116,6 +116,7 @@ var present = require('./tally_present'),
 			res.locals.ballot = res.locals.ballots[0];
 			res.locals.constit_id=req.params.cid;
 			res.locals.ballot_id = req.params.bid;
+			res.locals.center_number=url.parse(req.url, true).query.c;
 			res.locals.center_name = centers[url.parse(req.url, true).query.c].name;
 			res.locals.center=ballots3[req.params.bid][url.parse(req.url, true).query.c];
 			res.locals.arUrl = "/centers/"+req.params.cid+"/"+req.params.bid+"/ar/?c="+url.parse(req.url, true).query.c,
