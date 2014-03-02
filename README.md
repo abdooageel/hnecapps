@@ -5,7 +5,12 @@ npm packages :
   express,
   i18n,
   hbs,
-  pg
+  pg,
+  numeral,
+  csv,
+  step,
+  mathjs,
+  handlebars-paginate
   
 You need to change the Postgres credintials in app/postgresql.js 
 
