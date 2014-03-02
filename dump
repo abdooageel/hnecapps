@@ -1,1 +1,0 @@
-sudo su - postgres -c " pg_restore -U postgres -d tally -Fc -c  /home/afituri/data/ukanga/ukanga2/tally_lates.bak"

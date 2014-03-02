@@ -4,20 +4,18 @@ var url=require('url'),
 		helperMgr = require('./helper').helperMgr,
 		candidatesMgr=require('./candidates').candidatesMgr,
 		officesMgr = require('./offices').officesMgr,
+		parserMgr=require('./csvparser'),
 		ballotsMgr = require('./ballots').ballotsMgr,
 		csv = require("csv"),
-		math = mathjs();
-var present = require('./tally_present'),
-		fs = require('fs');
-		var ballots = {},
-				ballots2 = {},
-				centers = [],
-				stations = {},
-				ballots3 = {},
-				percentage = {},
-				centers = {},
-				scount =0,
-				blocked = [26,29,30,31,37,43,47,52,55,56,58];
+		math = mathjs(),
+		present = require('./tally_present'),
+		fs = require('fs'),
+		ballots = {},
+		ballots2 = {},
+		stations = {},
+		ballots3 = {},
+		centers = {},
+		blocked = [26,29,30,31,37,43,47,52,55,56,58];
 
 
  exports.getMgr = {
@@ -54,7 +52,6 @@ var present = require('./tally_present'),
 							stations :  ballots2[result.li[key]].stations,
 							completed : ballots2[result.li[key]].completed,
 							ballot_id : result.li[key],
-							percentage : ballots2[result.li[key]].percentage,
 							valid_votes : ballots2[result.li[key]].votes,
 					  	subconst_name : ballots.subs[key].subconst_name,
 					  	subsubconst_name : ballots.subs[key].subsubconst_name,
@@ -67,7 +64,7 @@ var present = require('./tally_present'),
 					  	constit_name_en : ballots.subs[key].constit_name_en,
 						};
 					}
-					
+
 				}
 				res.locals={
 		  		name : ballots.name,
@@ -149,7 +146,7 @@ var present = require('./tally_present'),
 }
 function calculate(result){
 	for (key in result){
-		
+
 			result[key].valid_votes=0;
 			for (subkey in result[key].subs){
 				if(!include(blocked,result[key].subs[subkey].race_number)){
@@ -160,206 +157,17 @@ function calculate(result){
 	return result;
 
 }					
-///////////////////////////////
-csv()
-.from.path(__dirname+'/stations.csv', { delimiter: ',', escape: '"' })
-.to.stream(fs.createWriteStream(__dirname+'/sample.out'))
-.transform( function(row){
-  row.unshift(row.pop());
-  return row;
-})
-.on('record', function(row,index){
-	if(!centers[row[1]]){
-		centers[row[1]]={};
-
-		centers[row[1]] = {
-			center_id : row[1],
-			name : row[2].trim()
-		}
-	}
-
-})
-.on('close', function(count){
-	/*for (key in centers){
-		console.log(centers[key].name);
-	}*/
-	doCandidates();
-})
-.on('error', function(error){
-  console.log(error.message);
-});
-
-/////////////////////////////
-function doCandidates(){
-	csv()
-	.from.path(__dirname+'/candidate_votes.csv', { delimiter: ',', escape: '"' })
-	.to.stream(fs.createWriteStream(__dirname+'/sample2.out'))
-	.transform( function(row){
-	  row.unshift(row.pop());
-	  return row;
-	})
-	.on('record', function(row,index){
-		if(!include(blocked,row[1])){
-			
-			var li = [],
-					total_votes=0;
-			for (var i = 5 ; i < row.length;i+=2){
-				if(!row[i+1])
-					break;
-				var obj = {
-					name : row[i],
-					votes : row[i+1],
-					ballot : row[1]
-				}
-				total_votes+=parseInt(row[i+1]);
-				li.push(obj);
-			}
-			percentage[row[1]]=row[4];
-			ballots2[row[1]]= {
-				percentage : row[4],
-				stations : row[2],
-				completed : row[3],
-				votes : total_votes,
-				candidates : li
-			}
-		}
-	})
-	.on('close', function(count){
-		doForms();
-	})
-	.on('error', function(error){
-	  console.log(error.message);
-	});
-}
-
-function doForms(){
-	csv()
-	.from.path(__dirname+'/form_results.csv', { delimiter: ',', escape: '"' })
-	.to.stream(fs.createWriteStream(__dirname+'/sample1.out'))
-	.transform( function(row){
-	  row.unshift(row.pop());
-	  return row;
-	})
-	.on('record', function(row,index){
-		/*if (row[9]==1)
-			{	scount++;
-			}
-*/
-		if(!include(blocked,row[2])){
-			var li = [];
-
-			if(!ballots3[row[2]]){
-				li = [];
-				
-				ballots3[row[2]]={};
-				ballots3[row[2]][row[3]]={};
-				ballots3[row[2]][row[3]].stations={};
-				ballots3[row[2]][row[3]].center_id =row[3];
-				ballots3[row[2]][row[3]].center_name = centers[row[3]].name;
-				ballots3[row[2]][row[3]].votes=parseInt(row[11]);
-				ballots3[row[2]][row[3]].candidates={};
-				var obj = {
-					number : row[9],
-					name : row[10],
-					cvotes : parseInt(row[11])
-				}
-				li.push(obj);
-				ballots3[row[2]][row[3]].candidates[row[9]]={};
-				ballots3[row[2]][row[3]].candidates[row[9]]={
-						number : obj.number,
-						name :obj.name,
-						votes:obj.cvotes
-					};;
-				ballots3[row[2]][row[3]].stations[row[4]]={
-					votes : parseInt(row[19]),
-					candidates : li
-				};
-				ballots3[row[2]][row[3]].center_id =row[3];
-
-			} else if(!ballots3[row[2]][row[3]]){
-				li = [];
-				ballots3[row[2]][row[3]]={};
-				ballots3[row[2]][row[3]].stations={};
-				ballots3[row[2]][row[3]].center_id =row[3];
-				ballots3[row[2]][row[3]].center_name = centers[row[3]].name;
-				ballots3[row[2]][row[3]].votes=parseInt(row[11]); 
-				ballots3[row[2]][row[3]].candidates={};
-				var obj = {
-					number : row[9],
-					name : row[10],
-					cvotes : parseInt(row[11])
-				}
-				li.push(obj);
-				ballots3[row[2]][row[3]].candidates[row[9]]={};
-				ballots3[row[2]][row[3]].candidates[row[9]]={
-						number : obj.number,
-						name :obj.name,
-						votes:obj.cvotes
-					};//center candidates
-				ballots3[row[2]][row[3]].stations[row[4]]={
-					station : row[4],
-					votes : row[19],
-					candidates : li
-				};
-				 
-			} else if (!ballots3[row[2]][row[3]].stations[row[4]]){
-				ballots3[row[2]][row[3]].votes+=parseInt(row[11]);
-				li = [];
-				var obj = {
-					number : row[9],
-					name : row[10],
-					cvotes : parseInt(row[11])
-				}
-				li.push(obj);
-				ballots3[row[2]][row[3]].stations[row[4]]={
-					station : row[4],
-					votes : row[19],
-					candidates : li
-				};
-				if(!ballots3[row[2]][row[3]].candidates[row[9]]){
-					ballots3[row[2]][row[3]].candidates[row[9]]={};
-					ballots3[row[2]][row[3]].candidates[row[9]]={
-						number : obj.number,
-						name :obj.name,
-						votes:obj.cvotes
-					};
-				} else {
-					ballots3[row[2]][row[3]].candidates[row[9]].votes+=obj.cvotes;
-				}
-			} else {
-				ballots3[row[2]][row[3]].votes+=parseInt(row[11]);
-				li = ballots3[row[2]][row[3]].stations[row[4]].candidates;
-				var obj = {
-					number : row[9],
-					name : row[10],
-					cvotes : parseInt(row[11])
-				}
-				li.push(obj);
-				ballots3[row[2]][row[3]].stations[row[4]].candidates=li;
-				if(!ballots3[row[2]][row[3]].candidates[row[9]]){
-					ballots3[row[2]][row[3]].candidates[row[9]]={};
-					ballots3[row[2]][row[3]].candidates[row[9]]={
-						number:obj.number,
-						name :obj.name,
-						votes:obj.cvotes
-					};
-				} else {
-					ballots3[row[2]][row[3]].candidates[row[9]].votes+=obj.cvotes;
-				}
-			}
-		}
-	})
-	.on('close', function(count){
-/*		console.log(scount);
-*/	})
-	.on('error', function(error){
-	  console.log(error.message);
-	});
-}
 
 
+////////////////////parsing csv's one at a time/////////////////////////
 
-////////////////////////////////////////center names /////////
+var all = parserMgr.parseAll(blocked);
+centers = all.centers;
+ballots2=all.ballots2;
+ballots3=all.ballots3;
+
+
+/////////////////////////////////////////////////
 
 
 function paginateObj(centers, page){
