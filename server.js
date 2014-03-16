@@ -42,7 +42,7 @@ hbsMgr.registerAll(hbs,i18n);
 
 
 app.get('/constituency/:id', function (req, res) {
-  setlang(req);
+  setlang(req,res);
   getMgr.handleGetConstit(req,res,function(res){
     res.render('constituency');
   });
@@ -53,7 +53,7 @@ app.get('/constituency/:id/:locale', function (req, res) {
 });
 
 app.get('/ballot/:cid/:bid', function (req, res) {
-  setlang(req);
+  setlang(req,res);
   getMgr.handleGetBallot(req,res,function(res){
     
   });
@@ -65,7 +65,7 @@ app.get('/ballot/:cid/:bid/:locale', function (req, res) {
 });
 
 app.get('/centers/:cid/:bid', function (req, res) {
-  setlang(req);
+  setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     getMgr.handleGetCenters(req,res,function(res){
     });
@@ -76,7 +76,7 @@ app.get('/centers/:cid/:bid', function (req, res) {
   }
 });
 app.get('/centers/:cid/:bid/:locale', function (req, res) {
-  setlang(req);
+  setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     setdeflan(req,res);
     res.redirect("/centers/"+req.params.cid+"/"+req.params.bid);
@@ -93,7 +93,7 @@ app.get('/:locale', function (req, res) {
   res.redirect("/");
 });
 app.get('/', function (req, res) {
-  setlang(req);
+  setlang(req,res);
   getMgr.handleGetIndex(req.params,res,function(results){
      
   });
@@ -102,10 +102,11 @@ app.get('/', function (req, res) {
 app.getDelay = function (req, res) {
   return url.parse(req.url, true).query.delay || 0;
 };
-function setlang(req){
-  if(!req.session.language)
-    req.session.language ="ar";
-  i18n.setLocale(req.session.language);
+function setlang(req,res){
+  if(!req.cookies.locale)
+    req.cookies.locale ="ar";
+  i18n.setLocale(req.cookies.locale);
+  res.cookie('locale', req.cookies.locale);
 }
 function setdeflan(req,res){
   i18n.setLocale(req.params.locale);
