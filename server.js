@@ -11,8 +11,8 @@ var express = require('express'),
 var results = express(),
     centers = express();
 express()
-  .use(express.vhost('results',results))
-  .use(express.vhost('centers',centers))
+  .use(express.vhost('results.hnec.ly',results))
+  .use(express.vhost('centers.hnec.ly',centers))
   .listen(3002)
 
 // minimal config

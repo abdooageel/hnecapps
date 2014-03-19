@@ -1,0 +1,14 @@
+{
+    "name": "hnecapps",
+    "dependencies": {
+        "express": "3.4.8",
+        "i18n": "0.4.1",
+        "hbs": "2.5.0",
+        "csv": "0.3.7",
+        "handlebars-paginate":"0.0.1",
+        "trim": "0.0.1",
+        "step": "0.0.5",
+        "numeral": "1.5.3",
+        "mathjs": "0.18.1"
+    }
+}
