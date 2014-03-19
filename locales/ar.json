@@ -1,5 +1,7 @@
 {
 	"main": "الدوائر الرئيسية",
+	"cmain": "ابحث عن المرحكز",
+	"website": "موقع المفوضية",
 	"candidates": "المرشحون",
 	"centers": "المراكز",
 	"disabledar": " disabled=disabled",
@@ -52,6 +54,8 @@
 	"number": "ر.م",
 	"pageheader1": "انتخابات الهيئة التأسيسية لصياغة مشروع الدستور",
 	"pageheader2": "نتائج الاقتراع النهائية",
+	"pageheader3": "المفوضية الموطنية العليا للإنتخابات",
+	"pageheader4": "مراكز الإقتراع",
 	"centername": "اسم المركز",
 	"centernumber": "رقم المركز",
 	"center": "مركز",
@@ -59,5 +63,9 @@
 	"stationsresults": "نتائج المحطة",
 	"stations": "stations",
 	"winners": "اسماء الفائزين",
-	"clickhere" : "انقر هنا لعرض اسماء الفائزين"
+	"clickhere": "انقر هنا لعرض اسماء الفائزين",
+	"village": "المدينة/القرية",
+	"mahalla": "المحلة",
+	"region": "region",
+	"lang" : "ar"
 }

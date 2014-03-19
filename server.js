@@ -4,14 +4,16 @@ var express = require('express'),
     i18n = require('i18n'),
     url = require('url'),
     hbs = require('hbs'),
-    numeral = require('numeral'),
-    mathjs = require('mathjs'),
-    candidatesMgr=require('./app/candidates').candidatesMgr,
     getMgr = require('./app/get').getMgr,
+    centsGetMgr= require('./c_app/get').getMgr,
     hbsMgr = require('./app/hbshelpers'),
-    app  = express();
-    math = mathjs();
     store  = new express.session.MemoryStore;
+var results = express(),
+    centers = express();
+express()
+  .use(express.vhost('results',results))
+  .use(express.vhost('centers',centers))
+  .listen(3002)
 
 // minimal config
 i18n.configure({
@@ -20,51 +22,59 @@ i18n.configure({
   directory: "" + __dirname + "/locales",
 });
 
-app.configure(function () {
+results.configure(function () {
   // setup hbs
-  app.set('views', "" + __dirname + "/views");
-  app.set('view engine', 'hbs');
-  app.use(express.static(__dirname + "/www"));
-  app.engine('hbs', hbs.__express);
-  
-
+  results.set('views', "" + __dirname + "/r_views");
+  results.set('view engine', 'hbs');
+  results.use(express.static(__dirname + "/www"));
+  results.engine('hbs', hbs.__express);
   // you'll need cookies
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: 'something', store: store }));
-
+  results.use(express.cookieParser());
+  results.use(express.session({ secret: 'something', store: store }));
   // init i18n module for this loop
-  app.use(i18n.init);
-  app.enable("jsonp callback");
-
+  results.use(i18n.init);
+  results.enable("jsonp callback");
+});
+centers.configure(function () {
+  // setup hbs
+  centers.set('views', "" + __dirname + "/c_views");
+  centers.set('view engine', 'hbs');
+  centers.use(express.static(__dirname + "/www"));
+  centers.engine('hbs', hbs.__express);
+  // you'll need cookies
+  centers.use(express.cookieParser());
+  centers.use(express.session({ secret: 'something', store: store }));
+  // init i18n module for this loop
+  centers.use(i18n.init);
+  centers.enable("jsonp callback");
 });
 
 hbsMgr.registerAll(hbs,i18n);
 
 
-app.get('/constituency/:id', function (req, res) {
+results.get('/constituency/:id', function (req, res) {
   setlang(req,res);
   getMgr.handleGetConstit(req,res,function(res){
     res.render('constituency');
   });
 });
-app.get('/constituency/:id/:locale', function (req, res) {
+results.get('/constituency/:id/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/constituency/"+req.params.id);
 });
-
-app.get('/ballot/:cid/:bid', function (req, res) {
+results.get('/ballot/:cid/:bid', function (req, res) {
   setlang(req,res);
   getMgr.handleGetBallot(req,res,function(res){
     
   });
 });
 
-app.get('/ballot/:cid/:bid/:locale', function (req, res) {
+results.get('/ballot/:cid/:bid/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/ballot/"+req.params.cid+"/"+req.params.bid);
 });
 
-app.get('/centers/:cid/:bid', function (req, res) {
+results.get('/centers/:cid/:bid', function (req, res) {
   setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     getMgr.handleGetCenters(req,res,function(res){
@@ -75,7 +85,7 @@ app.get('/centers/:cid/:bid', function (req, res) {
     });
   }
 });
-app.get('/centers/:cid/:bid/:locale', function (req, res) {
+results.get('/centers/:cid/:bid/:locale', function (req, res) {
   setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     setdeflan(req,res);
@@ -88,20 +98,44 @@ app.get('/centers/:cid/:bid/:locale', function (req, res) {
 });
 
 // set a cookie to requested locale
-app.get('/:locale', function (req, res) {
+results.get('/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/");
 });
-app.get('/', function (req, res) {
+results.get('/', function (req, res) {
   setlang(req,res);
   getMgr.handleGetIndex(req.params,res,function(results){
      
   });
 });
 
-app.getDelay = function (req, res) {
-  return url.parse(req.url, true).query.delay || 0;
-};
+centers.get('/getCenters/:region', function (req, res) {
+  centsGetMgr.handleGetIndex(req.params,res,function(res){
+    var region = req.params.region;
+    res.send(res.locals.centers[region]);
+  });
+});
+centers.get('/getSubCons/:region/:office', function (req, res) {
+  centsGetMgr.handleGetIndex(req.params,res,function(res){
+    var region = req.params.region,
+        office = req.params.office;
+    res.send(res.locals.centers[region].offices[office]);
+  });
+});
+
+// set a cookie to requested locale
+centers.get('/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/");
+});
+
+centers.get('/', function (req, res) {
+  setlang(req,res);
+  centsGetMgr.handleGetIndex(req.params,res,function(results){
+    res.render('index');
+  });
+});
+
 function setlang(req,res){
   if(!req.cookies.locale)
     req.cookies.locale ="ar";
@@ -115,4 +149,4 @@ function setdeflan(req,res){
 }
 
 // startup
-app.listen(3002);
+//app.listen(3002);

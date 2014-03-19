@@ -1,97 +1,157 @@
 $(document).ready(function(){
-	/*var dataSource = [
-		{region: "Male", val: 4119626293},
-		{region: "Female", val: 1012956064},
-		
-	];*/
-/*
-{region: "الجبل 1", val: 344124520},
-		{region: "الجبل2", val: 590946440},
-		{region: "الزاوية", val: 727082222},
-		{region: "العزيزية", val: 35104756},
-		{region: "الكفرة", val: 4119626293},
-		{region: "أوباري", val: 1012956064},
-		{region: "بنغازي", val: 344124520},
-		{region: "درنة", val: 590946440},
-		{region: "سبها", val: 727082222},
-		{region: "سرت", val: 35104756},
-		{region: "طبرق", val: 4119626293},
-		{region: "طرابلس", val: 1012956064},
-		{region: "غدامس", val: 344124520},
-		{region: "مصراته", val: 590946440}*/
-	$/*("#chartContainer").dxPieChart({
-		dataSource: dataSource,
-		title: "Total Voters",
-		tooltip: {
-			enabled: true,
-			format:"millions",
-			percentPrecision: 2,
-			customizeText: function() { 
-				return this.valueText + " - " + this.percentText;
-			}
-		},
-		legend: {
-			horizontalAlignment: "right",
-			verticalAlignment: "top",
-			margin: 0
-		},
-		series: [{
-			type: "doughnut",
-			argumentField: "region",
-			label: {
-				visible: true,
-				format: "millions",
-				connector: {
-					visible: true
-				}
-			}
-		}]
-	});*/
-	var dataSource = [
-	{state: "اجدابيا", male: 7.956, female: 91.827},
-    {state: "البيضاء", male: 50.956, female: 30.827},
-    {state: "الجبل 1", male: 20.956, female: 50.827},
-    {state: "الجبل 2", male: 40.956, female: 20.827},
-    {state: "الجبل2", male: 70.155, female: 10.827},
-		{state: "الزاوية", male: 10.155, female: 20.827},
-		{state: "العزيزية", male: 30.155, female: 10.827},
-		{state: "الكفرة", male: 50.155, female: 10.827},
-		{state: "أوباري", male: 60.155, female: 10.827},
-		{state: "بنغازي", male: 70.155, female: 20.827},
-		{state: "درنة", male: 10.155, female: 70.827},
-		{state: "سبها", male: 15.155, female: 44.827},
-		{state: "سرت", male: 55.155, female: 22.827},
-		{state: "طبرق", male: 66.155, female: 22.827},
-		{state: "طرابلس", male: 77.155, female: 5.827},
-		{state: "غدامس", male: 40.155, female: 40.827},
-		{state: "مصراته", male: 31.155, female: 30.827},
+  var infoWindows = [];
+  $('#region').on('change', function() {
+    getCenters(this.value);
+  });
+  $('#offices').on('change', function() {
+    getSubCons(this.value);
+  });
+  $('#subcons').on('change', function() {
+    getMahallat(this.value);
+  });
 
-    ];
+  $('#mahallat').on('change', function() {
+    getVillages(this.value);
+  });
+  $('#village').on('change', function() {
+    getCenters1(this.value);
+  }); 
 
-$("#officeContainer").dxChart({
-    dataSource: dataSource,
-    commonSeriesSettings: {
-        argumentField: "state",
-        type: "stackedBar"
-    },
-    series: [
-        { valueField: "male", name: "Male", stack: "male" },
-        { valueField: "female", name: "Female", stack: "male" },
-        
-    ],
-    legend: {
-        horizontalAlignment: "right",
-        position: "inside",
-        border: { visible: true }
-    },
-    valueAxis: {
-        title: {
-            text: "Males / Females"
+  function getCenters(id){
+    var flag = true,
+        flag2 = true,
+        subcons=null,
+        constitId=null,
+        mahalla=null;
+    $.get('/getCenters/'+id).success( function(results) {
+      console.log(results);
+      //setCenters(results);
+      var options = $("#offices");
+      options.empty();
+      Object.keys(results.offices).forEach(function(key) {
+        options.append($("<option />").val(results.offices[key].id).text(results.offices[key].name));
+        if(flag){
+          subcons = key;
+          flag= false;
         }
-    },
-    title: "Voters by Office Males/Females",
-    tooltip: {
-        enabled: true
+      });
+      drawSubs(results.offices[subcons]);
+    });
+  }
+  function drawSubs(results) {
+    var subconstits=$('#subcons'),
+        flag2=true;
+    subconstits.empty();
+    Object.keys(results.subcons).forEach(function(key) {
+      subconstits.append($("<option />").val(results.subcons[key].id).text(results.subcons[key].name));
+      if(flag2){
+        constitId = key;
+        flag2= false;
+      }
+    });
+    console.log(constitId);
+    drawMahallat(results,constitId);
+  }
+  function drawMahallat(results,constitId){
+    var mahallat=$('#mahallat'),
+        flag3=true;
+    mahallat.empty();
+    Object.keys(results.subcons[constitId].mahallat).forEach(function(key) {
+      mahallat.append($("<option />").val(results.subcons[constitId].mahallat[key].name).text(results.subcons[constitId].mahallat[key].name));
+      if(flag3){
+        mahalla = key;
+        flag3= false;
+      }
+    });
+    drawVillages(results,constitId,mahalla);
+  }
+  function drawVillages(results,constitId,mahalla){
+    var flag4=true,
+        villageId,
+        village=$('#village');
+    village.empty();
+    Object.keys(results.subcons[constitId].mahallat[mahalla].villages).forEach(function(key) {
+      village.append($("<option />").val(results.subcons[constitId].mahallat[mahalla].villages[key].name).text(results.subcons[constitId].mahallat[mahalla].villages[key].name));
+      if(flag4){
+        villageId = key;
+        flag4= false;
+      }
+    });
+    drawCenters(results,constitId,mahalla,villageId);
+  }
+
+  function drawCenters(results,constitId,mahalla,village){
+    var centers = $('#centers'),
+        map,
+        flag5=true;
+    centers.empty();
+    Object.keys(results.subcons[constitId].mahallat[mahalla].villages[village].centers).forEach(function(key) {
+      centers.append('<tr><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].id+'</td><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].name+'</td></tr>');
+      if(flag5){
+        var myOptions = {
+            zoom: 10,
+            center: new google.maps.LatLng(results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].longtit, results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].langtit),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+        flag5=false;
+      }
+      var latlng = new google.maps.LatLng(parseFloat(results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].longtit), parseFloat(results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].langtit));
+      var marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          title : results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].name
+      });
+      var infowindow = new google.maps.InfoWindow();
+      infowindow.setContent('<b>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].name+'</b>');
+      infoWindows.push(infowindow);
+      google.maps.event.addListener(marker, 'click', function() {
+        closeAllInfoWindows();
+        infowindow.open(map, marker);
+      });
+    });
+  }
+
+  function closeAllInfoWindows() {
+    for (var i=0;i<infoWindows.length;i++) {
+       infoWindows[i].close();
     }
-});
+  }
+  function getSubCons(sub){
+    var region = $('#region').val();
+    $.get('/getSubCons/'+region+'/'+sub).success( function(results) {
+      drawSubs(results);
+    });
+
+  }
+  function getMahallat(constitId){
+    var region = $('#region').val(),
+        office = $('#offices').val();
+    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
+      drawMahallat(results,constitId);
+    });
+  }
+
+  function getVillages(mahallaId){
+    var region = $('#region').val(),
+        office = $('#offices').val(),
+        constitId = $('#subcons').val();
+    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
+      drawVillages(results,constitId,mahallaId);
+    });
+  }
+
+  function getCenters1(VillageId){
+    var region = $('#region').val(),
+        office = $('#offices').val(),
+        constitId = $('#subcons').val();
+        mahallaId = $('#mahallat').val();
+    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
+      drawCenters(results,constitId,mahallaId,VillageId);
+    });
+  }
+
+
+  getCenters($('#region').val());
+
 });
