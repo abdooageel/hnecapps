@@ -1,14 +1,16 @@
 var url=require('url'),
   parserMgr=require('./csvparser'),
   Step = require("step"),
-  centers = {};
+  centers = {},
+  all={};
 
 Step(
   function getCenters(){
     parserMgr.parseCenters(this);
   },
-  function returnCenters(err,result){
+  function returnCenters(err,result,allObject,allList){
     centers = result;
+    all={cObject : allObject,cList : allList}
   }
 );
   
@@ -24,5 +26,10 @@ exports.getMgr = {
     cb(res);
 
   },
+  handleGetAllCents : function(req,res,cb){
+    
+    cb(all);
+  },
+
 }
         

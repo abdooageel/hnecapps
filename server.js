@@ -1,4 +1,3 @@
-
 // require modules
 var express = require('express'),
     i18n = require('i18n'),
@@ -123,6 +122,17 @@ centers.get('/getSubCons/:region/:office', function (req, res) {
   });
 });
 
+/*centers.get('/centers1', function (req, res) {
+  setlang(req,res);
+  res.render('centers');
+});*/
+centers.get('/getCenters1', function (req, res) {
+  centsGetMgr.handleGetAllCents(req.params,res,function(results){
+    res.send(results);
+  });
+});
+
+
 // set a cookie to requested locale
 centers.get('/:locale', function (req, res) {
   setdeflan(req,res);
@@ -135,6 +145,8 @@ centers.get('/', function (req, res) {
     res.render('index');
   });
 });
+
+
 
 function setlang(req,res){
   if(!req.cookies.locale)

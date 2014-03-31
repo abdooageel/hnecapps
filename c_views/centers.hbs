@@ -1,0 +1,46 @@
+<div class="container">
+
+  <!-- Static navbar -->
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header {{{__ "logo"}}}">
+        <a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="./img/hnec_logo.png"></a>
+      </div>
+      <div class="navbar-collapse" dir="rtl" >
+        <ul class="nav navbar-nav {{{__ "navbar"}}}">
+          <li class="active"><a href="../../">{{{__ "cmain"}}}</a></li>
+          <li><a href="http://hnec.ly">{{{__ "website"}}}</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row-fluid">
+        <div class="col-md-8">
+          <div dir="{{{__ "dir"}}}" id="map-canvas"></div>
+        </div>
+        <div class="table-responsive col-md-4" dir="{{{__ "dir"}}}">
+            <table class="table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th>{{{__ "centernumber"}}}</th>
+                  <th>{{{__ "centername"}}}</th>
+                </tr>
+              </thead>
+              <tbody id = "centers">
+                
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->
+
+
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/purl.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language={{{__ "lang"}}}"></script>
+<script src="./js/centers.js"></script>

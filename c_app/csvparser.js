@@ -1,7 +1,9 @@
 var csv = require("csv"),
 fs = require('fs'),
 trim = require('trim'),
-centers={};
+centers={},
+allCents={},
+allList=[];
 module.exports = {
   parseCenters : function(cb){
     csv()
@@ -24,24 +26,23 @@ module.exports = {
       langtit = row[13],
       longtit = row[14];
       if((subconsName != "Special Voting")){
-        
         if((!centers[region]) ){
           fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office]){
           fillOffice(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office].subcons[subconsId]){
-          fillSubCons(region,office,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
+          fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office].subcons[subconsId].mahallat[mahalla]){
-          fillMahalla(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+          fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village]){
-          fillVillage(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+          fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].centers[centerId]){
-          fillCenter(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+          fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         }
       }
     })
     .on('close', function(count){
-      cb(null,centers);//return centers;
+      cb(null,centers,allCents,allList);//return centers;
     })
     .on('error', function(error){
       console.log(error.message);
@@ -65,31 +66,46 @@ function fillOffice(region,office,officeName,subconsId,subconsName,mahalla,villa
   centers[region].offices[office].name = officeName;
   centers[region].offices[office].id = office;
   centers[region].offices[office].subcons = {};
-  fillSubCons(region,office,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
+  fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
 }
-function fillSubCons(region,office,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
+function fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
   centers[region].offices[office].subcons[subconsId]={};
   centers[region].offices[office].subcons[subconsId].name=subconsName;
   centers[region].offices[office].subcons[subconsId].id=subconsId;
   centers[region].offices[office].subcons[subconsId].mahallat={};
-  fillMahalla(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+  fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
 }
 
-function fillMahalla(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit){
+function fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla]={};
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].name=mahalla;
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages={};
-  fillVillage(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+  fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
 }
 
-function fillVillage(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit){
+function fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village]={};
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].name=village;
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].centers={};
-  fillCenter(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit);
+  fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
 }
 
-function fillCenter(region,office,subconsId,mahalla,village,centerId,centerName,langtit,longtit){
+function fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
+  var obj = {
+    name : centerName,
+    id : centerId,
+    longtit : longtit,
+    langtit : langtit,
+    village : village,
+    mahalla : mahalla,
+    subconsId : subconsId,
+    subconsName : subconsName,
+    office : office,
+    officeName : officeName,
+    region : region
+  }
+  allCents[centerId]=obj;
+  allList.push(obj);
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].centers[centerId]={};
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].centers[centerId].name= centerName;
   centers[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].centers[centerId].id = centerId;
