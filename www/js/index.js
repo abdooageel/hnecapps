@@ -138,6 +138,7 @@ $(document).ready(function(){
         } else {
         }
       }
+      drawTable(found,page);
       drawCents(oFound,found,page);
     });
   }
@@ -159,6 +160,7 @@ $(document).ready(function(){
         }
       }
       drawOffices(offices);
+      drawTable(found,$.limit);
       drawCents(oFound,found,$.limit);
     });
   }
@@ -179,6 +181,7 @@ $(document).ready(function(){
         }
       }
       drawSubCons(subCons);
+      drawTable(found,$.limit);
       drawCents(oFound,found,$.limit);
     });
   }
@@ -198,6 +201,7 @@ $(document).ready(function(){
       }
       emptyMahallt();
       drawSelect('#mahallat',mahallat);
+      drawTable(found,$.limit);
       drawCents(oFound,found,$.limit);
     });
   }
@@ -217,6 +221,7 @@ $(document).ready(function(){
       }
       emptyVillage();
       drawSelect('#village',villages);
+      drawTable(found,$.limit);
       drawCents(oFound,found,$.limit);
     });
   }
@@ -230,6 +235,7 @@ $(document).ready(function(){
           oFound[key]=results.cObject[key];
         }
       }
+      drawTable(found,$.limit);
       drawCents(oFound,found,$.limit);
     });
   }
@@ -258,13 +264,15 @@ $(document).ready(function(){
   function getCents(){
     $.get('/getCenters1').success( function(results) {
       $.limit = 1;
+      console.log("got here");
+      drawTable(results.cList,$.limit);
       drawCents(results.cObject,results.cList,$.limit);
     });
   }
   function drawCents(centers,centersList,page){
     var map,
     flag6=true;
-    drawTable(centersList,page);
+    //drawTable(centersList,page);
     Object.keys(centers).forEach(function(key) {
       //centers.append('<tr><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].id+'</td><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].name+'</td></tr>');
       if(flag6){
