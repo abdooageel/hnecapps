@@ -70,5 +70,6 @@
 	"search" : "Search using Center number",
 	"next" : "Next",
 	"previous" : "Previous",
-	"searchpanel": "Please select your areas to find your center"
+	"searchpanel": "Please select your areas to find your center",
+	"all" : "All"
 }
