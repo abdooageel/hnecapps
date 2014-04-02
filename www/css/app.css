@@ -54,3 +54,7 @@ background-color: #2D80AA;
 .pagination-centered {
   text-align: center;
 }
+
+#centers td:hover {
+    cursor: pointer;
+}

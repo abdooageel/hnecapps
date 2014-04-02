@@ -264,7 +264,6 @@ $(document).ready(function(){
   function getCents(){
     $.get('/getCenters1').success( function(results) {
       $.limit = 1;
-      console.log("got here");
       drawTable(results.cList,$.limit);
       drawCents(results.cObject,results.cList,$.limit);
     });
@@ -272,9 +271,7 @@ $(document).ready(function(){
   function drawCents(centers,centersList,page){
     var map,
     flag6=true;
-    //drawTable(centersList,page);
     Object.keys(centers).forEach(function(key) {
-      //centers.append('<tr><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].id+'</td><td>'+results.subcons[constitId].mahallat[mahalla].villages[village].centers[key].name+'</td></tr>');
       if(flag6){
         var myOptions = {
             zoom: $.zoom,
@@ -309,7 +306,7 @@ $(document).ready(function(){
       $('#next').attr("class","");
     }
     for(i ; i<limit;i++){
-      cents.append('<tr><td>'+centers[i].id+'</td><td>'+centers[i].name+'</td></tr>');
+      cents.append('<tr  data-lng='+centers[i].longtit+' data-lat='+centers[i].langtit+' data-id='+centers[i].id+' data-name='+centers[i].name+'><td>'+centers[i].id+'</td><td>'+centers[i].name+'</td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");
@@ -318,7 +315,32 @@ $(document).ready(function(){
     }
 
   }
-
+  /*function showCent(val1,val2){
+    console.log(val2);
+  }*/
+  $('body').on('click', '#centerstable tbody tr', function () {
+    var lng = $(this).data("lng"),
+        lat = $(this).data("lat"),
+        id = $(this).data("id"),
+        name = $(this).data("name");
+    var myOptions = {
+            zoom: 9,
+            center: new google.maps.LatLng(lng,lat),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+    map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+    var latlng = new google.maps.LatLng(parseFloat(lng), parseFloat(lat));
+      var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : name });
+      marker.info = new google.maps.InfoWindow({
+        content: '<b>'+name+'</b><br><b>'+id+'</b>'
+      });
+      $.infoWindows.push(marker.info);
+      google.maps.event.addListener(marker, 'click', function() {
+        closeAllInfoWindows();
+        marker.info.open(map, marker);
+      });
+  });
+  
   $('#nextlink').on('click', function() {
     $.limit+=1;
     if($('#region').val()!="all"){
