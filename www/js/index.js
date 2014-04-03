@@ -31,7 +31,7 @@ $(document).ready(function(){
   });
   $('#subcons').on('change', function() {
     emptySearch();
-    $.zoom=5;
+    $.zoom=6;
     $.limit=1;
     if(this.value=="all"){
       emptyMahallt();
@@ -43,7 +43,7 @@ $(document).ready(function(){
 
   $('#mahallat').on('change', function() {
     emptySearch();
-    $.zoom=5;
+    $.zoom=7;
     $.limit=1;
     if(this.value=="all"){
       emptyVillage();
@@ -54,7 +54,7 @@ $(document).ready(function(){
   });
   $('#village').on('change', function() {
     emptySearch();
-    $.zoom=5;
+    $.zoom=8;
     $.limit=1;
     if(this.value=="all"){
       $('#centers').empty();
@@ -271,11 +271,12 @@ $(document).ready(function(){
   function drawCents(centers,centersList,page){
     var map,
     flag6=true;
+    var bounds = new google.maps.LatLngBounds();
     Object.keys(centers).forEach(function(key) {
       if(flag6){
         var myOptions = {
             zoom: $.zoom,
-            center: new google.maps.LatLng(28.544672,17.554362),
+            //center: new google.maps.LatLng(28.544672,17.554362),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
@@ -283,15 +284,18 @@ $(document).ready(function(){
       }
       var latlng = new google.maps.LatLng(parseFloat(centers[key].longtit), parseFloat(centers[key].langtit));
       var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : centers[key].name });
+      bounds.extend(marker.position);
       marker.info = new google.maps.InfoWindow({
         content: '<b>'+centers[key].name+'</b><br><b>'+centers[key].id+'</b>'
       });
+
       $.infoWindows.push(marker.info);
       google.maps.event.addListener(marker, 'click', function() {
         closeAllInfoWindows();
         marker.info.open(map, marker);
       });
     });
+    map.fitBounds(bounds);
   }
 
   function drawTable(centers,page){
@@ -324,7 +328,7 @@ $(document).ready(function(){
         id = $(this).data("id"),
         name = $(this).data("name");
     var myOptions = {
-            zoom: 9,
+            zoom: 8,
             center: new google.maps.LatLng(lng,lat),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
