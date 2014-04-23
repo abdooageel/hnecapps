@@ -39,6 +39,9 @@ centers.configure(function () {
   centers.set('views', "" + __dirname + "/c_views");
   centers.set('view engine', 'hbs');
   centers.use(express.static(__dirname + "/www"));
+  centers.use('/list', express.static(__dirname + '/www/list'));
+  centers.use('/list',express.directory(__dirname + '/www/list'));
+
   centers.engine('hbs', hbs.__express);
   // you'll need cookies
   centers.use(express.cookieParser());
@@ -134,6 +137,11 @@ centers.get('/getCenters1', function (req, res) {
 
 
 // set a cookie to requested locale
+/*centers.get('/list', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/list");
+});*/
+
 centers.get('/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/");
