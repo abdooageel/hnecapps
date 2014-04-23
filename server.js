@@ -111,7 +111,7 @@ results.get('/', function (req, res) {
   });
 });
 
-/*centers.get('/getCenters/:region', function (req, res) {
+centers.get('/getCenters/:region', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(res){
     var region = req.params.region;
     res.send(res.locals.centers[region]);
@@ -124,25 +124,25 @@ centers.get('/getSubCons/:region/:office', function (req, res) {
     res.send(res.locals.centers[region].offices[office]);
   });
 });
-*/
-/*centers.get('/centers1', function (req, res) {
+
+centers.get('/centers1', function (req, res) {
   setlang(req,res);
   res.render('centers');
-});*/
-/*centers.get('/getCenters1', function (req, res) {
+});
+centers.get('/getCenters1', function (req, res) {
   centsGetMgr.handleGetAllCents(req.params,res,function(results){
     res.send(results);
   });
-});*/
+});
 
 
 // set a cookie to requested locale
-/*centers.get('/list', function (req, res) {
+centers.get('/list', function (req, res) {
   setdeflan(req,res);
   res.redirect("/list");
-});*/
+});
 
-/*centers.get('/:locale', function (req, res) {
+centers.get('/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/");
 });
@@ -152,7 +152,7 @@ centers.get('/', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(results){
     res.render('index');
   });
-});*/
+});
 
 
 
