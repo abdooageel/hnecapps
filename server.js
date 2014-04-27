@@ -3,6 +3,7 @@ var express = require('express'),
     i18n = require('i18n'),
     url = require('url'),
     hbs = require('hbs'),
+    config = require('./config'),
     getMgr = require('./app/get').getMgr,
     centsGetMgr= require('./c_app/get').getMgr,
     hbsMgr = require('./app/hbshelpers'),
@@ -10,9 +11,9 @@ var express = require('express'),
 var results = express(),
     centers = express();
 express()
-  .use(express.vhost('results',results))
-  .use(express.vhost('centers',centers))
-  .listen(3002)
+  .use(express.vhost(config.results,results))
+  .use(express.vhost(config.centers,centers))
+  .listen(config.port)
 
 // minimal config
 i18n.configure({
