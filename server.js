@@ -130,7 +130,7 @@ results.get('/', function (req, res) {
   });
 });
 //////////////////////////////////////////////////////////////
-centers.get('/getCenters/:region', function (req, res) {
+/*centers.get('/getCenters/:region', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(res){
     var region = req.params.region;
     res.send(res.locals.centers[region]);
@@ -153,7 +153,7 @@ centers.get('/getCenters1', function (req, res) {
     res.send(results);
   });
 });
-
+*/
 
 // set a cookie to requested locale
 centers.get('/list', function (req, res) {
@@ -161,7 +161,7 @@ centers.get('/list', function (req, res) {
   res.redirect("/list");
 });
 
-centers.get('/:locale', function (req, res) {
+/*centers.get('/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/");
 });
@@ -171,7 +171,7 @@ centers.get('/', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(results){
     res.render('index');
   });
-});
+});*/
 ///////////////////////////////////////////////////////////
 /*candidates.get('/:locale', function (req, res) {
   setdeflan(req,res);
