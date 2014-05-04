@@ -7,24 +7,24 @@ allList=[];
 module.exports = {
   parseCenters : function(cb){
     csv()
-    .from.path(__dirname+'/../data/centers1.csv', { delimiter: ',', escape: '"' })
+    .from.path(__dirname+'/../data/latest_centers.csv', { delimiter: ',', escape: '"' })
     .to.stream(fs.createWriteStream(__dirname+'/sample.out'))
     .transform( function(row){
       row.unshift(row.pop());
       return row;
     })
     .on('record', function(row,index){
-      var region = trim(row[2]),
+      var region = trim(row[3]),
       office = trim(row[4]),
       officeName = trim(row[5]),
-      subconsId = trim(row[7]),
-      subconsName = trim(row[8]),
-      centerId = trim(row[3]),
-      centerName = trim(row[9]),
+      subconsId = trim(row[8]),
+      subconsName = trim(row[9]),
+      centerId = trim(row[1]),
+      centerName = trim(row[2]),
       mahalla = trim(row[11]),
       village = trim(row[10]),
-      langtit = row[13],
-      longtit = row[14];
+      langtit = 0,
+      longtit = 0;
       if((subconsName != "Special Voting")){
         if((!centers[region]) ){
           fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);

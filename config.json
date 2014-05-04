@@ -1,5 +1,6 @@
 {
   "results" : "results",
   "centers" : "centers",
+  "candidates" : "candidates",
   "port" : 3002
 }

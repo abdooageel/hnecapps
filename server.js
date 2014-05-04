@@ -6,13 +6,16 @@ var express = require('express'),
     config = require('./config'),
     getMgr = require('./app/get').getMgr,
     centsGetMgr= require('./c_app/get').getMgr,
+    candGetMgr=require('./cn_app/get').getMgr,
     hbsMgr = require('./app/hbshelpers'),
     store  = new express.session.MemoryStore;
 var results = express(),
-    centers = express();
+    centers = express(),
+    candidates = express();
 express()
   .use(express.vhost(config.results,results))
   .use(express.vhost(config.centers,centers))
+  .use(express.vhost(config.candidates,candidates))
   .listen(config.port)
 
 // minimal config
@@ -21,7 +24,7 @@ i18n.configure({
   cookie: 'locale',
   directory: "" + __dirname + "/locales",
 });
-
+////////////////////////////////////////////
 results.configure(function () {
   // setup hbs
   results.set('views', "" + __dirname + "/r_views");
@@ -35,6 +38,7 @@ results.configure(function () {
   results.use(i18n.init);
   results.enable("jsonp callback");
 });
+////////////////////////////////////////////
 centers.configure(function () {
   // setup hbs
   centers.set('views', "" + __dirname + "/c_views");
@@ -51,10 +55,24 @@ centers.configure(function () {
   centers.use(i18n.init);
   centers.enable("jsonp callback");
 });
+////////////////////////////////////////////
+candidates.configure(function () {
+  // setup hbs
+  candidates.set('views', "" + __dirname + "/cn_views");
+  candidates.set('view engine', 'hbs');
+  candidates.use(express.static(__dirname + "/www"));
+  candidates.engine('hbs', hbs.__express);
+  // you'll need cookies
+  candidates.use(express.cookieParser());
+  candidates.use(express.session({ secret: 'something', store: store }));
+  // init i18n module for this loop
+  candidates.use(i18n.init);
+  candidates.enable("jsonp callback");
+});
 
 hbsMgr.registerAll(hbs,i18n);
 
-
+//////////////////////////////////////////////////////////
 results.get('/constituency/:id', function (req, res) {
   setlang(req,res);
   getMgr.handleGetConstit(req,res,function(res){
@@ -111,7 +129,7 @@ results.get('/', function (req, res) {
      
   });
 });
-
+//////////////////////////////////////////////////////////////
 centers.get('/getCenters/:region', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(res){
     var region = req.params.region;
@@ -154,8 +172,19 @@ centers.get('/', function (req, res) {
     res.render('index');
   });
 });
+///////////////////////////////////////////////////////////
+/*candidates.get('/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/");
+});*/
 
-
+candidates.get('/candidate', function (req, res) {
+  setlang(req,res);
+  res.render('candidate');
+  /*candGetMgr.handleGetIndex(req.params,res,function(results){
+    res.render('candidate');
+  });*/
+});
 
 function setlang(req,res){
   if(!req.cookies.locale)

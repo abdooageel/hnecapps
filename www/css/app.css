@@ -58,3 +58,6 @@ background-color: #2D80AA;
 #centers td:hover {
     cursor: pointer;
 }
+#center {
+  text-align: center;
+}
