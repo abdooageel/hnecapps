@@ -7,7 +7,7 @@ allList=[];
 module.exports = {
   parseCenters : function(cb){
     csv()
-    .from.path(__dirname+'/../data/latest_centers.csv', { delimiter: ',', escape: '"' })
+    .from.path(__dirname+'/../data/latest.csv', { delimiter: ',', escape: '"' })
     .to.stream(fs.createWriteStream(__dirname+'/sample.out'))
     .transform( function(row){
       row.unshift(row.pop());
@@ -17,7 +17,7 @@ module.exports = {
       var region = trim(row[3]),
       office = trim(row[4]),
       officeName = trim(row[5]),
-      subconsId = trim(row[9]),
+      subconsId = trim(row[8]),
       subconsName = trim(row[9]),
       centerId = trim(row[1]),
       centerName = trim(row[2]),
@@ -25,7 +25,7 @@ module.exports = {
       village = trim(row[10]),
       langtit = 0,
       longtit = 0;
-      if((subconsName != "Special Voting")){
+      if((subconsName != "Special Voting") && subconsName !="1"){
         if((!centers[region]) ){
           fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
         } else if (!centers[region].offices[office]){
