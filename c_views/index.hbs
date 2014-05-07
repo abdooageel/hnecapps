@@ -88,15 +88,16 @@
           <div dir="{{{__ "dir"}}}" id="map-canvas"><br><br><br><img class="img-responsive center-block" src="./img/rotate.gif"/></div>
         </div> -->
         <div class="table-responsive col-md-8 col-md-offset-2" dir="{{{__ "dir"}}}">
-          <div id="searchlabel" class="form-group ">
-            <label>{{{__ "search"}}}:</label>
-            <input type="text" id="search" class="form-control" placeholder="{{{__ "search"}}}">
-          </div>
             <table id="centerstable" class="table table-striped table-bordered table-condensed table-hover">
               <thead>
                 <tr>
                   <th>{{{__ "centernumber"}}}</th>
                   <th>{{{__ "centername"}}}</th>
+                  <th>{{{__ "mahalla"}}}</th>
+                  <th>{{{__ "village"}}}</th>
+                  <th>{{{__ "subconstit"}}}</th>
+                  <th>{{{__ "office"}}}</th>
+
                 </tr>
               </thead>
               <tbody id = "centers">
@@ -107,6 +108,16 @@
               <li id ="prev"><a id="prevlink" href="#">{{{__ "previous"}}}</a></li>
               <li id ="next"><a id="nextlink" href="#">{{{__ "next"}}}</a></li>
             </ul>
+        </div>
+        <div class="col-md-2 " dir="{{{__ "dir"}}}">
+          <div id="searchlabel" class="form-group ">
+            <label>{{{__ "search"}}}:</label>
+            <input type="text" id="search" class="form-control" placeholder="{{{__ "search"}}}">
+          </div>
+          <div id="searchlabel2" class="form-group ">
+            <label>{{{__ "searchNames"}}}:</label>
+            <input type="text" id="searchNames" class="form-control" placeholder="{{{__ "searchNames"}}}">
+          </div>
         </div>
       </div>
     </div>

@@ -1,11 +1,19 @@
 $(document).ready(function(){
   $.zoom=5;
   $.limit=1;
+  $.res=null;
   $.infoWindows = [];
   $('#search').on('input', function(){
+    emptySearchNames();
     emptyRegion();
     $.limit=1;
     getCenterIds(this.value,$.limit);
+  });
+  $('#searchNames').on('input', function(){
+    emptyRegion();
+    emptySearch();
+    $.limit=1;
+    searchNames(this.value,$.limit);
   });
   $('#region').on('change', function() {
     emptySearch();
@@ -65,6 +73,9 @@ $(document).ready(function(){
   }); 
   function emptySearch(){
     $('#search').val('');
+  }
+  function emptySearchNames(){
+    $('#searchNames').val('');
   }
   function emptyRegion(){
     $("#region").val('all');
@@ -130,114 +141,120 @@ $(document).ready(function(){
   function getCenterIds(id,page){
     var found=[],
         oFound={};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].id.match(id)){
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
-        } else {
-        }
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].id.match(id)){
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
+      } else {
       }
-      drawTable(found,page);
-      drawCents(oFound,found,page);
-    });
+    }
+    drawTable(found,page);
+    //drawCents(oFound,found,page);
+    
   }
-
+  ///////////////////////////
+  function searchNames(id,page){
+    var found=[],
+        oFound={};
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].name.match(id)){
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
+      } else {
+      }
+    }
+    drawTable(found,page);
+    //drawCents(oFound,found,page);
+  }
+  /////////////////////////////
   function getRegion(region){
     console.log(region);
     var found=[],
         oFound={},
         offices = {};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].region.match(region)){
-          if(!offices[results.cObject[key].office]){
-            offices[results.cObject[key].office]=results.cObject[key].officeName;
-          }
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
-        } else {
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].region.match(region)){
+        if(!offices[$.res.cObject[key].office]){
+          offices[$.res.cObject[key].office]=$.res.cObject[key].officeName;
         }
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
+      } else {
       }
-      drawOffices(offices);
-      drawTable(found,$.limit);
-      drawCents(oFound,found,$.limit);
-    });
+    }
+    drawOffices(offices);
+    drawTable(found,$.limit);
+    //drawCents(oFound,found,$.limit);
+
   }
   function getOffice(office){
     console.log(office);
     var found=[],
         oFound={},
          subCons= {};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].office.match(office)&&results.cObject[key].region.match($('#region').val())){
-          if(!subCons[results.cObject[key].subconsId]){
-            subCons[results.cObject[key].subconsId]=results.cObject[key].subconsName;
-          }
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
-        } else {
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].office.match(office)&& $.res.cObject[key].region.match($('#region').val())){
+        if(!subCons[$.res.cObject[key].subconsId]){
+          subCons[$.res.cObject[key].subconsId]=$.res.cObject[key].subconsName;
         }
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
+      } else {
       }
-      drawSubCons(subCons);
-      drawTable(found,$.limit);
-      drawCents(oFound,found,$.limit);
-    });
+    }
+    drawSubCons(subCons);
+    drawTable(found,$.limit);
+    //drawCents(oFound,found,$.limit);
+
   }
   function getSubCons(sub){
     var found=[],
         oFound={},
         mahallat= {};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].office.match($('#offices').val()) && results.cObject[key].subconsId.match(sub) && results.cObject[key].region.match($('#region').val())){
-          if(!mahallat[results.cObject[key].mahalla]){
-            mahallat[results.cObject[key].mahalla]=results.cObject[key].mahalla;
-          }
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match(sub) && $.res.cObject[key].region.match($('#region').val())){
+        if(!mahallat[$.res.cObject[key].mahalla]){
+          mahallat[$.res.cObject[key].mahalla]=$.res.cObject[key].mahalla;
         }
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
       }
-      emptyMahallt();
-      drawSelect('#mahallat',mahallat);
-      drawTable(found,$.limit);
-      drawCents(oFound,found,$.limit);
-    });
+    }
+    emptyMahallt();
+    drawSelect('#mahallat',mahallat);
+    drawTable(found,$.limit);
+    //drawCents(oFound,found,$.limit);
+    
   }
   function getMahalla(mahalla){
     var found=[],
         oFound={},
         villages= {};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].mahalla.match(mahalla) && results.cObject[key].office.match($('#offices').val()) && results.cObject[key].subconsId.match($('#subcons').val()) && results.cObject[key].region.match($('#region').val())){
-          if(!villages[results.cObject[key].village]){
-            villages[results.cObject[key].village]=results.cObject[key].village;
-          }
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].mahalla.match(mahalla) && $.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match($('#subcons').val()) && $.res.cObject[key].region.match($('#region').val())){
+        if(!villages[$.res.cObject[key].village]){
+          villages[$.res.cObject[key].village]=$.res.cObject[key].village;
         }
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
       }
-      emptyVillage();
-      drawSelect('#village',villages);
-      drawTable(found,$.limit);
-      drawCents(oFound,found,$.limit);
-    });
+    }
+    emptyVillage();
+    drawSelect('#village',villages);
+    drawTable(found,$.limit);
+  //  drawCents(oFound,found,$.limit);
   }
   function getVillage(village){
     var found=[],
         oFound={};
-    $.get('/getCenters1').success( function(results) {
-      for(key in results.cObject) {
-        if(results.cObject[key].village.match(village) &&results.cObject[key].mahalla.match($('#mahallat').val) && results.cObject[key].office.match($('#offices').val()) && results.cObject[key].subconsId.match($('#subcons').val()) && results.cObject[key].region.match($('#region').val())){
-          found.push(results.cObject[key]);
-          oFound[key]=results.cObject[key];
-        }
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].village.match(village) &&$.res.cObject[key].mahalla.match($('#mahallat').val) && $.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match($('#subcons').val()) && $.res.cObject[key].region.match($('#region').val())){
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
       }
-      drawTable(found,$.limit);
-      drawCents(oFound,found,$.limit);
-    });
+    }
+    drawTable(found,$.limit);
+
   }
 
 
@@ -262,10 +279,15 @@ $(document).ready(function(){
     });  
   }
   function getCents(){
-    $.get('/getCenters1').success( function(results) {
-      $.limit = 1;
-      drawTable(results.cList,$.limit);
-      drawCents(results.cObject,results.cList,$.limit);
+    $.ajax({
+      url: "/getCenters1",
+      async: false,
+      dataType: 'json',
+      success: function(results) {
+        $.limit = 1;
+        $.res = results;
+        drawTable(results.cList,$.limit);
+      }
     });
   }
   function drawCents(centers,centersList,page){
@@ -310,7 +332,11 @@ $(document).ready(function(){
       $('#next').attr("class","");
     }
     for(i ; i<limit;i++){
-      cents.append('<tr  data-lng='+centers[i].longtit+' data-lat='+centers[i].langtit+' data-id='+centers[i].id+' data-name='+centers[i].name+'><td>'+centers[i].id+'</td><td>'+centers[i].name+'</td></tr>');
+      cents.append('<tr  data-lng='+centers[i].longtit+' data-lat='+centers[i].langtit+
+                   ' data-id='+centers[i].id+' data-name='+centers[i].name+'><td>'+
+                   centers[i].id+'</td><td>'+centers[i].name+'</td><td>'+centers[i].mahalla+
+                   '</td><td>'+centers[i].village+'</td><td>'+centers[i].subconsName+
+                   '</td><td>'+centers[i].officeName+'</td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");
@@ -319,9 +345,7 @@ $(document).ready(function(){
     }
 
   }
-  /*function showCent(val1,val2){
-    console.log(val2);
-  }*/
+  
   $('body').on('click', '#centerstable tbody tr', function () {
     var lng = $(this).data("lng"),
         lat = $(this).data("lat"),
@@ -366,10 +390,15 @@ $(document).ready(function(){
         getRegion($('#region').val());
       }
     }
-    else if(!$('#search').val())
+    else if(!$('#search').val() && !$('#searchNames').val())
       paginateCents();
     else {
-      getCenterIds($('#search').val(),$.limit);
+      if(!$('#searchNames').val()){
+        getCenterIds($('#search').val(),$.limit);
+      } else {
+        searchNames($('#searchNames').val(),$.limit);
+      }
+      
     }
 
   });
@@ -396,10 +425,14 @@ $(document).ready(function(){
           getRegion($('#region').val());
         }
       }
-      else if(!$('#search').val())
+      else if(!$('#search').val() && !$('#searchNames').val())
         paginateCents();
       else {
-        getCenterIds($('#search').val(),$.limit);
+        if(!$('#searchNames').val()){
+          getCenterIds($('#search').val(),$.limit);
+        } else {
+          searchNames($('#searchNames').val(),$.limit);
+        }
       }
     } else{
       $('#prev').attr("class","disabled");
@@ -408,9 +441,7 @@ $(document).ready(function(){
   });
 
   function paginateCents(){
-    $.get('/getCenters1').success( function(results) {
-      drawTable(results.cList,$.limit);
-    });
+    drawTable($.res.cList,$.limit);
   }
 
   function closeAllInfoWindows() {
