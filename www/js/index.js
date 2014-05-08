@@ -5,6 +5,7 @@ $(document).ready(function(){
   $.infoWindows = [];
   $('#search').on('input', function(){
     emptySearchNames();
+    emptySearchMahalla();
     emptyRegion();
     $.limit=1;
     getCenterIds(this.value,$.limit);
@@ -12,9 +13,18 @@ $(document).ready(function(){
   $('#searchNames').on('input', function(){
     emptyRegion();
     emptySearch();
+    emptySearchMahalla();
     $.limit=1;
     searchNames(this.value,$.limit);
   });
+  $('#searchMahalla').on('input', function(){
+    emptyRegion();
+    emptySearch();
+    emptySearchNames();
+    $.limit=1;
+    searchMahalla(this.value,$.limit);
+  });
+
   $('#region').on('change', function() {
     emptySearch();
     $.zoom=5;
@@ -76,6 +86,9 @@ $(document).ready(function(){
   }
   function emptySearchNames(){
     $('#searchNames').val('');
+  }
+  function emptySearchMahalla(){
+    $('#searchMahalla').val('');
   }
   function emptyRegion(){
     $("#region").val('all');
@@ -145,7 +158,6 @@ $(document).ready(function(){
       if($.res.cObject[key].id.match(id)){
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
-      } else {
       }
     }
     drawTable(found,page);
@@ -160,7 +172,19 @@ $(document).ready(function(){
       if($.res.cObject[key].name.match(id)){
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
-      } else {
+      }
+    }
+    drawTable(found,page);
+    //drawCents(oFound,found,page);
+  }
+  /////////////////////////////
+  function searchMahalla(id,page){
+    var found=[],
+        oFound={};
+    for(key in $.res.cObject) {
+      if($.res.cObject[key].mahalla.match(id)){
+        found.push($.res.cObject[key]);
+        oFound[key]=$.res.cObject[key];
       }
     }
     drawTable(found,page);
@@ -390,13 +414,15 @@ $(document).ready(function(){
         getRegion($('#region').val());
       }
     }
-    else if(!$('#search').val() && !$('#searchNames').val())
+    else if(!$('#search').val() && !$('#searchNames').val() && !$('#searchMahalla').val())
       paginateCents();
     else {
-      if(!$('#searchNames').val()){
+      if(!$('#searchNames').val() && !$('#searchMahalla').val()){
         getCenterIds($('#search').val(),$.limit);
-      } else {
+      } else if(!$('#search').val() && !$('#searchMahalla').val()){
         searchNames($('#searchNames').val(),$.limit);
+      } else {
+        searchMahalla($('#searchMahalla').val(),$.limit);
       }
       
     }
@@ -425,13 +451,15 @@ $(document).ready(function(){
           getRegion($('#region').val());
         }
       }
-      else if(!$('#search').val() && !$('#searchNames').val())
+      else if(!$('#search').val() && !$('#searchNames').val() && !$('#searchMahalla').val())
         paginateCents();
       else {
-        if(!$('#searchNames').val()){
+        if(!$('#searchNames').val() && !$('#searchMahalla').val()){
           getCenterIds($('#search').val(),$.limit);
-        } else {
+        } else if(!$('#search').val() && !$('#searchMahalla').val()){
           searchNames($('#searchNames').val(),$.limit);
+        } else {
+          searchMahalla($('#searchMahalla').val(),$.limit);
         }
       }
     } else{
