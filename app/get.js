@@ -12,7 +12,7 @@ var url=require('url'),
     stations = {},
     ballots3 = {},
     centers = {},
-    blocked = [37,43,47,52];
+    blocked = [37,47,52];
 
 
  exports.getMgr = {
