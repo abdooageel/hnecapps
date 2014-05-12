@@ -1,4 +1,4 @@
-var blocked = [37,47,52];
+var blocked = [37,43,47,52];
 
 exports.helperMgr = {
   getConstits : function(present,cb){
