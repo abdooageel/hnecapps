@@ -2,8 +2,9 @@ var csv = require("csv"),
 fs = require('fs'),
 trim = require('trim'),
 candidates={},
-allCents={},
+allCands={},
 allList=[];
+
 module.exports = {
   parseCandidates : function(cb){
     csv()
@@ -14,39 +15,32 @@ module.exports = {
       return row;
     })
     .on('record', function(row,index){
-      var region = trim(row[49]),
-          mainDist = trim(row[6]),
+
+      var region = row[49],
+          mainDist = row[6],
           mainDistAr = trim(row[43]),
           mainDistEn = trim(row[44]),
-          office = trim(row[3]),
+          office = row[3],
           officeNameAr = trim(row[45]),
           officeNameEn = trim(row[46]),
-      subconsId = trim(row[8]),
-      subconsName = trim(row[9]),
-      centerId = trim(row[1]),
-      centerName = trim(row[2]),
-      mahalla = trim(row[11]),
-      village = trim(row[10]),
-      langtit = 0,
-      longtit = 0;
-      if((subconsName != "Special Voting") && subconsName !="1"){
-        if((!candidates[region]) ){
-          fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        } else if (!candidates[region].offices[office]){
-          fillOffice(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        } else if (!candidates[region].offices[office].subcons[subconsId]){
-          fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        } else if (!candidates[region].offices[office].subcons[subconsId].mahallat[mahalla]){
-          fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        } else if (!candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village]){
-          fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        } else if (!candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId]){
-          fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-        }
+          subconsId = row[7],
+          subconsNameAr = trim(row[47]),
+          subconsNameEn = trim(row[48]),
+          fullName = trim(row[15]),
+          id = row[35];
+      
+      if((!candidates[region]) ){
+        fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+      } else if (!candidates[region].mainDists[mainDist]){
+        fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+      } else if (!candidates[region].mainDists[mainDist].subDists[subconsId]){
+        fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+      } else if (!candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]){
+        fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
       }
     })
     .on('close', function(count){
-      cb(null,candidates,allCents,allList);//return candidates;
+      cb(null,candidates,allCands, allList);//return candidates;
     })
     .on('error', function(error){
       console.log(error.message);
@@ -59,64 +53,59 @@ module.exports = {
 //module.exports.parseCenters();
 
 /////////////////////////////
-function fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
+function fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
   candidates[region]={};
   candidates[region].region = region;
-  candidates[region].offices = {};
-  fillOffice(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
+  candidates[region].mainDists = {};
+  fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
 }
-function fillOffice(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
-  candidates[region].offices[office]={};
-  candidates[region].offices[office].name = officeName;
-  candidates[region].offices[office].id = office;
-  candidates[region].offices[office].subcons = {};
-  fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
+function fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
+  candidates[region].mainDists[mainDist]={};
+  candidates[region].mainDists[mainDist].id = mainDist;
+  candidates[region].mainDists[mainDist].nameAr = mainDistAr;
+  candidates[region].mainDists[mainDist].nameEn = mainDistEn;
+  candidates[region].mainDists[mainDist].subDists = {};
+  fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
 }
-function fillSubCons(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
-  candidates[region].offices[office].subcons[subconsId]={};
-  candidates[region].offices[office].subcons[subconsId].name=subconsName;
-  candidates[region].offices[office].subcons[subconsId].id=subconsId;
-  candidates[region].offices[office].subcons[subconsId].mahallat={};
-  fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-}
-
-function fillMahalla(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla]={};
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].name=mahalla;
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages={};
-  fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
+function fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
+  candidates[region].mainDists[mainDist].subDists[subconsId]={};
+  candidates[region].mainDists[mainDist].subDists[subconsId].nameEn=subconsNameEn;
+  candidates[region].mainDists[mainDist].subDists[subconsId].nameAr=subconsNameAr;
+  candidates[region].mainDists[mainDist].subDists[subconsId].id=subconsId;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates={};
+  fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
 }
 
-function fillVillage(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village]={};
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].name=village;
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates={};
-  fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
-}
+function fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
 
-function fillCenter(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit){
   var obj = {
-    name : centerName,
-    id : centerId,
-    longtit : longtit,
-    langtit : langtit,
-    village : village,
-    mahalla : mahalla,
+    name : fullName,
+    id : id,
+    mainDist : mainDist,
+    mainDistEn : mainDistEn,
+    mainDistAr : mainDistAr,
     subconsId : subconsId,
-    subconsName : subconsName,
+    subconsNameEn : subconsNameEn,
+    subconsNameAr : subconsNameAr,
     office : office,
-    officeName : officeName,
+    officeNameAr : officeNameAr,
+    officeNameEn : officeNameEn,
     region : region
   }
-  allCents[centerId]=obj;
+  allCands[id]=obj;
   allList.push(obj);
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId]={};
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId].name= centerName;
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId].id = centerId;
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId].langtit = langtit;
-  candidates[region].offices[office].subcons[subconsId].mahallat[mahalla].villages[village].candidates[centerId].longtit = longtit;
-}
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]={};
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].name= fullName;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].id = id;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].region = region;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDist = mainDist;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDistEn = mainDistEn;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDistAr = mainDistAr;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsId = subconsId;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsNameAr = subconsNameAr;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsNameEn = subconsNameEn;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].office = office;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].officeNameEn = officeNameEn;
+  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].officeNameAr = officeNameAr;
 
-function include(arr,obj) {
-  return (arr.indexOf(obj) != -1);
 }

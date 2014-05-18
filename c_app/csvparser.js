@@ -7,7 +7,7 @@ allList=[];
 module.exports = {
   parseCenters : function(cb){
     csv()
-    .from.path(__dirname+'/../data/latest.csv', { delimiter: ',', escape: '"' })
+    .from.path(__dirname+'/../data/centers.csv', { delimiter: ',', escape: '"' })
     .to.stream(fs.createWriteStream(__dirname+'/sample.out'))
     .transform( function(row){
       row.unshift(row.pop());

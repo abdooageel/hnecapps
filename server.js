@@ -6,7 +6,7 @@ var express = require('express'),
     config = require('./config'),
     getMgr = require('./app/get').getMgr,
     centsGetMgr= require('./c_app/get').getMgr,
-    candGetMgr=require('./cn_app/get').getMgr,
+    candsGetMgr=require('./cn_app/get').getMgr,
     hbsMgr = require('./app/hbshelpers'),
     store  = new express.session.MemoryStore;
 var results = express(),
@@ -173,19 +173,32 @@ centers.get('/', function (req, res) {
   });
 });
 ///////////////////////////////////////////////////////////
-/*candidates.get('/:locale', function (req, res) {
+candidates.get('/getCands', function (req, res) {
+  candsGetMgr.handleGetAllCands(req.params,res,function(results){
+    console.log(results);
+    res.send(results);
+  });
+});
+
+candidates.get('/', function (req, res) {
+  setlang(req,res);
+  candsGetMgr.handleGetIndex(req.params,res,function(results){
+    res.render('index');
+  });
+});
+
+candidates.get('/:locale', function (req, res) {
   setdeflan(req,res);
   res.redirect("/");
-});*/
+});
 
 candidates.get('/candidate', function (req, res) {
   setlang(req,res);
   res.render('candidate');
-  /*candGetMgr.handleGetIndex(req.params,res,function(results){
-    res.render('candidate');
-  });*/
 });
 
+
+//////////////////////////////////////////////////////////////
 function setlang(req,res){
   if(!req.cookies.locale)
     req.cookies.locale ="ar";

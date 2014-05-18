@@ -1,35 +1,34 @@
-/*var url=require('url'),
+var url=require('url'),
+  parserMgr=require('./csvparser'),
   Step = require("step"),
-  centers = {},
+  candidates = {},
   all={};
 
 Step(
   function getCenters(){
-    parserMgr.parseCenters(this);
+    parserMgr.parseCandidates(this);
   },
   function returnCenters(err,result,allObject,allList){
-    centers = result;
-    all={cObject : allObject,cList : allList}
+    candidates = result;
+    all={cObject : allObject,cList : allList};
   }
 );
   
 exports.getMgr = {
 
   handleGetIndex : function (req,res,cb){
-    //var centers = parserMgr.parseCenters();
     res.locals={
       arUrl : "/ar",
       enUrl : "/en",
-      centers : centers
+      candidates : candidates
     }
     cb(res);
 
   },
-  handleGetAllCents : function(req,res,cb){
+  handleGetAllCands : function(req,res,cb){
     
     cb(all);
   },
 
 }
         
-*/
