@@ -60,6 +60,33 @@ module.exports = {
       else 
         return region;
     });
+    hbs.registerHelper('transregion', function(region) {
+      if (i18n.getLocale()=="en")
+        switch(region){
+        case "3":
+          return "Eastern"
+          break;
+        case "1":
+          return "Western"
+          break;
+        case "2":
+          return "Southern"
+          break;
+        }
+      else {
+        switch(region){
+        case "3":
+          return "الشرقية"
+          break;
+        case "1":
+          return "الغربية"
+          break;
+        case "2":
+          return "الجنوبية"
+          break;
+        }
+      }
+    });
     hbs.registerHelper('transs', function(sub) {
       if (i18n.getLocale()=="en")
         switch(sub){

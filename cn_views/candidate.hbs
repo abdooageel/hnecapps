@@ -4,12 +4,12 @@
   <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header {{{__ "logo"}}}">
-        <a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="./img/hnec_logo.png"></a>
+        <a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
       </div>
       <div class="navbar-collapse" dir="rtl" >
         <ul class="nav navbar-nav {{{__ "navbar"}}}">
           <li> &nbsp&nbsp&nbsp</li>
-          <li class="active"><a href="../../">المرشحين</a></li>
+          <li class="active"><a href="../../">{{{__ "candidates"}}}</a></li>
           <li><a href="http://hnec.ly">{{{__ "website"}}}</a></li>
         </ul>
 
@@ -26,14 +26,32 @@
     js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-  <div class="row-fluid">
-      
-  </div>
+  <!-- <div class="page-header">
+    <h1>{{{__ "pageheader6"}}}<br> <small>{{{__ "pageheader5"}}}  </small></h1>
+  </div> -->
   <div class="panel panel-default">
-    <div class="panel-heading" dir = "{{{__ "dir"}}}"><span class="glyphicon glyphicon-user"></span> أحمد مفتاح الفيتوري</div>
+    <div class="panel-heading" dir = "{{{__ "dir"}}}"><span class="glyphicon glyphicon-user"></span> {{candidate.name}}</div>
     <div class="panel-body">
       <div class="fb-like pull-left" data-href="http://centers.hnec.ly/" data-layout="standard" data-action="like" data-show-faces="true" data-share="true">
       </div>
+      <div dir = "{{{__ "dir"}}}">
+        <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td class="heads"> <b>{{{__ "candidatenumber"}}}: </b> {{candidate.id}}</td>
+                <td class="heads"><b>{{{__ "subconstit"}}}:</b> {{candidate.subconsNameAr}}</td>
+                
+                
+              </tr>
+              <tr>
+                <td class="heads"><b>{{{__ "mainconstit"}}}: </b>{{candidate.mainDistAr}}</td>
+                <td class="info"><b>{{{__ "region"}}}:</b> {{transregion candidate.region}}</td>
+              </tr>
+              
+            </tbody>
+        </table>
+      </div>
+      <legend dir ="{{{__ "dir"}}}">{{{__ "cv"}}}:</legend>
       <div class="row-fluid">
         <div id ="center" >
           <div id="pdf">It appears you don't have Adobe Reader or PDF support in this web browser.  <a href="/pdf/sample.pdf">Click here to download the PDF</a>
@@ -54,13 +72,13 @@
 </div> <!-- /container -->
 
 
-<script src="./js/jquery-1.10.2.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script src="./js/pdfobject.min.js"></script>
+<script src="../../js/jquery-1.10.2.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src="../../js/pdfobject.min.js"></script>
 <script type="text/javascript">
   window.onload = function (){
     var myPDF = new PDFObject({
-      url: "ResumeMar16.pdf",
+      url: "../../ResumeMar16.pdf",
       id: "myPDF",
       width: "93%",
       height: "400px",

@@ -4,7 +4,7 @@
   <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header {{{__ "logo"}}}">
-        <a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="./img/hnec_logo.png"></a>
+        <a class="navbar-brand" href="../../"><img alt="" src="./img/hnec_logo.png"></a>
       </div>
       <div class="navbar-collapse" dir="rtl" >
         <ul class="nav navbar-nav {{{__ "navbar"}}}">
@@ -14,15 +14,18 @@
             </form>
           </li> -->
           <li> &nbsp&nbsp&nbsp</li>
-          <li class="active"><a href="../../">{{{__ "cmain"}}}</a></li>
+          <li class="active"><a href="../../">{{{__ "candidates"}}}</a></li>
           <li><a href="http://hnec.ly">{{{__ "website"}}}</a></li>
         </ul>
 
       </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
   </div>
+  <div class="page-header">
+    <h1>{{{__ "pageheader6"}}}<br> <small>{{{__ "pageheader5"}}}  </small></h1>
+  </div>
   <div class="panel panel-default">
-    <div class="panel-heading" dir = "{{{__ "dir"}}}">{{{__ "searchpanel"}}}</div>
+    <div class="panel-heading" dir = "{{{__ "dir"}}}">{{{__ "candidatessearchpanel"}}}</div>
     <div class="panel-body">
       <div class="row-fluid">
         <div dir = "{{{__ "dir"}}}">
@@ -33,8 +36,8 @@
                     <label for="region">{{{__ "region"}}}</label>
                     <select class="form-control" id="region">
                       <option value="all">الكل</option>
-                      {{#each centers}}
-                      <option value="{{region}}">{{region}}</option>
+                      {{#each candidates}}
+                      <option value="{{region}}">{{transregion region}}</option>
                       {{/each}}
                     </select>
                   </div>
@@ -44,7 +47,7 @@
               <form role="form">
                 <div class="form-group">
                   <label for="region">{{{__ "office"}}}</label>
-                  <select class="form-control" id="offices">
+                  <select class="form-control" id="mainDists">
                     <option value="all">الكل</option>
                   </select>
                 </div>
@@ -55,26 +58,6 @@
                 <div class="form-group">
                   <label for="exampleInputEmail1">{{{__ "subconstit"}}}</label>
                   <select class="form-control" id = "subcons">
-                    <option value="all">الكل</option>
-                  </select>
-                </div>
-              </form>
-            </div>
-            <div class="col-xs-2 {{{__ 'pullright'}}}">
-              <form role="form">
-                <div class="form-group">
-                  <label for="mahallat">{{{__ "village"}}}</label>
-                  <select class="form-control" id = "mahallat">
-                    <option value="all">الكل</option>
-                  </select>
-                </div>
-              </form>
-            </div>
-            <div class="col-xs-2 {{{__ 'pullright'}}}">
-              <form role="form">
-                <div class="form-group">
-                  <label for="village">{{{__ "mahalla"}}}</label>
-                  <select class="form-control" id = "village">
                     <option value="all">الكل</option>
                   </select>
                 </div>
@@ -91,8 +74,9 @@
             <table id="centerstable" class="table table-striped table-bordered table-condensed table-hover">
               <thead>
                 <tr>
-                  <th>Candidate #</th>
-                  <th>CAndidate Name</th>
+                  <th>{{{__ "candidatenumber"}}}</th>
+                  <th>{{{__ "candidatename"}}}</th>
+                  <th>{{{__ "view"}}}</th>
                 </tr>
               </thead>
               <tbody id = "candidates">
@@ -107,16 +91,12 @@
         <div class="col-md-2 well" dir="{{{__ "dir"}}}">
           <legend><span class="glyphicon glyphicon-search"></span></legend>
           <div id="searchlabel" class="form-group ">
-            <label>{{{__ "search"}}}:</label>
-            <input type="text" id="search" class="form-control" placeholder="{{{__ "search"}}}">
+            <label>{{{__ "candidatesearch"}}}:</label>
+            <input type="text" id="search" class="form-control" placeholder="{{{__ "candidatesearch"}}}">
           </div>
           <div id="searchlabel2" class="form-group ">
-            <label>{{{__ "searchNames"}}}:</label>
-            <input type="text" id="searchNames" class="form-control" placeholder="{{{__ "searchNames"}}}">
-          </div>
-          <div id="searchlabel3" class="form-group ">
-            <label>{{{__ "searchMahalla"}}}:</label>
-            <input type="text" id="searchMahalla" class="form-control" placeholder="{{{__ "searchMahalla"}}}">
+            <label>{{{__ "candidatesearchNames"}}}:</label>
+            <input type="text" id="searchNames" class="form-control" placeholder="{{{__ "candidatesearchNames"}}}">
           </div>
         </div>
       </div>

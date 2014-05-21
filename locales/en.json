@@ -56,6 +56,8 @@
 	"pageheader2": "Polling Final Results",
 	"pageheader3": "High National Elections Commission",
 	"pageheader4": "Find Your Center",
+	"pageheader5": "Candidates list",
+	"pageheader6": "Council elections Parliament",
 	"centername": "Center Name",
 	"centernumber": "Center Number",
 	"center": "Center",
@@ -69,9 +71,17 @@
 	"lang" : "en",
 	"search" : "Search by Center number",
 	"searchNames" : "Search by Center name",
+	"candidatesearch": "Search by candidate number",
+	"candidatesearchNames": "Search by candidate name",
 	"searchMahalla" : "Search by Mahalla",
 	"next" : "Next",
 	"previous" : "Previous",
 	"searchpanel": "Please select your areas to find your center",
-	"all" : "All"
+	"candidatessearchpanel": "Please select your areas to find your candidate",
+	"all" : "All",
+	"candidates" : "Candidates",
+	"candidatenumber" : "Candidate Number",
+	"candidatename" : "Candidate Name",
+	"cv" : "Resume",
+	"view" : "View" 
 }

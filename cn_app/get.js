@@ -30,5 +30,15 @@ exports.getMgr = {
     cb(all);
   },
 
+  handleGetCand : function (req,res,cb){
+    res.locals={
+      arUrl : "/ar",
+      enUrl : "/en",
+      candidate : all.cObject[req.id]
+    }
+    cb(res);
+
+  }
+
 }
         

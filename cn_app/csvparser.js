@@ -15,7 +15,6 @@ module.exports = {
       return row;
     })
     .on('record', function(row,index){
-
       var region = row[49],
           mainDist = row[6],
           mainDistAr = trim(row[43]),
@@ -27,7 +26,7 @@ module.exports = {
           subconsNameAr = trim(row[47]),
           subconsNameEn = trim(row[48]),
           fullName = trim(row[15]),
-          id = row[35];
+          id = row[37];
       
       if((!candidates[region]) ){
         fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);

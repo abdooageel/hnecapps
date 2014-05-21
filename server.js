@@ -175,8 +175,14 @@ centers.get('/', function (req, res) {
 ///////////////////////////////////////////////////////////
 candidates.get('/getCands', function (req, res) {
   candsGetMgr.handleGetAllCands(req.params,res,function(results){
-    console.log(results);
     res.send(results);
+  });
+});
+
+candidates.get('/candidate/:id', function (req, res) {
+  setlang(req,res);
+  candsGetMgr.handleGetCand(req.params,res,function(results){
+    res.render('candidate');
   });
 });
 
@@ -192,10 +198,7 @@ candidates.get('/:locale', function (req, res) {
   res.redirect("/");
 });
 
-candidates.get('/candidate', function (req, res) {
-  setlang(req,res);
-  res.render('candidate');
-});
+
 
 
 //////////////////////////////////////////////////////////////

@@ -5,15 +5,13 @@ $(document).ready(function(){
   $.infoWindows = [];
   $('#search').on('input', function(){
     emptySearchNames();
-    emptySearchMahalla();
     emptyRegion();
     $.limit=1;
-    getCenterIds(this.value,$.limit);
+    getCandidateIds(this.value,$.limit);
   });
   $('#searchNames').on('input', function(){
     emptyRegion();
     emptySearch();
-    emptySearchMahalla();
     $.limit=1;
     searchNames(this.value,$.limit);
   });
@@ -31,12 +29,12 @@ $(document).ready(function(){
     $.limit=1;
     if(this.value == "all"){
       emptyAll();
-      getCents();
+      getCandidates();
     } else {
       getRegion(this.value);
     }
   });
-  $('#offices').on('change', function() {
+  $('#mainDists').on('change', function() {
     emptySearch();
     $.zoom=5;
     $.limit=1;
@@ -44,7 +42,7 @@ $(document).ready(function(){
       emptySubCons();
       getRegion($('#region').val());
     } else {
-      getOffice(this.value);
+      getMainDists(this.value);
     }
   });
   $('#subcons').on('change', function() {
@@ -52,50 +50,26 @@ $(document).ready(function(){
     $.zoom=6;
     $.limit=1;
     if(this.value=="all"){
-      emptyMahallt();
-      getOffice($('#offices').val());
+      getMainDists($('#mainDists').val());
     } else {
       getSubCons(this.value);
     }
   });
 
-  $('#mahallat').on('change', function() {
-    emptySearch();
-    $.zoom=7;
-    $.limit=1;
-    if(this.value=="all"){
-      emptyVillage();
-      getSubCons($('#subcons').val());
-    } else {
-      getMahalla(this.value);
-    }
-  });
-  $('#village').on('change', function() {
-    emptySearch();
-    $.zoom=8;
-    $.limit=1;
-    if(this.value=="all"){
-      $('#centers').empty();
-      getMahalla($('#mahallat').val());
-    } else {
-      getVillage(this.value);
-    }
-  }); 
+  
   function emptySearch(){
     $('#search').val('');
   }
   function emptySearchNames(){
     $('#searchNames').val('');
   }
-  function emptySearchMahalla(){
-    $('#searchMahalla').val('');
-  }
+ 
   function emptyRegion(){
     $("#region").val('all');
     emptyAll();
   }
   function emptyAll(){
-    var offices = $("#offices");
+    var offices = $("#mainDists");
     offices.empty();
     offices.append($("<option/>").val('all').text('الكل'));
     emptySubCons();
@@ -104,54 +78,13 @@ $(document).ready(function(){
     var subcons=$("#subcons");
     subcons.empty();
     subcons.append($("<option/>").val('all').text('الكل'));
-    emptyMahallt();
-    emptyVillage();
   }
 
-  function emptyMahallt(){
-    var mahallat=$("#mahallat");
-    mahallat.empty();
-    mahallat.append($("<option/>").val('all').text('الكل'));
-    emptyVillage();
-  }
 
-  function emptyVillage(){
-    var village=$("#village");
-    village.empty();
-    village.append($("<option/>").val('all').text('الكل'));
-    $('#centers').empty();
-  }
-
-  function getMahallat(constitId){
-    var region = $('#region').val(),
-        office = $('#offices').val();
-    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
-      drawMahallat(results,constitId);
-    });
-  }
-
-  function getVillages(mahallaId){
-    var region = $('#region').val(),
-        office = $('#offices').val(),
-        constitId = $('#subcons').val();
-    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
-      drawVillages(results,constitId,mahallaId);
-    });
-  }
-
-  /*function getCenters1(VillageId){
-    var region = $('#region').val(),
-        office = $('#offices').val(),
-        constitId = $('#subcons').val();
-        mahallaId = $('#mahallat').val();
-    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
-      drawCenters(results,constitId,mahallaId,VillageId);
-    });
-  }*/
 
 
 //////////////////////////
-  function getCenterIds(id,page){
+  function getCandidateIds(id,page){
     var found=[],
         oFound={};
     for(key in $.res.cObject) {
@@ -167,59 +100,47 @@ $(document).ready(function(){
   ///////////////////////////
   function searchNames(id,page){
     var found=[],
-        oFound={};
+        oFound={},
+        name = "";
+    id = id.replace(/\s/g, '');
     for(key in $.res.cObject) {
-      if($.res.cObject[key].name.match(id)){
+      name = $.res.cObject[key].name.replace(/\s/g, '');
+      if(name.match(id)){
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
       }
     }
     drawTable(found,page);
-    //drawCents(oFound,found,page);
   }
-  /////////////////////////////
-  function searchMahalla(id,page){
-    var found=[],
-        oFound={};
-    for(key in $.res.cObject) {
-      if($.res.cObject[key].mahalla.match(id)){
-        found.push($.res.cObject[key]);
-        oFound[key]=$.res.cObject[key];
-      }
-    }
-    drawTable(found,page);
-    //drawCents(oFound,found,page);
-  }
-  /////////////////////////////
+   /////////////////////////////
   function getRegion(region){
-    console.log(region);
     var found=[],
         oFound={},
-        offices = {};
+        mainDists = {};
+
     for(key in $.res.cObject) {
       if($.res.cObject[key].region.match(region)){
-        if(!offices[$.res.cObject[key].office]){
-          offices[$.res.cObject[key].office]=$.res.cObject[key].officeName;
+        if(!mainDists[$.res.cObject[key].mainDist]){
+          mainDists[$.res.cObject[key].mainDist]=$.res.cObject[key].mainDistAr;
         }
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
       } else {
       }
     }
-    drawOffices(offices);
+    drawMainDists(mainDists);
     drawTable(found,$.limit);
     //drawCents(oFound,found,$.limit);
 
   }
-  function getOffice(office){
-    console.log(office);
+  function getMainDists(mainDist){
     var found=[],
         oFound={},
          subCons= {};
     for(key in $.res.cObject) {
-      if($.res.cObject[key].office.match(office)&& $.res.cObject[key].region.match($('#region').val())){
+      if($.res.cObject[key].mainDist.match(mainDist)&& $.res.cObject[key].region.match($('#region').val())){
         if(!subCons[$.res.cObject[key].subconsId]){
-          subCons[$.res.cObject[key].subconsId]=$.res.cObject[key].subconsName;
+          subCons[$.res.cObject[key].subconsId]=$.res.cObject[key].subconsNameAr;
         }
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
@@ -244,44 +165,10 @@ $(document).ready(function(){
         oFound[key]=$.res.cObject[key];
       }
     }
-    emptyMahallt();
-    drawSelect('#mahallat',mahallat);
     drawTable(found,$.limit);
     //drawCents(oFound,found,$.limit);
     
   }
-  function getMahalla(mahalla){
-    var found=[],
-        oFound={},
-        villages= {};
-    for(key in $.res.cObject) {
-      if($.res.cObject[key].mahalla.match(mahalla) && $.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match($('#subcons').val()) && $.res.cObject[key].region.match($('#region').val())){
-        if(!villages[$.res.cObject[key].village]){
-          villages[$.res.cObject[key].village]=$.res.cObject[key].village;
-        }
-        found.push($.res.cObject[key]);
-        oFound[key]=$.res.cObject[key];
-      }
-    }
-    emptyVillage();
-    drawSelect('#village',villages);
-    drawTable(found,$.limit);
-  //  drawCents(oFound,found,$.limit);
-  }
-  function getVillage(village){
-    var found=[],
-        oFound={};
-    for(key in $.res.cObject) {
-      if($.res.cObject[key].village.match(village) &&$.res.cObject[key].mahalla.match($('#mahallat').val) && $.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match($('#subcons').val()) && $.res.cObject[key].region.match($('#region').val())){
-        found.push($.res.cObject[key]);
-        oFound[key]=$.res.cObject[key];
-      }
-    }
-    drawTable(found,$.limit);
-
-  }
-
-
 
 
   function drawSelect(name,object){
@@ -296,10 +183,10 @@ $(document).ready(function(){
       $('#subcons').append($("<option />").val(key).text(subCons[key]));
     });  
   }
-  function drawOffices(offices){
+  function drawMainDists(mainDists){
     emptyAll();
-    Object.keys(offices).forEach(function(key) {
-      $('#offices').append($("<option />").val(key).text(offices[key]));
+    Object.keys(mainDists).forEach(function(key) {
+      $('#mainDists').append($("<option />").val(key).text(mainDists[key]));
     });  
   }
   function getCandidates(){
@@ -314,39 +201,9 @@ $(document).ready(function(){
       }
     });
   }
-  /*function drawCents(centers,centersList,page){
-    var map,
-    flag6=true;
-    var bounds = new google.maps.LatLngBounds();
-    Object.keys(centers).forEach(function(key) {
-      if(flag6){
-        var myOptions = {
-            zoom: $.zoom,
-            //center: new google.maps.LatLng(28.544672,17.554362),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-        flag6=false;
-      }
-      var latlng = new google.maps.LatLng(parseFloat(centers[key].longtit), parseFloat(centers[key].langtit));
-      var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : centers[key].name });
-      bounds.extend(marker.position);
-      marker.info = new google.maps.InfoWindow({
-        content: '<b>'+centers[key].name+'</b><br><b>'+centers[key].id+'</b>'
-      });
 
-      $.infoWindows.push(marker.info);
-      google.maps.event.addListener(marker, 'click', function() {
-        closeAllInfoWindows();
-        marker.info.open(map, marker);
-      });
-    });
-    map.fitBounds(bounds);
-  }*/
 
   function drawTable(candidates,page){
-    console.log(candidates);
-    console.log("hello");
     var limit = page*10,
         i = (page -1)*10,
         cands= $('#candidates');
@@ -359,7 +216,7 @@ $(document).ready(function(){
     }
     for(i ; i<limit;i++){
       cands.append('<tr data-id='+candidates[i].id+' data-name='+candidates[i].name+'><td>'+
-                   candidates[i].id+'</td><td>'+candidates[i].name+'</td></tr>');
+                   candidates[i].id+'</td><td>'+candidates[i].name+'</td><td><a href="/candidate/'+candidates[i].id+'"><span class="glyphicon glyphicon-search"></span></a></td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");
@@ -368,60 +225,27 @@ $(document).ready(function(){
     }
 
   }
-  
-  /*$('body').on('click', '#centerstable tbody tr', function () {
-    var lng = $(this).data("lng"),
-        lat = $(this).data("lat"),
-        id = $(this).data("id"),
-        name = $(this).data("name");
-    var myOptions = {
-            zoom: 8,
-            center: new google.maps.LatLng(lng,lat),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-    map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-    var latlng = new google.maps.LatLng(parseFloat(lng), parseFloat(lat));
-      var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : name });
-      marker.info = new google.maps.InfoWindow({
-        content: '<b>'+name+'</b><br><b>'+id+'</b>'
-      });
-      $.infoWindows.push(marker.info);
-      google.maps.event.addListener(marker, 'click', function() {
-        closeAllInfoWindows();
-        marker.info.open(map, marker);
-      });
-  });*/
-  
+   
   $('#nextlink').on('click', function() {
     $.limit+=1;
     if($('#region').val()!="all"){
-      if($('#offices').val()!="all"){
+      if($('#mainDists').val()!="all"){
         if($('#subcons').val()!="all"){
-          if($('#mahallat').val()!="all"){
-            if($('#village').val()!="all"){
-              getVillage($('#village').val());
-            } else {
-              getMahalla($('#mahallat').val());
-            }
-          } else {
-            getSubCons($('#subcons').val());
-          }
+          getSubCons($('#subcons').val());
         } else {
-          getOffice($('#offices').val());
+          getMainDists($('#mainDists').val());
         }
       } else {
         getRegion($('#region').val());
       }
     }
-    else if(!$('#search').val() && !$('#searchNames').val() && !$('#searchMahalla').val())
+    else if(!$('#search').val() && !$('#searchNames').val())
       paginateCents();
     else {
-      if(!$('#searchNames').val() && !$('#searchMahalla').val()){
-        getCenterIds($('#search').val(),$.limit);
-      } else if(!$('#search').val() && !$('#searchMahalla').val()){
+      if(!$('#searchNames').val()){
+        getCandidateIds($('#search').val(),$.limit);
+      } else{
         searchNames($('#searchNames').val(),$.limit);
-      } else {
-        searchMahalla($('#searchMahalla').val(),$.limit);
       }
       
     }
@@ -434,31 +258,21 @@ $(document).ready(function(){
       if($('#region').val()!="all"){
         if($('#offices').val()!="all"){
           if($('#subcons').val()!="all"){
-            if($('#mahallat').val()!="all"){
-              if($('#village').val()!="all"){
-                getVillage($('#village').val());
-              } else {
-                getMahalla($('#mahallat').val());
-              }
-            } else {
-              getSubCons($('#subcons').val());
-            }
+            getSubCons($('#subcons').val());
           } else {
-            getOffice($('#offices').val());
+            getMainDists($('#mainDists').val());
           }
         } else {
           getRegion($('#region').val());
         }
       }
-      else if(!$('#search').val() && !$('#searchNames').val() && !$('#searchMahalla').val())
+      else if(!$('#search').val() && !$('#searchNames').val())
         paginateCents();
       else {
-        if(!$('#searchNames').val() && !$('#searchMahalla').val()){
-          getCenterIds($('#search').val(),$.limit);
-        } else if(!$('#search').val() && !$('#searchMahalla').val()){
-          searchNames($('#searchNames').val(),$.limit);
+        if(!$('#searchNames').val()){
+          getCandidateIds($('#search').val(),$.limit);
         } else {
-          searchMahalla($('#searchMahalla').val(),$.limit);
+          searchNames($('#searchNames').val(),$.limit);
         }
       }
     } else{
@@ -471,11 +285,6 @@ $(document).ready(function(){
     drawTable($.res.cList,$.limit);
   }
 
-  function closeAllInfoWindows() {
-      for (var i=0;i<$.infoWindows.length;i++) {
-         $.infoWindows[i].close();
-      }
-    }
 
   getCandidates();
 
