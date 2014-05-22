@@ -20,7 +20,6 @@ $(document).ready(function(){
     emptySearch();
     emptySearchNames();
     $.limit=1;
-    searchMahalla(this.value,$.limit);
   });
 
   $('#region').on('change', function() {
@@ -215,8 +214,8 @@ $(document).ready(function(){
       $('#next').attr("class","");
     }
     for(i ; i<limit;i++){
-      cands.append('<tr data-id='+candidates[i].id+' data-name='+candidates[i].name+'><td>'+
-                   candidates[i].id+'</td><td>'+candidates[i].name+'</td><td><a href="/candidate/'+candidates[i].id+'"><span class="glyphicon glyphicon-search"></span></a></td></tr>');
+      cands.append('<tr data-id='+candidates[i].id+' data-name='+candidates[i].name+'><td>'+candidates[i].name+'</td><td>'+
+                   candidates[i].subconsNameAr+'</td><td><a href="/candidate/'+candidates[i].id+'"><span class="glyphicon glyphicon-search"></span></a></td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");

@@ -26,7 +26,7 @@ module.exports = {
           subconsNameAr = trim(row[47]),
           subconsNameEn = trim(row[48]),
           fullName = trim(row[15]),
-          id = row[37];
+          id = row[1];
       
       if((!candidates[region]) ){
         fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
