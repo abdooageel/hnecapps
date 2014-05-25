@@ -34,6 +34,7 @@ exports.getMgr = {
     res.locals={
       arUrl : "/ar",
       enUrl : "/en",
+      facebookurl : "http://candidates.hnec.ly/candidate/"+req.id,
       candidate : all.cObject[req.id]
     }
     cb(res);
