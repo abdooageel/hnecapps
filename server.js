@@ -185,6 +185,10 @@ candidates.get('/candidate/:id', function (req, res) {
     res.render('candidate');
   });
 });
+candidates.get('/candidate/:id/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/candidate/"+req.params.id);
+});
 
 candidates.get('/', function (req, res) {
   setlang(req,res);

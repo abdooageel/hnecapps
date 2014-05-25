@@ -32,8 +32,8 @@ exports.getMgr = {
 
   handleGetCand : function (req,res,cb){
     res.locals={
-      arUrl : "/ar",
-      enUrl : "/en",
+      arUrl : "/candidate/"+req.id+"/ar",
+      enUrl : "/candidate/"+req.id+"/en",
       facebookurl : "http://candidates.hnec.ly/candidate/"+req.id,
       candidate : all.cObject[req.id]
     }
