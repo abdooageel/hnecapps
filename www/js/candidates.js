@@ -203,8 +203,8 @@ $(document).ready(function(){
 
 
   function drawTable(candidates,page){
-    var limit = page*10,
-        i = (page -1)*10,
+    var limit = page*20,
+        i = (page -1)*20,
         cands= $('#candidates');
     cands.empty();
     if(limit > candidates.length){

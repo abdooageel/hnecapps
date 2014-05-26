@@ -56,7 +56,7 @@
 	"pageheader2": "Polling Final Results",
 	"pageheader3": "High National Elections Commission",
 	"pageheader4": "Find Your Center",
-	"pageheader5": "Candidates list",
+	"pageheader5": "Preliminary Candidates List",
 	"pageheader6": "Council elections Parliament",
 	"centername": "Center Name",
 	"centernumber": "Center Number",
@@ -83,5 +83,6 @@
 	"candidatenumber" : "Candidate Number",
 	"candidatename" : "Candidate Name",
 	"cv" : "Resume",
-	"view" : "Show C.V" 
+	"view" : "Show C.V",
+	"back" : "Go back"
 }
