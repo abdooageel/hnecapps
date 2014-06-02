@@ -28,6 +28,25 @@
   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=514542565322586&version=v2.0";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+<script src="../../js/pdfobject.min.js"></script>
+
+<script type="text/javascript">
+
+  function imgError(img){
+    var myPDF = new PDFObject({
+      url: "../cvs/{{candidate.id}}.pdf",
+      id: "myPDF",
+      width: "93%",
+      height: "400px",
+      pdfOpenParams: {
+        navpanes: 1,
+        statusbar: 0,
+        view: "FitH",
+        pagemode: "thumbs"
+      }
+    }).embed("pdf");
+  }
+</script>
   <!-- <div class="page-header">
     <h1>{{{__ "pageheader6"}}}<br> <small>{{{__ "pageheader5"}}}  </small></h1>
   </div> -->
@@ -59,7 +78,7 @@
       <div class="row-fluid">
         <div id ="center" >
           <div id="pdf">
-            <img src = "../cvs/{{candidate.id}}.jpg">
+            <img src = "../cvs/{{candidate.id}}.jpg" onerror="imgError(this);">
           </div>
           <br>
           <br>
@@ -79,34 +98,3 @@
 
 <script src="../../js/jquery-1.10.2.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
-<script src="../../js/pdfobject.min.js"></script>
-<!--
-<script type="text/javascript">
-  window.onload = function (){
-
-  };
-
-
-  function UrlExists(url){
-      var http = new XMLHttpRequest();
-      http.open('HEAD', url, false);
-      http.send();
-      return http.status!=404;
-  }
-
-  function loadPDF (pdf){
-    var myPDF = new PDFObject({
-      url: pdf"../../ResumeMar16.pdf",
-      id: "myPDF",
-      width: "93%",
-      height: "400px",
-      pdfOpenParams: {
-        navpanes: 1,
-        statusbar: 0,
-        view: "FitH",
-        pagemode: "thumbs"
-      }
-    }).embed("pdf");
-  }
-</script>
--->

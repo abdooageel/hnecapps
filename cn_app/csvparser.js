@@ -27,15 +27,17 @@ module.exports = {
           subconsNameEn = trim(row[4]),
           fullName = trim(row[6]),
           id = row[1];
-      
-      if((!candidates[region]) ){
-        fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
-      } else if (!candidates[region].mainDists[mainDist]){
-        fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
-      } else if (!candidates[region].mainDists[mainDist].subDists[subconsId]){
-        fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
-      } else if (!candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]){
-        fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+      if(mainDist !=3){
+
+        if((!candidates[region])){
+          fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+        } else if (!candidates[region].mainDists[mainDist]){
+          fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+        } else if (!candidates[region].mainDists[mainDist].subDists[subconsId]){
+          fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+        } else if (!candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]){
+          fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+        }
       }
     })
     .on('close', function(count){
