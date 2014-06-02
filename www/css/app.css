@@ -61,3 +61,11 @@ background-color: #2D80AA;
 #center {
   text-align: center;
 }
+
+#pdf{
+  height: 400px;
+  overflow:scroll;
+}
+#pdf img{
+  width: 100%;
+}

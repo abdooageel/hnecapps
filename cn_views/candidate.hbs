@@ -59,6 +59,7 @@
       <div class="row-fluid">
         <div id ="center" >
           <div id="pdf">
+            <img src = "../cvs/{{candidate.id}}.jpg">
           </div>
           <br>
           <br>
@@ -79,10 +80,23 @@
 <script src="../../js/jquery-1.10.2.min.js"></script>
 <script src="../../js/bootstrap.min.js"></script>
 <script src="../../js/pdfobject.min.js"></script>
+<!--
 <script type="text/javascript">
   window.onload = function (){
+
+  };
+
+
+  function UrlExists(url){
+      var http = new XMLHttpRequest();
+      http.open('HEAD', url, false);
+      http.send();
+      return http.status!=404;
+  }
+
+  function loadPDF (pdf){
     var myPDF = new PDFObject({
-      url: "../../ResumeMar16.pdf",
+      url: pdf"../../ResumeMar16.pdf",
       id: "myPDF",
       width: "93%",
       height: "400px",
@@ -93,5 +107,6 @@
         pagemode: "thumbs"
       }
     }).embed("pdf");
-  };
+  }
 </script>
+-->

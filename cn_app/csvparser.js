@@ -15,17 +15,17 @@ module.exports = {
       return row;
     })
     .on('record', function(row,index){
-      var region = row[49],
-          mainDist = row[6],
-          mainDistAr = trim(row[43]),
-          mainDistEn = trim(row[44]),
-          office = row[3],
-          officeNameAr = trim(row[45]),
-          officeNameEn = trim(row[46]),
-          subconsId = row[7],
-          subconsNameAr = trim(row[47]),
-          subconsNameEn = trim(row[48]),
-          fullName = trim(row[15]),
+      var region = row[12],
+          mainDist = row[2],
+          mainDistAr = trim(row[8]),
+          mainDistEn = trim(row[8]),
+          office = row[10],
+          officeNameAr = trim(row[9]),
+          officeNameEn = trim(row[9]),
+          subconsId = row[5],
+          subconsNameAr = trim(row[4]),
+          subconsNameEn = trim(row[4]),
+          fullName = trim(row[6]),
           id = row[1];
       
       if((!candidates[region]) ){
