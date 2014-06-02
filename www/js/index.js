@@ -184,7 +184,6 @@ $(document).ready(function(){
   }
   /////////////////////////////
   function getRegion(region){
-    console.log(region);
     var found=[],
         oFound={},
         offices = {};
@@ -204,7 +203,6 @@ $(document).ready(function(){
 
   }
   function getOffice(office){
-    console.log(office);
     var found=[],
         oFound={},
          subCons= {};
@@ -304,7 +302,6 @@ $(document).ready(function(){
         $.limit = 1;
         $.res = results;
         drawTable(results.cList,$.limit);
-        console.log(results);
         drawCents(results.cObject,results.cList,$.limit);
       }
     });
