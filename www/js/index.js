@@ -139,15 +139,7 @@ $(document).ready(function(){
     });
   }
 
-  function getCenters1(VillageId){
-    var region = $('#region').val(),
-        office = $('#offices').val(),
-        constitId = $('#subcons').val();
-        mahallaId = $('#mahallat').val();
-    $.get('/getSubCons/'+region+'/'+office).success( function(results) {
-      drawCenters(results,constitId,mahallaId,VillageId);
-    });
-  }
+ 
 
 
 //////////////////////////
@@ -161,7 +153,7 @@ $(document).ready(function(){
       }
     }
     drawTable(found,page);
-    //drawCents(oFound,found,page);
+    drawCents(oFound,found,page);
     
   }
   ///////////////////////////
@@ -175,7 +167,7 @@ $(document).ready(function(){
       }
     }
     drawTable(found,page);
-    //drawCents(oFound,found,page);
+    drawCents(oFound,found,page);
   }
   /////////////////////////////
   function searchMahalla(id,page){
@@ -188,7 +180,7 @@ $(document).ready(function(){
       }
     }
     drawTable(found,page);
-    //drawCents(oFound,found,page);
+    drawCents(oFound,found,page);
   }
   /////////////////////////////
   function getRegion(region){
@@ -208,7 +200,7 @@ $(document).ready(function(){
     }
     drawOffices(offices);
     drawTable(found,$.limit);
-    //drawCents(oFound,found,$.limit);
+    drawCents(oFound,found,$.limit);
 
   }
   function getOffice(office){
@@ -228,7 +220,7 @@ $(document).ready(function(){
     }
     drawSubCons(subCons);
     drawTable(found,$.limit);
-    //drawCents(oFound,found,$.limit);
+    drawCents(oFound,found,$.limit);
 
   }
   function getSubCons(sub){
@@ -247,7 +239,7 @@ $(document).ready(function(){
     emptyMahallt();
     drawSelect('#mahallat',mahallat);
     drawTable(found,$.limit);
-    //drawCents(oFound,found,$.limit);
+    drawCents(oFound,found,$.limit);
     
   }
   function getMahalla(mahalla){
@@ -266,7 +258,7 @@ $(document).ready(function(){
     emptyVillage();
     drawSelect('#village',villages);
     drawTable(found,$.limit);
-  //  drawCents(oFound,found,$.limit);
+    drawCents(oFound,found,$.limit);
   }
   function getVillage(village){
     var found=[],
@@ -278,6 +270,7 @@ $(document).ready(function(){
       }
     }
     drawTable(found,$.limit);
+    drawCents(oFound,found,$.limit);
 
   }
 
@@ -311,6 +304,8 @@ $(document).ready(function(){
         $.limit = 1;
         $.res = results;
         drawTable(results.cList,$.limit);
+        console.log(results);
+        drawCents(results.cObject,results.cList,$.limit);
       }
     });
   }
@@ -319,27 +314,29 @@ $(document).ready(function(){
     flag6=true;
     var bounds = new google.maps.LatLngBounds();
     Object.keys(centers).forEach(function(key) {
-      if(flag6){
-        var myOptions = {
-            zoom: $.zoom,
-            //center: new google.maps.LatLng(28.544672,17.554362),
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
-        flag6=false;
-      }
-      var latlng = new google.maps.LatLng(parseFloat(centers[key].longtit), parseFloat(centers[key].langtit));
-      var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : centers[key].name });
-      bounds.extend(marker.position);
-      marker.info = new google.maps.InfoWindow({
-        content: '<b>'+centers[key].name+'</b><br><b>'+centers[key].id+'</b>'
-      });
+      if(centers[key].longtit!=0 || centers[key].longtit!=""){
+        if(flag6){
+          var myOptions = {
+              zoom: $.zoom,
+              //center: new google.maps.LatLng(28.544672,17.554362),
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+          map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);
+          flag6=false;
+        }
+        var latlng = new google.maps.LatLng(parseFloat(centers[key].longtit), parseFloat(centers[key].langtit));
+        var marker = new google.maps.Marker({map: map, position: latlng, clickable: true,title : centers[key].name });
+        bounds.extend(marker.position);
+        marker.info = new google.maps.InfoWindow({
+          content: '<b>'+centers[key].name+'</b><br><b>'+centers[key].id+'</b>'
+        });
 
-      $.infoWindows.push(marker.info);
-      google.maps.event.addListener(marker, 'click', function() {
-        closeAllInfoWindows();
-        marker.info.open(map, marker);
-      });
+        $.infoWindows.push(marker.info);
+        google.maps.event.addListener(marker, 'click', function() {
+          closeAllInfoWindows();
+          marker.info.open(map, marker);
+        });
+      }
     });
     map.fitBounds(bounds);
   }
@@ -359,8 +356,7 @@ $(document).ready(function(){
       cents.append('<tr  data-lng='+centers[i].longtit+' data-lat='+centers[i].langtit+
                    ' data-id='+centers[i].id+' data-name='+centers[i].name+'><td>'+
                    centers[i].id+'</td><td>'+centers[i].name+'</td><td>'+centers[i].mahalla+
-                   '</td><td>'+centers[i].village+'</td><td>'+centers[i].subconsName+
-                   '</td><td>'+centers[i].officeName+'</td></tr>');
+                   '</td><td>'+centers[i].village+'</td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");

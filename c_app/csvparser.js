@@ -23,8 +23,8 @@ module.exports = {
       centerName = trim(row[2]),
       mahalla = trim(row[11]),
       village = trim(row[10]),
-      langtit = 0,
-      longtit = 0;
+      langtit = trim(row[13]),
+      longtit = trim(row[14]);
       if((subconsName != "Special Voting") && subconsName !="1"){
         if((!centers[region]) ){
           fillRegion(region,office,officeName,subconsId,subconsName,mahalla,village,centerId,centerName,langtit,longtit);
