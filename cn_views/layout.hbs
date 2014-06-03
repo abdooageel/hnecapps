@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="../../img/favicon.ico" type = "image/x-icon">
     
-    <title>{{{__ "pageheader3"}}}-- {{{__ "pageheader5"}}}</title>
+    <title>{{{__ "pageheader3"}}}-- {{#if candidate.id}}{{candidate.name}}{{else}}{{{__ "pageheader5"}}}{{/if}}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{{__ "css1"}}}" rel="stylesheet">
