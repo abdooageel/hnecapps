@@ -16,18 +16,17 @@ module.exports = {
     })
     .on('record', function(row,index){
       var region = row[12],
-          mainDist = row[2],
-          mainDistAr = trim(row[8]),
-          mainDistEn = trim(row[8]),
-          office = row[10],
-          officeNameAr = trim(row[9]),
-          officeNameEn = trim(row[9]),
-          subconsId = row[5],
-          subconsNameAr = trim(row[4]),
-          subconsNameEn = trim(row[4]),
-          fullName = trim(row[6]),
+          mainDist = row[5],
+          mainDistAr = trim(row[6]),
+          mainDistEn = trim(row[6]),
+          office = row[3],
+          officeNameAr = trim(row[4]),
+          officeNameEn = trim(row[4]),
+          subconsId = row[7],
+          subconsNameAr = trim(row[8]),
+          subconsNameEn = trim(row[8]),
+          fullName = trim(row[9]),
           id = row[1];
-      if(mainDist !=3){
 
         if((!candidates[region])){
           fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
@@ -38,7 +37,6 @@ module.exports = {
         } else if (!candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]){
           fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
         }
-      }
     })
     .on('close', function(count){
       cb(null,candidates,allCands, allList);//return candidates;
