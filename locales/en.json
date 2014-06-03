@@ -84,5 +84,6 @@
 	"candidatename" : "Candidate Name",
 	"cv" : "Resume",
 	"view" : "Show C.V",
-	"back" : "Go back"
+	"back" : "Go back",
+	"nocv" : "CV not available"
 }
