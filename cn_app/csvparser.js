@@ -26,16 +26,19 @@ module.exports = {
           subconsNameAr = trim(row[8]),
           subconsNameEn = trim(row[8]),
           fullName = trim(row[9]),
+          ballot = row[13],
+          ballotNameAr = row[14],
+          type=trim(row[11]),
           id = row[1];
 
         if((!candidates[region])){
-          fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+          fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
         } else if (!candidates[region].mainDists[mainDist]){
-          fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
-        } else if (!candidates[region].mainDists[mainDist].subDists[subconsId]){
-          fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
-        } else if (!candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]){
-          fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+          fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
+        } else if (!candidates[region].mainDists[mainDist].ballots[ballot]){
+          fillBallot(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
+        } else if (!candidates[region].mainDists[mainDist].ballots[ballot].candidates[id]){
+          fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
         }
     })
     .on('close', function(count){
@@ -52,30 +55,30 @@ module.exports = {
 //module.exports.parseCenters();
 
 /////////////////////////////
-function fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
+function fillRegion(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type){
   candidates[region]={};
   candidates[region].region = region;
   candidates[region].mainDists = {};
-  fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+  fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
 }
-function fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
+function fillMainDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type){
   candidates[region].mainDists[mainDist]={};
   candidates[region].mainDists[mainDist].id = mainDist;
   candidates[region].mainDists[mainDist].nameAr = mainDistAr;
   candidates[region].mainDists[mainDist].nameEn = mainDistEn;
-  candidates[region].mainDists[mainDist].subDists = {};
-  fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+  candidates[region].mainDists[mainDist].ballots = {};
+  fillBallot(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
 }
-function fillSubDist(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
-  candidates[region].mainDists[mainDist].subDists[subconsId]={};
-  candidates[region].mainDists[mainDist].subDists[subconsId].nameEn=subconsNameEn;
-  candidates[region].mainDists[mainDist].subDists[subconsId].nameAr=subconsNameAr;
-  candidates[region].mainDists[mainDist].subDists[subconsId].id=subconsId;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates={};
-  fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id);
+function fillBallot(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type){
+  candidates[region].mainDists[mainDist].ballots[ballot]={};
+  candidates[region].mainDists[mainDist].ballots[ballot].nameEn=ballotNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].nameAr=ballotNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].id=ballot;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates={};
+  fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type);
 }
 
-function fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,id){
+function fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr,officeNameEn,subconsId,subconsNameAr,subconsNameEn,fullName,ballot,ballotNameAr,id,type){
 
   var obj = {
     name : fullName,
@@ -89,22 +92,28 @@ function fillCandidate(region,mainDist,mainDistEn,mainDistAr,office,officeNameAr
     office : office,
     officeNameAr : officeNameAr,
     officeNameEn : officeNameEn,
-    region : region
+    ballot : ballot,
+    ballotNameAr : ballotNameAr,
+    region : region,
+    type : type
   }
   allCands[id]=obj;
   allList.push(obj);
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id]={};
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].name= fullName;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].id = id;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].region = region;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDist = mainDist;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDistEn = mainDistEn;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].mainDistAr = mainDistAr;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsId = subconsId;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsNameAr = subconsNameAr;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].subconsNameEn = subconsNameEn;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].office = office;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].officeNameEn = officeNameEn;
-  candidates[region].mainDists[mainDist].subDists[subconsId].candidates[id].officeNameAr = officeNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id]={};
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].name= fullName;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].id = id;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].region = region;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].mainDist = mainDist;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].mainDistEn = mainDistEn;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].mainDistAr = mainDistAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].subconsId = subconsId;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].subconsNameAr = subconsNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].subconsNameEn = subconsNameEn;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].office = office;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].officeNameEn = officeNameEn;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].officeNameAr = officeNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].ballot = ballot;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].ballotNameAr = ballotNameAr;
+  candidates[region].mainDists[mainDist].ballots[ballot].candidates[id].type = type;
 
 }

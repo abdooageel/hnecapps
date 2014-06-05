@@ -38,20 +38,20 @@ $(document).ready(function(){
     $.zoom=5;
     $.limit=1;
     if(this.value=="all"){
-      emptySubCons();
+      emptyBallots();
       getRegion($('#region').val());
     } else {
       getMainDists(this.value);
     }
   });
-  $('#subcons').on('change', function() {
+  $('#ballots').on('change', function() {
     emptySearch();
     $.zoom=6;
     $.limit=1;
     if(this.value=="all"){
       getMainDists($('#mainDists').val());
     } else {
-      getSubCons(this.value);
+      getBallots(this.value);
     }
   });
 
@@ -68,15 +68,15 @@ $(document).ready(function(){
     emptyAll();
   }
   function emptyAll(){
-    var offices = $("#mainDists");
-    offices.empty();
-    offices.append($("<option/>").val('all').text('الكل'));
-    emptySubCons();
+    var mainDists = $("#mainDists");
+    mainDists.empty();
+    mainDists.append($("<option/>").val('all').text('الكل'));
+    emptyBallots();
   }
-  function emptySubCons(){
-    var subcons=$("#subcons");
-    subcons.empty();
-    subcons.append($("<option/>").val('all').text('الكل'));
+  function emptyBallots(){
+    var ballots=$("#ballots");
+    ballots.empty();
+    ballots.append($("<option/>").val('all').text('الكل'));
   }
 
 
@@ -135,31 +135,28 @@ $(document).ready(function(){
   function getMainDists(mainDist){
     var found=[],
         oFound={},
-         subCons= {};
+         ballots= {};
     for(key in $.res.cObject) {
       if($.res.cObject[key].mainDist.match(mainDist)&& $.res.cObject[key].region.match($('#region').val())){
-        if(!subCons[$.res.cObject[key].subconsId]){
-          subCons[$.res.cObject[key].subconsId]=$.res.cObject[key].subconsNameAr;
+        if(!ballots[$.res.cObject[key].ballot]){
+          ballots[$.res.cObject[key].ballot]=$.res.cObject[key].ballot+"-"+$.res.cObject[key].ballotNameAr+"-"+$.res.cObject[key].type;
         }
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
       } else {
       }
     }
-    drawSubCons(subCons);
+    drawBallots(ballots);
     drawTable(found,$.limit);
     //drawCents(oFound,found,$.limit);
 
   }
-  function getSubCons(sub){
+  function getBallots(ballot){
     var found=[],
-        oFound={},
-        mahallat= {};
+        oFound={}
+        console.log($.res.cObject);
     for(key in $.res.cObject) {
-      if($.res.cObject[key].office.match($('#offices').val()) && $.res.cObject[key].subconsId.match(sub) && $.res.cObject[key].region.match($('#region').val())){
-        if(!mahallat[$.res.cObject[key].mahalla]){
-          mahallat[$.res.cObject[key].mahalla]=$.res.cObject[key].mahalla;
-        }
+      if($.res.cObject[key].ballot.match(ballot)){
         found.push($.res.cObject[key]);
         oFound[key]=$.res.cObject[key];
       }
@@ -176,10 +173,10 @@ $(document).ready(function(){
     }); 
   }
 
-  function drawSubCons(subCons){
-    emptySubCons();
-    Object.keys(subCons).forEach(function(key) {
-      $('#subcons').append($("<option />").val(key).text(subCons[key]));
+  function drawBallots(ballots){
+    emptyBallots();
+    Object.keys(ballots).forEach(function(key) {
+      $('#ballots').append($("<option />").val(key).text(ballots[key]));
     });  
   }
   function drawMainDists(mainDists){
@@ -215,7 +212,7 @@ $(document).ready(function(){
     }
     for(i ; i<limit;i++){
       cands.append('<tr data-id='+candidates[i].id+' data-name='+candidates[i].name+'><td>'+candidates[i].name+'</td><td>'+
-                   candidates[i].subconsNameAr+'</td><td><a href="/candidate/'+candidates[i].id+'"><span class="glyphicon glyphicon-search"></span></a></td></tr>');
+                   candidates[i].ballotNameAr+'</td><td>'+candidates[i].type+'</td><td><a href="/candidate/'+candidates[i].id+'"><span class="glyphicon glyphicon-search"></span></a></td></tr>');
     }
     if(page==1) {
       $('#prev').attr("class","disabled");
@@ -229,8 +226,8 @@ $(document).ready(function(){
     $.limit+=1;
     if($('#region').val()!="all"){
       if($('#mainDists').val()!="all"){
-        if($('#subcons').val()!="all"){
-          getSubCons($('#subcons').val());
+        if($('#ballots').val()!="all"){
+          getBallots($('#ballots').val());
         } else {
           getMainDists($('#mainDists').val());
         }
@@ -255,9 +252,9 @@ $(document).ready(function(){
     if($.limit > 1){
       $.limit-=1;
       if($('#region').val()!="all"){
-        if($('#offices').val()!="all"){
-          if($('#subcons').val()!="all"){
-            getSubCons($('#subcons').val());
+        if($('#mainDists').val()!="all"){
+          if($('#ballots').val()!="all"){
+            getBallots($('#ballots').val());
           } else {
             getMainDists($('#mainDists').val());
           }
