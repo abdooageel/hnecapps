@@ -85,5 +85,6 @@
 	"cv" : "Resume",
 	"view" : "Show C.V",
 	"back" : "Go back",
-	"nocv" : "CV not available"
+	"nocv" : "CV not available",
+	"ballotname" : "Ballot"
 }
