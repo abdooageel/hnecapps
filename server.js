@@ -7,6 +7,7 @@ var express = require('express'),
     getMgr = require('./app/get').getMgr,
     centsGetMgr= require('./c_app/get').getMgr,
     candsGetMgr=require('./cn_app/get').getMgr,
+    parlGetMgr=require('./p_app/get').getMgr,
     hbsMgr = require('./app/hbshelpers'),
     store  = new express.session.MemoryStore;
 var results = express(),
@@ -73,29 +74,28 @@ candidates.configure(function () {
 hbsMgr.registerAll(hbs,i18n);
 
 //////////////////////////////////////////////////////////
-results.get('/constituency/:id', function (req, res) {
+results.get('/60/constituency/:id', function (req, res) {
   setlang(req,res);
   getMgr.handleGetConstit(req,res,function(res){
     res.render('constituency');
   });
 });
-results.get('/constituency/:id/:locale', function (req, res) {
+results.get('/60/constituency/:id/:locale', function (req, res) {
   setdeflan(req,res);
-  res.redirect("/constituency/"+req.params.id);
+  res.redirect("/60/constituency/"+req.params.id);
 });
-results.get('/ballot/:cid/:bid', function (req, res) {
+results.get('/60/ballot/:cid/:bid', function (req, res) {
   setlang(req,res);
   getMgr.handleGetBallot(req,res,function(res){
     
   });
 });
-
-results.get('/ballot/:cid/:bid/:locale', function (req, res) {
+results.get('/60/ballot/:cid/:bid/:locale', function (req, res) {
   setdeflan(req,res);
-  res.redirect("/ballot/"+req.params.cid+"/"+req.params.bid);
+  res.redirect("/60/ballot/"+req.params.cid+"/"+req.params.bid);
 });
 
-results.get('/centers/:cid/:bid', function (req, res) {
+results.get('/60/centers/:cid/:bid', function (req, res) {
   setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     getMgr.handleGetCenters(req,res,function(res){
@@ -106,26 +106,80 @@ results.get('/centers/:cid/:bid', function (req, res) {
     });
   }
 });
-results.get('/centers/:cid/:bid/:locale', function (req, res) {
+results.get('/60/centers/:cid/:bid/:locale', function (req, res) {
   setlang(req,res);
   if(!url.parse(req.url, true).query.c){
     setdeflan(req,res);
-    res.redirect("/centers/"+req.params.cid+"/"+req.params.bid);
+    res.redirect("/60/centers/"+req.params.cid+"/"+req.params.bid);
   }
   else {
     setdeflan(req,res);
-    res.redirect("/centers/"+req.params.cid+"/"+req.params.bid+"?c="+url.parse(req.url, true).query.c);
+    res.redirect("/60/centers/"+req.params.cid+"/"+req.params.bid+"?c="+url.parse(req.url, true).query.c);
   }
 });
 
 // set a cookie to requested locale
-results.get('/:locale', function (req, res) {
+results.get('/60/:locale', function (req, res) {
   setdeflan(req,res);
-  res.redirect("/");
+  res.redirect("/60/");
 });
-results.get('/', function (req, res) {
+results.get('/60/', function (req, res) {
   setlang(req,res);
   getMgr.handleGetIndex(req.params,res,function(results){
+     
+  });
+});
+
+////
+results.get('/cor/centers/:cid/:bid', function (req, res) {
+  setlang(req,res);
+  if(!url.parse(req.url, true).query.c){
+    parlGetMgr.handleGetCenters(req,res,function(res){
+    });
+  }
+  else {
+    parlGetMgr.handleGetCenter(req,res,function(res){
+    });
+  }
+});
+results.get('/cor/centers/:cid/:bid/:locale', function (req, res) {
+  setlang(req,res);
+  if(!url.parse(req.url, true).query.c){
+    setdeflan(req,res);
+    res.redirect("/cor/centers/"+req.params.cid+"/"+req.params.bid);
+  }
+  else {
+    setdeflan(req,res);
+    res.redirect("/cor/centers/"+req.params.cid+"/"+req.params.bid+"?c="+url.parse(req.url, true).query.c);
+  }
+});
+results.get('/cor/ballot/:cid/:bid', function (req, res) {
+  setlang(req,res);
+  parlGetMgr.handleGetBallot(req,res,function(res){
+    
+  });
+});
+results.get('/cor/ballot/:cid/:bid/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/cor/ballot/"+req.params.cid+"/"+req.params.bid);
+});
+results.get('/cor/constituency/:id', function (req, res) {
+  setlang(req,res);
+  parlGetMgr.handleGetConstit(req,res,function(res){
+    res.render('pconstituency');
+  });
+});
+results.get('/cor/constituency/:id/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/cor/constituency/"+req.params.id);
+});
+results.get('/cor/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.redirect("/cor/");
+});
+results.get('/cor/', function (req, res) {
+  setlang(req,res);
+  parlGetMgr.handleGetIndex(req.params,res,function(results){
      
   });
 });

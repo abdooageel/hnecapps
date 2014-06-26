@@ -1,0 +1,56 @@
+<div class="container">
+  <!-- Static navbar -->
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header {{{__ "logo"}}}">
+        <a class="navbar-brand" href="../../cor/"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
+      </div>
+      <div class="navbar-collapse" dir="rtl" >
+        <ul class="nav navbar-nav {{{__ "navbar"}}}">
+          <li class="active"><a href="../../cor/">{{{__ "main"}}}</a></li>
+          <li><a href="http://hnec.ly">{{{__ "website"}}}</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+  </div>
+  <div class="page-header">
+    <h1>{{{__ "pageheader6"}}}<br> <small>{{{__ "pageheader8"}}}</small></h1>
+  </div>
+<!--   <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title {{{__ "textpos"}}}">{{{__ "winners"}}}</h3>
+    </div>
+    <div class="panel-body">
+      <h4 class="{{{__ "textpos"}}}" dir="{{{__ "dir"}}}"><a href="http://hnec.ly/?page_id=2cor2" target="_blank">{{{__ "clickhere"}}}</a></h4>
+    </div>
+  </div> -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title {{{__ "textpos"}}}">{{{__ "main"}}}</h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive" dir="{{{__ "dir"}}}">
+          <table class="table table-striped table-bordered table-condensed">
+            <thead>
+              <tr>
+                <th>{{{__ "main"}}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each constits}}
+              <tr>
+                <td><a href="/cor/constituency/{{id}}">{{translate name_en name}}</a></td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container -->
+
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/knockout-3.0.0.js"></script>
+<script src="./js/globalize.min.js"></script>
+<script src="./js/dx.chartjs.js"></script>

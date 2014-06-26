@@ -3,11 +3,11 @@
   <div class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header {{{__ "logo"}}}">
-        <a class="navbar-brand" href="../../"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
+        <a class="navbar-brand" href="../../60/"><img alt="إحصائيات التسجيل" src="../../img/hnec_logo.png"></a>
       </div>
       <div class="navbar-collapse" dir="rtl" >
         <ul class="nav navbar-nav {{{__ "navbar"}}}">
-          <li class="active"><a href="../../">{{{__ "main"}}}</a></li>
+          <li class="active"><a href="../../60/">{{{__ "main"}}}</a></li>
           <li><a href="http://hnec.ly/?page_id=2602" target="_blank">{{{__ "winners"}}}</a></li>
           <li><a href="http://hnec.ly">{{{__ "website"}}}</a></li>
         </ul>
@@ -23,7 +23,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">
         <ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
-        <li><a href="/">{{{__ "main"}}}</a></li>
+        <li><a href="/60/">{{{__ "main"}}}</a></li>
         <li class="active">{{translate name_en name}}</li>
       </ol>
     </div>
@@ -45,7 +45,7 @@
               {{#each ballots}}
               <tr>
                 <td>
-                  <a href="/ballot/{{constit_id}}/{{ballot_id}}">
+                  <a href="/60/ballot/{{constit_id}}/{{ballot_id}}">
                     {{ballot_id}}-{{translate race_type race_type_ar}}
                   </a>
                 </td>
@@ -54,7 +54,7 @@
                 <td>{{candidate_count}}</td>
                 <td>{{transs subconst_name}}</td>
                 <td>{{transs subsubconst_name}}</td>
-                <td><a href="/centers/{{constit_id}}/{{ballot_id}}">{{{__ "stationsresults"}}}</a></td>
+                <td><a href="/60/centers/{{constit_id}}/{{ballot_id}}">{{{__ "stationsresults"}}}</a></td>
               </tr>
               {{/each}}
             </tbody>

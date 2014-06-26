@@ -14,7 +14,6 @@ var url=require('url'),
     centers = {},
     blocked = [37,43,47,52];
 
-
  exports.getMgr = {
   handleGetConstit : function(req,res,cb){
     var id = req.params.id,
@@ -61,19 +60,17 @@ var url=require('url'),
               constit_name_en : ballots.subs[key].constit_name_en,
             };
           }
-
         }
         res.locals={
           name : ballots.name,
           name_en : ballots.name_en,
           vote_area: ballots.vote_area,
           ballots : ballots.result,
-          arUrl : "/constituency/"+id+"/ar",
-          enUrl : "/constituency/"+id+"/en"
+          arUrl : "/60/constituency/"+id+"/ar",
+          enUrl : "/60/constituency/"+id+"/en"
         },
         cb(res,candidates);
       }
-
     );
   },
   handleGetBallot : function(req,res,cb){
@@ -81,8 +78,8 @@ var url=require('url'),
       res.locals.ballot = res.locals.ballots[0]
       res.locals.constit_id=req.params.cid;
       res.locals.candidates=candidates;
-      res.locals.arUrl = "/ballot/"+req.params.cid+"/"+req.params.bid+"/ar",
-      res.locals.enUrl = "/ballot/"+req.params.cid+"/"+req.params.bid+"/en"
+      res.locals.arUrl = "/60/ballot/"+req.params.cid+"/"+req.params.bid+"/ar",
+      res.locals.enUrl = "/60/ballot/"+req.params.cid+"/"+req.params.bid+"/en"
       res.render('ballot');
     });
   },
@@ -92,12 +89,11 @@ var url=require('url'),
       page = parseInt(url.parse(req.url, true).query.p);
     }
     this.handleGetConstit(req,res,function(res,candidates){
-/*      console.log(ballots3[req.params.bid]);
-*/      res.locals.ballot = res.locals.ballots[0];
+      res.locals.ballot = res.locals.ballots[0];
       res.locals.constit_id=req.params.cid;
       res.locals.centers=paginateObj(ballots3[req.params.bid],page);
-      res.locals.arUrl = "/centers/"+req.params.cid+"/"+req.params.bid+"/ar",
-      res.locals.enUrl = "/centers/"+req.params.cid+"/"+req.params.bid+"/en",
+      res.locals.arUrl = "/60/centers/"+req.params.cid+"/"+req.params.bid+"/ar",
+      res.locals.enUrl = "/60/centers/"+req.params.cid+"/"+req.params.bid+"/en",
       res.locals.pagination = {
         page:page,
         pageCount :math.ceil(Object.keys(ballots3[req.params.bid]).length/10)
@@ -113,8 +109,8 @@ var url=require('url'),
       res.locals.center_number=url.parse(req.url, true).query.c;
       res.locals.center_name = centers[url.parse(req.url, true).query.c].name;
       res.locals.center=ballots3[req.params.bid][url.parse(req.url, true).query.c];
-      res.locals.arUrl = "/centers/"+req.params.cid+"/"+req.params.bid+"/ar/?c="+url.parse(req.url, true).query.c,
-      res.locals.enUrl = "/centers/"+req.params.cid+"/"+req.params.bid+"/en/?c="+url.parse(req.url, true).query.c,
+      res.locals.arUrl = "/60/centers/"+req.params.cid+"/"+req.params.bid+"/ar/?c="+url.parse(req.url, true).query.c,
+      res.locals.enUrl = "/60/centers/"+req.params.cid+"/"+req.params.bid+"/en/?c="+url.parse(req.url, true).query.c,
       res.render('center');
     });
   },
@@ -133,8 +129,8 @@ var url=require('url'),
         constits = calculate(result);
         res.locals={
           constits : constits,
-          arUrl : "/ar",
-          enUrl : "/en"
+          arUrl : "/60/ar",
+          enUrl : "/60/en"
         }
         res.render('index');
       }

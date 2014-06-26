@@ -31,6 +31,15 @@ module.exports = {
       else 
         return ar;
     });
+    hbs.registerHelper('translatetype', function(str) {
+      if (i18n.getLocale()=="en")
+        return str;
+      else 
+        if(str=="General")
+          return "عام";
+        else
+          return "نساء";
+    });
     hbs.registerHelper('active', function(index) {
       if (index == 0)
         return "in active";
@@ -61,6 +70,7 @@ module.exports = {
         return region;
     });
     hbs.registerHelper('transregion', function(region) {
+      region = region.toString();
       if (i18n.getLocale()=="en")
         switch(region){
         case "3":
