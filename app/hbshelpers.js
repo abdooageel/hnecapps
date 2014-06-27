@@ -1,5 +1,7 @@
 
-var paginate = require('handlebars-paginate');
+var paginate = require('handlebars-paginate'),
+    mathjs = require('mathjs'),
+    math = mathjs();
 module.exports = {
     registerAll : function(hbs,i18n){
       // register hbs helpers in res.locals' context which provides this.locale
@@ -22,7 +24,10 @@ module.exports = {
         return math.round(value,2);
     });
     hbs.registerHelper('numeral', function(value) {
-      return numeral(value).format('0,0');;
+      return numeral(value).format('0,0');
+    });
+    hbs.registerHelper('percent', function(total,sub) {
+      return math.round((sub*100/total),2);
     });
 
     hbs.registerHelper('translate', function(en , ar) {

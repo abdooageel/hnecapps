@@ -23,6 +23,7 @@
       <ol class="breadcrumb {{{__ "textpos"}}}" dir="{{{__ "dir"}}}">
         <li><a href="/cor/">{{{__ "main"}}}</a></li>
         <li><a href="/cor/constituency/{{constit_id}}">{{translate name_en name}}</a></li>
+        <li class="active">{{ballot.subconst_name}}</li>
       </ol>
     </div>
     <div class="panel-body">
@@ -31,7 +32,7 @@
           <table class="table table-bordered">
             <tbody>
               <tr>
-                <td class="heads"> <b>{{{__ "racetype"}}}</b>: {{ballot.ballot_id}}-{{translatetype ballot.race_type_ar}}</td>
+                <td class="heads"> <b>{{{__ "racetype"}}}</b>: {{translatetype ballot.race_type_ar}}</td>
                 <td class="heads"><b>{{{__ "validv"}}}</b>: {{ballot.valid_votes}}</td>
               </tr>
               <tr>

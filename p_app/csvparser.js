@@ -15,7 +15,6 @@ module.exports = {
       .on('record', function(row,index){
         if(!centers[row[1]]){
           centers[row[1]]={};
-
           centers[row[1]] = {
             center_id : row[1],
             name : row[2].trim()
@@ -40,7 +39,7 @@ module.exports = {
 /////////////////////////////
 function doCandidates(blocked){
   csv()
-  .from.path(__dirname+'/candidate_votes.csv', { delimiter: ',', escape: '"' })
+  .from.path(__dirname+'/results-all-candidates.csv', { delimiter: ',', escape: '"' })
   .to.stream(fs.createWriteStream(__dirname+'/sample2.out'))
   .transform( function(row){
     row.unshift(row.pop());
@@ -81,7 +80,7 @@ function doCandidates(blocked){
 
 function doForms(blocked){
   csv()
-  .from.path(__dirname+'/form_results.csv', { delimiter: ',', escape: '"' })
+  .from.path(__dirname+'/results-formresults.csv', { delimiter: ',', escape: '"' })
   .to.stream(fs.createWriteStream(__dirname+'/sample1.out'))
   .transform( function(row){
     row.unshift(row.pop());
@@ -94,7 +93,6 @@ function doForms(blocked){
 
       if(!ballots3[row[2]]){
         li = [];
-
         ballots3[row[2]]={};
         ballots3[row[2]][row[3]]={};
         ballots3[row[2]][row[3]].stations={};
