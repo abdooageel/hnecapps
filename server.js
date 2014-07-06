@@ -183,6 +183,12 @@ results.get('/cor/', function (req, res) {
      
   });
 });
+results.get('/', function (req, res) {
+  setlang(req,res);
+  parlGetMgr.handleGetIndex(req.params,res,function(results){
+     
+  });
+});
 //////////////////////////////////////////////////////////////
 centers.get('/getCenters/:region', function (req, res) {
   centsGetMgr.handleGetIndex(req.params,res,function(res){
