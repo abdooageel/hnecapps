@@ -12,8 +12,7 @@ var url=require('url'),
     stations = {},
     ballots3 = {},
     centers = {},
-    blocked = [3,18,22,27,35,41,74,75,77,102];
-    //blocked = [3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,22,23,24,25,26,27,28,29,30,31,35,39,41,44,46,69,70,71,73,74,75,77,78,79,80,81,82,85,86,87,88,91,93,97,98,102];
+    blocked = [3,18,39,73,74,75,77,102];
 
 
  exports.getMgr = {
@@ -100,17 +99,6 @@ var url=require('url'),
       page = parseInt(url.parse(req.url, true).query.p);
     }
     this.handleGetConstit(req,res,function(res,candidates){
-      var count =0;
-      for (key in ballots3[req.params.bid])
-        {
-          if(ballots3[req.params.bid][key].candidates["انتصار معمر رمضان الواعر"]){
-            console.log("ok");
-            count+=ballots3[req.params.bid][key].candidates["انتصار معمر رمضان الواعر"].votes;
-
-          }
-
-        }
-      console.log(count);
       res.locals.ballot = res.locals.ballots[0];
       res.locals.constit_id=req.params.cid;
       res.locals.centers=paginateObj(ballots3[req.params.bid],page);
