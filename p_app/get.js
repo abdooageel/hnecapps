@@ -12,7 +12,8 @@ var url=require('url'),
     stations = {},
     ballots3 = {},
     centers = {},
-    blocked = [3,18,39,73,74,75,77,102];
+    blocked = [];
+    //blocked = [3,18,39,73,74,75,77,102];
 
 
  exports.getMgr = {

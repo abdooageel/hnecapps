@@ -88,5 +88,6 @@
 	"view" : "View CV",
 	"back" : "Go back",
 	"nocv" : "CV not available",
-	"ballotname" : "Ballot"
+	"ballotname" : "Ballot",
+	"irr" : "Disqualified Centres and Stations"
 }
