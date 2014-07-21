@@ -39,7 +39,7 @@ module.exports = {
 /////////////////////////////
 function doCandidates(blocked){
   csv()
-  .from.path(__dirname+'/results-all-candidates.csv', { delimiter: ',', escape: '"' })
+  .from.path(__dirname+'/results-active-candidates.csv', { delimiter: ',', escape: '"' })
   .to.stream(fs.createWriteStream(__dirname+'/sample2.out'))
   .transform( function(row){
     row.unshift(row.pop());
@@ -70,7 +70,6 @@ function doCandidates(blocked){
     }
   })
   .on('close', function(count){
-    //console.log(ballots2[75]);
     doForms(blocked);
   })
   .on('error', function(error){
@@ -88,7 +87,7 @@ function doForms(blocked){
   })
   .on('record', function(row,index){
     
-    if(!include(blocked,row[2])){
+    if(!include(blocked,row[2]) && (row[0] != "disabled")){
       var li = [];
 
       if(!ballots3[row[2]]){
