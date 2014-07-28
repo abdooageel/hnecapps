@@ -183,11 +183,21 @@ results.get('/cor/', function (req, res) {
      
   });
 });
+results.get('/:locale', function (req, res) {
+  setdeflan(req,res);
+  res.locals={
+          arUrl : "/ar",
+          enUrl : "/en",
+        }
+  res.render('main');
+});
 results.get('/', function (req, res) {
   setlang(req,res);
-  parlGetMgr.handleGetIndex(req.params,res,function(results){
-     
-  });
+  res.locals={
+          arUrl : "/ar",
+          enUrl : "/en",
+        }
+  res.render('main');
 });
 //////////////////////////////////////////////////////////////
 centers.get('/getCenters/:region', function (req, res) {
