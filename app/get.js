@@ -12,7 +12,8 @@ var url=require('url'),
     stations = {},
     ballots3 = {},
     centers = {},
-    blocked = [37,43,47,52];
+    //blocked = [37,43,47,52];
+    blocked= [];
 
  exports.getMgr = {
   handleGetConstit : function(req,res,cb){
@@ -31,6 +32,7 @@ var url=require('url'),
       },
       function getBallotsInfo(err,result){
         candidates= null;
+        console.log(result);
         ballots = result.constit;
         ballots.subs.sort(function(a, b) { 
           return a.race_number - b.race_number;

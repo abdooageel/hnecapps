@@ -1,5 +1,5 @@
-var blocked = [37,43,47,52];
-
+//var blocked = [37,43,47,52];
+var blocked= [];
 exports.helperMgr = {
   getConstits : function(present,cb){
     var constits = getConstObj(present);
@@ -9,6 +9,7 @@ exports.helperMgr = {
     var li = [],
         obj={},
         constits = getConstObj(present);
+        console.log(constits);
     for (key in constits[constId.cid].subs){
       li.push(constits[constId.cid].subs[key].race_number);
     }
@@ -36,6 +37,7 @@ function getConstObj(present){
   for (key in present){
     if(!(include(blocked,present[key].race_number))){
       var obj = {};
+      console.log(present[key].constituancy_id);
       if (constituancy[present[key].constituancy_id] == undefined){
         constituancy[present[key].constituancy_id]={};
         constituancy[present[key].constituancy_id].id=present[key].constituancy_id;

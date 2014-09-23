@@ -273,8 +273,6 @@ candidates.get('/:locale', function (req, res) {
 });
 
 
-
-
 //////////////////////////////////////////////////////////////
 function setlang(req,res){
   if(!req.cookies.locale)
@@ -288,5 +286,3 @@ function setdeflan(req,res){
   res.cookie('locale', req.params.locale);
 }
 
-// startup
-//app.listen(3002);
