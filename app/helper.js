@@ -1,5 +1,5 @@
-//var blocked = [37,43,47,52];
-var blocked= [];
+var blocked = [37,43,47,52];
+//var blocked= [];
 exports.helperMgr = {
   getConstits : function(present,cb){
     var constits = getConstObj(present);

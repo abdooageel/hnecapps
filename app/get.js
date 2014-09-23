@@ -12,8 +12,8 @@ var url=require('url'),
     stations = {},
     ballots3 = {},
     centers = {},
-    //blocked = [37,43,47,52];
-    blocked= [];
+    blocked = [37,43,47,52];
+    //blocked= [];
 
  exports.getMgr = {
   handleGetConstit : function(req,res,cb){
